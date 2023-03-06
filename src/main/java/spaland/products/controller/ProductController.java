@@ -31,10 +31,9 @@ public class ProductController {
         return iProductService.getAllProduct();
     }
 
-    // delete는 안만들었습니다. isUse 필드를 만들어서 출력 or 비출력으로 해보는 것..
+    @GetMapping("/purchase/{productId}/{productNum}")
+    public Product purchase(@PathVariable Long productId, @PathVariable int productNum) {
 
-//    @GetMapping("/buy/{productId}/{productCnt}") {
-//    public Product buyProduct
-//
-//    }
+        return iProductService.purchase(productId,productNum);
+    }
 }
