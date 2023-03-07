@@ -2,13 +2,13 @@ package spaland.giftCard.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import spaland.giftCard.model.GiftCard;
 import spaland.giftCard.service.IGiftCardService;
+import spaland.giftCard.model.GiftCard;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/spaland/giftCard")
+@RequestMapping("/giftCard")
 @RequiredArgsConstructor
 public class GiftCardController {
 

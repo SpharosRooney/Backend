@@ -11,7 +11,7 @@ import spaland.users.model.User;
 @Setter
 @ToString
 @Entity
-public class UserGiftCardList {
+public class UserGiftCard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +22,4 @@ public class UserGiftCardList {
 
     @ManyToOne
     private GiftCard giftCard;
-
-    private Integer amount;
 }
