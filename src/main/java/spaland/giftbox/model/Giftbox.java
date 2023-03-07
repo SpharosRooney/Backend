@@ -5,6 +5,8 @@ import lombok.*;
 import spaland.products.model.Product;
 import spaland.users.model.User;
 
+import java.util.Date;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,10 +25,10 @@ public class Giftbox {
     @ManyToOne
     private Product product;
 
-    private Integer price;
     private String sender;
     private String description;
     private Integer giftAmount;
     private String letter;
 
+    private Date recivedDate;
 }

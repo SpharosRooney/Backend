@@ -26,20 +26,20 @@ public class GiftboxServiceImple implements IGiftboxService{
         Giftbox giftbox = iGiftboxRepository.save(Giftbox.builder()
                 .user(iUserRespository.findById(requestGiftbox.getUserId()).get())
                 .product(iProductRepository.findById(requestGiftbox.getProductId()).get())
+                .sender(requestGiftbox.getSender())
+                .description(requestGiftbox.getDescription())
+                .letter(requestGiftbox.getLetter())
+                .giftAmount(requestGiftbox.getGiftAmount())
+                .recivedDate(requestGiftbox.getRecivedDate())
                 .build()
         );
 
         log.info("{}", giftbox.toString());
 
         return  giftbox; //리스트 보이게
-
     }
 
 
-//    @Override
-//    public List<Giftbox> getByProductId(Long productId) {
-//        return iGiftboxRepository.findAllByProductId(productId);
-//    }
 
     @Override
     public List<Giftbox> getAllbyUserId(Long userId) {
