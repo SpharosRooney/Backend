@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import spaland.cart.model.Cart;
 import spaland.cart.repository.ICartRepository;
 import spaland.cart.vo.RequestCart;
+import spaland.cart.vo.RequestCartCount;
 import spaland.products.model.Product;
 import spaland.products.repository.IProductRepository;
 import spaland.users.repository.IUserRespository;
@@ -25,6 +26,7 @@ public class CartServiceImple implements ICartService{
         Cart cart = iCartRepository.save(Cart.builder()
                         .user(iUserRespository.findById(requestCart.getUserId()).get())
                         .product(iProductRepository.findById(requestCart.getProductId()).get())
+                        .productAmount(requestCart.getProductAmount())
                 .build()
         );
         log.info("{}", cart.toString());
@@ -43,6 +45,13 @@ public class CartServiceImple implements ICartService{
         return iCartRepository.findAllByUserId(userId);
     }
 
+
+    @Override
+    public void modifyCart(RequestCartCount requestCartCount) {
+        Cart cart = iCartRepository.findById(requestCartCount.getId()).get();
+        cart.setProductAmount(cart.getProductAmount() + requestCartCount.getProductAmount());
+        iCartRepository.save(cart);
+    }
 
 
 }

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Requestcount {
+public class RequestCartCount {
     private Long id;
     private Integer productAmount;
 

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import spaland.cart.model.Cart;
 import spaland.cart.service.ICartService;
 import spaland.cart.vo.RequestCart;
+import spaland.cart.vo.RequestCartCount;
 import spaland.products.model.Product;
 import spaland.products.service.IProductService;
 
@@ -32,5 +33,9 @@ public class CartController {
         return iProductService.getProduct(productId);
     }
 
+    @PutMapping("/modify")
+    public void modifyCart(@RequestBody RequestCartCount requestCartCount){
+        iCartService.modifyCart(requestCartCount);
+    }
 
 }
