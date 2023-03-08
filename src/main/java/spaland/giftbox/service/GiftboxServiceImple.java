@@ -30,7 +30,6 @@ public class GiftboxServiceImple implements IGiftboxService{
                 .description(requestGiftbox.getDescription())
                 .letter(requestGiftbox.getLetter())
                 .giftAmount(requestGiftbox.getGiftAmount())
-                .recivedDate(requestGiftbox.getRecivedDate())
                 .build()
         );
 

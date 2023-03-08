@@ -12,4 +12,6 @@ public interface IGiftboxService {
 //    List<Giftbox> getByProductId(Long productId);
     List<Giftbox> getAllbyUserId(Long userId);
 
+
+
 }

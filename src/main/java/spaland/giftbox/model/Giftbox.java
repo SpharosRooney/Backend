@@ -2,8 +2,10 @@ package spaland.giftbox.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import spaland.products.model.Product;
 import spaland.users.model.User;
+import spaland.utility.BaseTimeEntity;
 
 import java.util.Date;
 
@@ -14,7 +16,7 @@ import java.util.Date;
 @Setter
 @Builder
 
-public class Giftbox {
+public class Giftbox extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,5 +32,8 @@ public class Giftbox {
     private Integer giftAmount;
     private String letter;
 
-    private Date recivedDate;
+
+//    private Date recivedDate;
+
+
 }
