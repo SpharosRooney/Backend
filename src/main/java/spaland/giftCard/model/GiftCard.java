@@ -9,7 +9,7 @@ import spaland.utility.BaseTimeEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class GiftCard extends BaseTimeEntity {
+public class GiftCard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

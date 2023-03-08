@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class UserGiftCardServiceImpl extends BaseTimeEntity implements IUserGiftCardService {
+public class UserGiftCardServiceImpl implements IUserGiftCardService {
 
     private final IUserRespository iUserRespository;
     private final IGiftCardRepository iGiftCardRepository;
