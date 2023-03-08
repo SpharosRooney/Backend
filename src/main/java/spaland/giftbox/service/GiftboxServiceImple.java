@@ -2,13 +2,17 @@ package spaland.giftbox.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import spaland.giftbox.model.Giftbox;
 import spaland.giftbox.repository.IGiftboxRepository;
 import spaland.giftbox.vo.RequestGiftbox;
+import spaland.giftbox.vo.ResponseGetUserGiftbox;
+import spaland.products.model.Product;
 import spaland.products.repository.IProductRepository;
 import spaland.users.repository.IUserRespository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,10 +42,24 @@ public class GiftboxServiceImple implements IGiftboxService{
         return  giftbox; //리스트 보이게
     }
 
+    @Override
+    public Product getByProductId(Long productId) {
+        return iGiftboxRepository.findAllByProductId(productId);
+    }
 
 
     @Override
-    public List<Giftbox> getAllbyUserId(Long userId) {
-        return iGiftboxRepository.findAllByUserId(userId);
+    public List<ResponseGetUserGiftbox> getAllbyUserId(Long userId) {
+        List<Giftbox> giftboxes = iGiftboxRepository.findAllByUserId(userId);
+        List<ResponseGetUserGiftbox> responseGetUserGiftboxes = new ArrayList<>();
+        giftboxes.forEach(
+                userGiftbox -> {
+                    ModelMapper modelMapper = new ModelMapper();
+                    responseGetUserGiftboxes.add(
+                            modelMapper.map(userGiftbox, ResponseGetUserGiftbox.class)
+                    );
+                }
+        );
+        return responseGetUserGiftboxes;
     }
 }
