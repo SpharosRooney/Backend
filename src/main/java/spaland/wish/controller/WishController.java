@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import spaland.wish.model.Wish;
 import spaland.wish.service.IWishService;
+import spaland.wish.vo.RequestDeleteWish;
 import spaland.wish.vo.RequestWish;
 
 import java.util.List;
@@ -22,6 +23,11 @@ public class WishController {
     @GetMapping("/get/userId/{userId}")
     public List<Wish> getAllbyUserId(@PathVariable Long userId){
         return iWishService.getAllbyUserId(userId);
+    }
+
+    @PutMapping("/delete")
+    public void deleteWishList(@RequestBody RequestDeleteWish requestDeleteWish){
+        iWishService.deleteWishList(requestDeleteWish);
     }
 
 }

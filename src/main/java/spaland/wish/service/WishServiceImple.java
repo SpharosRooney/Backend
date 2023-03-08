@@ -7,6 +7,7 @@ import spaland.products.repository.IProductRepository;
 import spaland.users.repository.IUserRespository;
 import spaland.wish.model.Wish;
 import spaland.wish.repository.IWishRepository;
+import spaland.wish.vo.RequestDeleteWish;
 import spaland.wish.vo.RequestWish;
 
 import java.util.List;
@@ -37,5 +38,13 @@ public class WishServiceImple implements IWishService{
     @Override
     public List<Wish> getAllbyUserId(Long userId) {
         return iWishRepository.findAllByUserId(userId);
+    }
+
+    @Override
+    public void deleteWishList(RequestDeleteWish requestDeleteWish) {
+        Wish wish = iWishRepository.findById(requestDeleteWish.getId()).get();
+        wish.setDelete(true);
+        iWishRepository.save(wish);
+
     }
 }
