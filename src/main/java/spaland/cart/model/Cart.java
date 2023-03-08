@@ -29,7 +29,7 @@ public class Cart extends BaseTimeEntity {
 
     private Integer productAmount;
     @Column(nullable = false)
-    @ColumnDefault("true")
+    @ColumnDefault("false") //삭제 안했음 0
     private boolean isDelete;
 
 

@@ -57,17 +57,20 @@ public class CartServiceImple implements ICartService{
     @Override
     public void deleteProduct(RequestDeleteCart requestDeleteCart) {
 
-        List<Cart> carts = requestDeleteCart.getCartId();
-
-        for(int i = 0; i<carts.size();i++) {
-            Long id = carts.get(i).getId();
-            Cart cart = iCartRepository.findById(id).get();
-            cart.setDelete(false); //삭제되는거는 0(False), 장바구니에 남아 있는 것은 1(True)
-            iCartRepository.save(cart);
+//        List<Cart> carts = requestDeleteCart.getCartId();
+//
+//        for(int i = 0; i<carts.size();i++) {
+//            Long id = carts.get(i).getId();
+//            Cart cart = iCartRepository.findById(id).get();
+//            cart.setDelete(false);
+//            iCartRepository.save(cart);
+        Cart cart = iCartRepository.findById(requestDeleteCart.getId()).get();
+        cart.setDelete(true); //삭제됨(1)
+        iCartRepository.save(cart);
 
         }
 
     }
 
 
-}
+
