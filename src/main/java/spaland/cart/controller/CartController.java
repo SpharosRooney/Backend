@@ -1,12 +1,14 @@
 package spaland.cart.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spaland.cart.model.Cart;
 import spaland.cart.service.ICartService;
 import spaland.cart.vo.RequestCart;
 import spaland.cart.vo.RequestCartCount;
 import spaland.cart.vo.RequestDeleteCart;
+import spaland.cart.vo.ResponseGetUserCart;
 import spaland.products.model.Product;
 import spaland.products.service.IProductService;
 
@@ -24,12 +26,14 @@ public class CartController {
         iCartService.addCart(requestCart);
     }
 
-    @GetMapping("/get/userId/{userId}")
-    public List<Cart> getAllByUserId(@PathVariable Long userId){
-        return iCartService.getByUserId(userId);
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<ResponseGetUserCart>> getAllByUser(@PathVariable Long userId){
+        return ResponseEntity.ok(
+                iCartService.getAllByUser(userId)
+        );
     }
 
-    @GetMapping("/get/productId/{productId}")
+    @GetMapping("/cartProduct/{productId}")
     public Product getByProductId(@PathVariable Long productId){
         return iProductService.getProduct(productId);
     }
@@ -39,12 +43,10 @@ public class CartController {
         iCartService.modifyCart(requestCartCount);
     }
 
-    @PutMapping("/delete/product")
+    @PutMapping("/delete/product") //장바구니 상품 삭제를 true,false값으로 나타냄
     public void deleteProduct(@RequestBody RequestDeleteCart requestDeleteCart){
         iCartService.deleteProduct(requestDeleteCart);
     }
-
-
 
 
 }
