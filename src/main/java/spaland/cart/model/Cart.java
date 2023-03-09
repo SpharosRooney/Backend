@@ -2,12 +2,10 @@ package spaland.cart.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.type.TrueFalseConverter;
 import spaland.products.model.Product;
 import spaland.users.model.User;
 import spaland.utility.BaseTimeEntity;
+
 
 
 @AllArgsConstructor
@@ -28,9 +26,7 @@ public class Cart extends BaseTimeEntity {
     private Product product;
 
     private Integer productAmount;
-    @Column(nullable = false)
-    @ColumnDefault("false") //삭제 안했음 0
-    private boolean isDelete;
 
+    @Builder.Default private Boolean isDelete = false;
 
 }
