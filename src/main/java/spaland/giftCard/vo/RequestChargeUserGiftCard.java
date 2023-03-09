@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class RequestChargeUserGiftCard {
 
-    private Long userGiftCardListId;
+    private Long userId;
+    private Long cardId;
     private Integer amount;
 }

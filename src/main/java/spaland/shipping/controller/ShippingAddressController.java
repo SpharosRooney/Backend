@@ -1,38 +1,51 @@
 package spaland.shipping.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import spaland.shipping.model.ShippingAddress;
-import spaland.shipping.service.IShippingAddressService;
+import spaland.shipping.model.UserShippingAddress;
+import spaland.shipping.service.IUserShippingAddressService;
+import spaland.shipping.vo.RequestAddUserShippingAddress;
+import spaland.shipping.vo.RequestEditUserShippingAddress;
+import spaland.shipping.vo.ResponseUserShippingAddress;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/v1/api/shippingAddress")
 @RequiredArgsConstructor
-
 public class ShippingAddressController {
-    private final IShippingAddressService iShippingAddressService;
-    @PostMapping("/add")
-    public ShippingAddress addShippingAddress(@RequestBody ShippingAddress shippingAddress) {
-        return iShippingAddressService.addShippingAddress(shippingAddress);
+
+    private final IUserShippingAddressService iUserShippingAddressService;
+
+    @PostMapping
+    public void addUserShippingAddress( @RequestBody RequestAddUserShippingAddress requestAddUserShippingAddress){
+
+        log.info("add shipping address : {}", requestAddUserShippingAddress);
+        iUserShippingAddressService.addShippingAddressByUser(requestAddUserShippingAddress);
+
     }
 
-
-    @GetMapping("/get/{shippingAddressId}")
-    public ShippingAddress getShippingAddress(@PathVariable Long shippingAddressId){
-        return iShippingAddressService.getShippingAddress(shippingAddressId);
+    @PutMapping
+    public void editUserShippingAddress(@RequestBody RequestEditUserShippingAddress requestEditUserShippingAddress){
+        log.info("add shipping address : {}", requestEditUserShippingAddress);
+        iUserShippingAddressService.updateShippingAddressByUser(requestEditUserShippingAddress);
     }
 
-    @GetMapping("/get/all")
-    public List<ShippingAddress> getAllShippingAddress(){
-        return iShippingAddressService.getAllShippingAddress();
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<ResponseUserShippingAddress>> getAllByUser(@PathVariable Long userId){
+        return ResponseEntity.ok(
+                iUserShippingAddressService.getAllByUser(userId)
+        );
     }
 
-    @GetMapping("/get/isUse/{isUse}")
-    public List<ShippingAddress> getAllByIsUse(@PathVariable Short isUse){
-        return iShippingAddressService.getAllByIsUse(isUse);
+    @GetMapping("/isUse")
+    public ResponseEntity<List<ResponseUserShippingAddress>> getAllByUserAndIsUse(@RequestParam Long userId, Boolean isUse){
+        return ResponseEntity.ok(
+                iUserShippingAddressService.getAllByIsUseByUser(userId, isUse)
+        );
     }
-
 
 }

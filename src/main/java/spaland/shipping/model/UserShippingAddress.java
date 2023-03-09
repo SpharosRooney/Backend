@@ -11,15 +11,23 @@ import spaland.users.model.User;
 @Setter
 @ToString
 @Entity
-public class UserShippingAddressList {
+public class UserShippingAddress {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    private ShippingAddress shippingAddress;
-
-    @ManyToOne
     private User user;
+
+    @Column(nullable = false)
+    private String zipCode;
+    @Column(nullable = false)
+    private String address;
+    @Column(nullable = false)
+    private String detailAddress;
+    private Boolean isUse;
+    @Column(nullable = false)
+    private String shippingPhone;
 
 }
