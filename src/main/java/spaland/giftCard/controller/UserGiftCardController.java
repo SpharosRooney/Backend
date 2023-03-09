@@ -6,6 +6,7 @@ import spaland.giftCard.model.GiftCard;
 import spaland.giftCard.service.IUserGiftCardService;
 import spaland.giftCard.vo.RequestChargeUserGiftCard;
 import spaland.giftCard.vo.RequestUserGiftCard;
+import spaland.giftCard.vo.ResponseGiftCard;
 
 import java.util.List;
 
@@ -27,12 +28,12 @@ public class UserGiftCardController {
     }
 
     @GetMapping("/get") // 유저가 들고 있는 카드 중 하나 조회
-    public GiftCard getGiftCardByUser(@RequestBody RequestUserGiftCard requestUserGiftCard) {
+    public ResponseGiftCard getGiftCardByUser(@RequestBody RequestUserGiftCard requestUserGiftCard) {
         return iUserGiftCardService.getGiftCardByUser(requestUserGiftCard);
     }
 
     @GetMapping("/get/all/{userId}") // 유저가 들고 있는 카드 전부 조회
-    public List<GiftCard> getAllGiftCardByUser(@PathVariable Long userId) {
+    public List<ResponseGiftCard> getAllGiftCardByUser(@PathVariable Long userId) {
         return iUserGiftCardService.getAllGiftCardByUser(userId);
     }
 }

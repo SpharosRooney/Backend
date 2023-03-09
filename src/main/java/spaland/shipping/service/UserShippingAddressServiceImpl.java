@@ -83,17 +83,21 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
     public List<ResponseUserShippingAddress> getAllByIsUseByUser(Long userId, Boolean isUse) {
         List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserIdAndIsUse(userId, isUse);
         List<ResponseUserShippingAddress> responseUserShippingAddresses = new ArrayList<>();
-//        ModelMapper modelMapper = new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
 //        return userShippingAddressList.stream().map(t -> modelMapper.map(t, ResponseUserShippingAddress.class)).collect(Collectors.toList());
 
         userShippingAddressList.forEach(
                 userShippingAddress -> {
-                    ModelMapper modelMapper = new ModelMapper();
+
                     responseUserShippingAddresses.add(
                             modelMapper.map(userShippingAddress, ResponseUserShippingAddress.class)
                     );
                 }
         );
+
+        for (int i = 0; i < userShippingAddressList.size(); i++) {
+            responseUserShippingAddresses.add(modelMapper.map(userShippingAddressList.get(i),ResponseUserShippingAddress.class));
+        }
 
         return responseUserShippingAddresses;
     }
