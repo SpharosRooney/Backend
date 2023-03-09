@@ -33,7 +33,4 @@ public class Giftbox extends BaseTimeEntity {
     private String letter;
 
 
-//    private Date recivedDate;
-
-
 }
