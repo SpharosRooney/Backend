@@ -2,13 +2,18 @@ package spaland.wish.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import spaland.products.model.Product;
 import spaland.products.repository.IProductRepository;
 import spaland.users.repository.IUserRespository;
 import spaland.wish.model.Wish;
 import spaland.wish.repository.IWishRepository;
+import spaland.wish.vo.RequestDeleteWish;
 import spaland.wish.vo.RequestWish;
+import spaland.wish.vo.ResponseGetUserWish;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 @Slf4j
@@ -28,14 +33,39 @@ public class WishServiceImple implements IWishService{
         return wish;
     }
 
+    @Override
+    public Product getByProductId(Long productId) {
+        return iWishRepository.findByProductId(productId);
+    }
+
+
+
+
 //    @Override
-//    public List<Wish> getByProductId(Long productId) {
-//        return iWishRepository.findAllByProduct(productId);
+//    public List<Wish> getAllbyUserId(Long userId) {
+//        return iWishRepository.findAllByUserId(userId);
 //    }
 
+    @Override
+    public List<ResponseGetUserWish> getAllByUser(Long userId) {
+        List<Wish> wishes = iWishRepository.findAllByUserId(userId);
+        List<ResponseGetUserWish> responseGetUserWishes = new ArrayList<>();
+        wishes.forEach(
+                userWish -> {
+                    ModelMapper modelMapper = new ModelMapper();
+                    responseGetUserWishes.add(
+                            modelMapper.map(userWish, ResponseGetUserWish.class)
+                    );
+                }
+        );
+        return responseGetUserWishes;
+    }
 
     @Override
-    public List<Wish> getAllbyUserId(Long userId) {
-        return iWishRepository.findAllByUserId(userId);
+    public void deleteWishList(RequestDeleteWish requestDeleteWish) {
+        Wish wish = iWishRepository.findById(requestDeleteWish.getId()).get();
+        wish.setDelete(true);
+        iWishRepository.save(wish);
+
     }
 }
