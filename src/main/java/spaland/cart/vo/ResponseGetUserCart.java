@@ -14,4 +14,5 @@ public class ResponseGetUserCart {
     private Long productId;
     private Long userId;
     private Integer productAmount;
+    private Boolean isDelete;
 }

@@ -26,6 +26,12 @@ public class CartController {
         iCartService.addCart(requestCart);
     }
 
+    @GetMapping("/isDelete")
+    public ResponseEntity<List<ResponseGetUserCart>> getAllByUserCart(@RequestParam Long userId, Boolean isDelete){
+        return ResponseEntity.ok(
+                iCartService.getAllByUserCart(userId,isDelete)
+        );
+    }
     @GetMapping("/{userId}")
     public ResponseEntity<List<ResponseGetUserCart>> getAllByUser(@PathVariable Long userId){
         return ResponseEntity.ok(
@@ -47,6 +53,8 @@ public class CartController {
     public void deleteProduct(@RequestBody RequestDeleteCart requestDeleteCart){
         iCartService.deleteProduct(requestDeleteCart);
     }
+
+
 
 
 }

@@ -35,16 +35,13 @@ public class CartServiceImple implements ICartService{
                 .build()
         );
         log.info("{}", cart.toString());
-
         return  cart; //리스트 보이게
-
     }
 
     @Override
     public Product getByProductId(Long productId) {
         return iCartRepository.findAllByProductId(productId);
     }
-
 
     @Override
     public List<ResponseGetUserCart> getAllByUser(Long userId) {
@@ -57,11 +54,24 @@ public class CartServiceImple implements ICartService{
                             modelMapper.map(userCart, ResponseGetUserCart.class)
                     );
                 }
-
         );
         return responseGetUserCarts;
-    } //유저의 장바구니 목록을 보여줌
+    }
 
+    @Override
+    public List<ResponseGetUserCart> getAllByUserCart(Long userId, Boolean isDelete) {
+        List<Cart> cart = iCartRepository.findAllByUserIdAndIsDelete(userId,isDelete);
+        List<ResponseGetUserCart> responseGetUserCarts = new ArrayList<>();
+        cart.forEach(
+                userCart -> {
+                    ModelMapper modelMapper = new ModelMapper();
+                    responseGetUserCarts.add(
+                            modelMapper.map(userCart, ResponseGetUserCart.class)
+                    );
+                }
+        );
+        return responseGetUserCarts;
+    }
 
     @Override
     public void modifyCart(RequestCartCount requestCartCount) {
@@ -72,21 +82,13 @@ public class CartServiceImple implements ICartService{
 
     @Override
     public void deleteProduct(RequestDeleteCart requestDeleteCart) {
-
-//        List<Cart> carts = requestDeleteCart.getCartId();
-//
-//        for(int i = 0; i<carts.size();i++) {
-//            Long id = carts.get(i).getId();
-//            Cart cart = iCartRepository.findById(id).get();
-//            cart.setDelete(false);
-//            iCartRepository.save(cart);
         Cart cart = iCartRepository.findById(requestDeleteCart.getId()).get();
-        cart.setDelete(true); //삭제됨(1)
+        cart.setIsDelete(true);
         iCartRepository.save(cart);
-
         }
 
-    }
+
+}
 
 
 

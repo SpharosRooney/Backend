@@ -8,10 +8,9 @@ import java.util.List;
 
 public interface ICartService {
     Cart addCart(RequestCart requestCart);
-
     Product getByProductId(Long productId);
-
     void modifyCart(RequestCartCount requestCartCount);
-    List<ResponseGetUserCart> getAllByUser(Long userId);
     void deleteProduct(RequestDeleteCart requestDeleteCart);
+    List<ResponseGetUserCart> getAllByUser(Long userId);
+    List<ResponseGetUserCart> getAllByUserCart(Long userId,Boolean isDelete); //유저의 카트를 보는것
 }
