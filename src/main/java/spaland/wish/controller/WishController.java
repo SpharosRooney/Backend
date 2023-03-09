@@ -1,11 +1,15 @@
 package spaland.wish.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import spaland.products.model.Product;
+import spaland.products.service.IProductService;
 import spaland.wish.model.Wish;
 import spaland.wish.service.IWishService;
 import spaland.wish.vo.RequestDeleteWish;
 import spaland.wish.vo.RequestWish;
+import spaland.wish.vo.ResponseGetUserWish;
 
 import java.util.List;
 
@@ -16,13 +20,20 @@ public class WishController {
     private final IWishService iWishService;
 
     @PostMapping("/add")
-    public Wish addwish(@RequestBody RequestWish requestWish){
-        return iWishService.addWish(requestWish);
+    public void addwish(@RequestBody RequestWish requestWish){
+       iWishService.addWish(requestWish);
     }
 
-    @GetMapping("/get/userId/{userId}")
-    public List<Wish> getAllbyUserId(@PathVariable Long userId){
-        return iWishService.getAllbyUserId(userId);
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<ResponseGetUserWish>> getAllByUser(@PathVariable Long userId){
+        return ResponseEntity.ok(
+                iWishService.getAllByUser(userId)
+        );
+    }
+
+    @GetMapping("/userProduct/{productId}")
+    public Product getByProductId(@PathVariable Long productId){
+        return iWishService.getByProductId(productId);
     }
 
     @PutMapping("/delete")

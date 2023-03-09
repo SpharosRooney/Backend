@@ -1,16 +1,18 @@
 package spaland.wish.service;
 
+import spaland.products.model.Product;
 import spaland.wish.model.Wish;
 import spaland.wish.vo.RequestDeleteWish;
 import spaland.wish.vo.RequestWish;
+import spaland.wish.vo.ResponseGetUserWish;
 
 import java.util.List;
 
 public interface IWishService {
     Wish addWish(RequestWish requestWish);
+    Product getByProductId(Long productId);
 
-//    List<Wish> getByProductId(Long productId);
-    List<Wish> getAllbyUserId(Long userId);
+    List<ResponseGetUserWish> getAllByUser(Long userId);
 
     void deleteWishList(RequestDeleteWish requestDeleteWish);
 }
