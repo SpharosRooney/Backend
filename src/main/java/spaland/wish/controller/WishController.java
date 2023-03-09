@@ -40,5 +40,4 @@ public class WishController {
     public void deleteWishList(@RequestBody RequestDeleteWish requestDeleteWish){
         iWishService.deleteWishList(requestDeleteWish);
     }
-
 }
