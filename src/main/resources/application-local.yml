@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
 #  redis:
 #    pool:
@@ -9,7 +12,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    url: jdbc:mysql://localhost:3306/starbucks
+    url: jdbc:mysql://localhost:3306/starbucks_spaland_db
     password: '1234'
   jpa:
     properties:
