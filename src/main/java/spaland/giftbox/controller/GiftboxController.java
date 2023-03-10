@@ -9,6 +9,8 @@ import spaland.giftbox.vo.RequestGiftbox;
 import spaland.giftbox.vo.ResponseGetUserGiftbox;
 import spaland.products.model.Product;
 import spaland.products.service.IProductService;
+import spaland.shipping.model.UserShippingAddress;
+import spaland.shipping.vo.ResponseUserShippingAddress;
 import spaland.users.service.IUserService;
 
 import java.util.List;
