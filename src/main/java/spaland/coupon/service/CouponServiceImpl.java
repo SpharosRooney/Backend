@@ -1,14 +1,11 @@
 package spaland.coupon.service;
 
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import spaland.coupon.model.Coupon;
 import spaland.coupon.repository.ICouponRepository;
-import spaland.coupon.repository.IUserCouponListRepository;
-import spaland.coupon.vo.RequestAddUserCoupon;
 import spaland.coupon.vo.RequestCoupon;
 import spaland.coupon.vo.ResponseCoupon;
 
