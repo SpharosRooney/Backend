@@ -15,9 +15,9 @@ public class UserCouponListController {
 
     private final IUserCouponListService iUserCouponListService;
 
-    @PostMapping("/add")
-    public void addUserCouponList(@RequestBody RequestUserCouponList requestUserCouponList) {
-        iUserCouponListService.addUserCouponList(requestUserCouponList);
+    @PostMapping("/add") // 관리자로 부터 쿠폰 발급
+    public void addCouponByAdmin(@RequestBody RequestUserCouponList requestUserCouponList) {
+        iUserCouponListService.addCouponByAdmin(requestUserCouponList);
     }
 
     @GetMapping("/get/{userId}")

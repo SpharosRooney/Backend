@@ -22,5 +22,4 @@ public class UserCouponList {
     @ManyToOne
     private Coupon coupon;
 
-    private String couponUUID;
 }

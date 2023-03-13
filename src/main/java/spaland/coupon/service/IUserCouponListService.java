@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IUserCouponListService {
 
-    void addUserCouponList(RequestUserCouponList requestUserCouponList);
+    void addCouponByAdmin(RequestUserCouponList requestUserCouponList);
 
     List<UserCouponList> getAllbyUserId(Long userId);
 

@@ -7,6 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import spaland.coupon.model.Coupon;
 import spaland.coupon.repository.ICouponRepository;
+import spaland.coupon.repository.IUserCouponListRepository;
+import spaland.coupon.vo.RequestAddUserCoupon;
 import spaland.coupon.vo.RequestCoupon;
 import spaland.coupon.vo.ResponseCoupon;
 
@@ -20,7 +22,6 @@ import java.util.List;
 public class CouponServiceImpl implements ICouponService{
 
     private final ICouponRepository iCouponRepository;
-
     @Override
     public ResponseCoupon addCoupon(RequestCoupon requestCoupon) {
 
@@ -36,6 +37,7 @@ public class CouponServiceImpl implements ICouponService{
 
         return modelMapper.map(iCouponRepository.findByName(requestCoupon.getName()),ResponseCoupon.class);
     }
+
     @Override
     public ResponseCoupon getCoupon(Long couponId) {
 
