@@ -7,9 +7,8 @@ import spaland.giftbox.model.Giftbox;
 import spaland.giftbox.service.IGiftboxService;
 import spaland.giftbox.vo.RequestGiftbox;
 import spaland.giftbox.vo.ResponseGetUserGiftbox;
-import spaland.products.model.Product;
 import spaland.products.service.IProductService;
-import spaland.users.service.IUserService;
+import spaland.products.vo.ResponseProduct;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class GiftboxController {
     }
 
     @GetMapping("/userProduct/{productId}")
-    public Product getByProductId(@PathVariable Long productId){
+    public ResponseProduct getByProductId(@PathVariable Long productId){
         return iProductService.getProduct(productId);
     }
 

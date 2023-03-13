@@ -9,9 +9,9 @@ import java.util.List;
 public interface IProductService {
 
     ResponseProduct addProduct(RequestProduct requestProduct);
-    Product getProduct(Long productId);
-    List<Product> getAllProduct();
+    ResponseProduct getProduct(Long productId);
+    List<ResponseProduct> getAllProduct();
 
-    Product purchase(Long productId, int productNum);
+//    Product purchase(Long productId, int productNum);
     
 }

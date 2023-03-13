@@ -19,25 +19,18 @@ public class ProductController {
 
     @PostMapping("/add")
     public ResponseProduct addProduct(@RequestBody RequestProduct requestProduct) {
-
         return iProductService.addProduct(requestProduct);
     }
 
+    @GetMapping("/get/{productId}")
+    public ResponseProduct getProduct(@PathVariable Long productId){
+        return iProductService.getProduct(productId);
+    }
 
-//    @PostMapping("/add")
-//    public void addProduct(@RequestBody RequestProduct requestProduct) {
-//        iProductService.addProduct(requestProduct);
-//    }
-//
-//    @GetMapping("/get/{productId}")
-//    public Product getCProduct(@PathVariable Long productId) {
-//        return iProductService.getProduct(productId);
-//    }
-//
-//    @GetMapping("/get/all")
-//    public List<Product> getAlLProduct() {
-//        return iProductService.getAllProduct();
-//    }
+    @GetMapping("/get/all")
+    public List<ResponseProduct> getAlLProduct() {
+        return iProductService.getAllProduct();
+    }
 //
 //    @GetMapping("/purchase/{productId}/{productNum}") // 상품 구매 전 화면.
 //    public Product purchase(@PathVariable Long productId, @PathVariable int productNum) {
