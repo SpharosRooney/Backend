@@ -1,6 +1,5 @@
 package spaland.products.service;
 
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 import spaland.products.model.Product;
 import spaland.products.repository.IProductRepository;
 import spaland.products.vo.RequestProduct;
+import spaland.products.vo.ResponseProduct;
 
 import java.util.List;
 
@@ -19,11 +19,32 @@ public class ProductServiceImple implements IProductService{
 
     private final IProductRepository iProductRepository;
 
+
+
+
+
     @Override
-    public void addProduct(RequestProduct requestProduct) {
-        ModelMapper modelMapper = new ModelMapper();
-        Product product = modelMapper.map(requestProduct, Product.class);
+    public ResponseProduct addProduct(RequestProduct requestProduct) {
+
+        Product product = Product.builder()
+                .name(requestProduct.getName())
+                .discription(requestProduct.getDiscription())
+                .opt(requestProduct.getOpt())
+                .price(requestProduct.getPrice())
+                .inventory(requestProduct.getInventory())
+                .titleImg(requestProduct.getTitleImg())
+                .infoImg(requestProduct.getInfoImg())
+                .infoImg2(requestProduct.getInfoImg2())
+                .infoImg3(requestProduct.getInfoImg3())
+                .build();
+
         iProductRepository.save(product);
+        iProductRepository.findByName(requestProduct.getName());
+
+        ModelMapper modelMapper = new ModelMapper();
+
+
+        return modelMapper.map(iProductRepository.findByName(requestProduct.getName()), ResponseProduct.class);
     }
 
     @Override
