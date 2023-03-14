@@ -2,8 +2,8 @@ package spaland.coupon.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import spaland.users.model.User;
 import spaland.utility.BaseTimeEntity;
-
 
 @Entity
 @Builder
@@ -11,11 +11,15 @@ import spaland.utility.BaseTimeEntity;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Coupon extends BaseTimeEntity {
+public class Coupon2 extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String status;
+
+    @ManyToOne
+    private User user;
+
+    private String status = "사용 가능";
     private Integer percent;
     private String name;
     private boolean isUse = false;

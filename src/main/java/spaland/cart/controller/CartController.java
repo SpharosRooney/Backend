@@ -3,14 +3,13 @@ package spaland.cart.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import spaland.cart.model.Cart;
 import spaland.cart.service.ICartService;
 import spaland.cart.vo.RequestCart;
 import spaland.cart.vo.RequestCartCount;
 import spaland.cart.vo.RequestDeleteCart;
 import spaland.cart.vo.ResponseGetUserCart;
-import spaland.products.model.Product;
 import spaland.products.service.IProductService;
+import spaland.products.vo.ResponseProduct;
 
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class CartController {
     }
 
     @GetMapping("/cartProduct/{productId}")
-    public Product getByProductId(@PathVariable Long productId){
+    public ResponseProduct getByProductId(@PathVariable Long productId){
         return iProductService.getProduct(productId);
     }
 
