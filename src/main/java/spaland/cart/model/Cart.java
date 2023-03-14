@@ -25,6 +25,7 @@ public class Cart extends BaseTimeEntity {
     @ManyToOne
     private Product product;
 
+    @Column(nullable = false)
     private Integer productAmount;
 
     @Builder.Default private Boolean isDelete = false;
