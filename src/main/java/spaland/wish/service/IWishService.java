@@ -13,6 +13,7 @@ public interface IWishService {
     Product getByProductId(Long productId);
 
     List<ResponseGetUserWish> getAllByUser(Long userId);
+    List<ResponseGetUserWish> getAllByUserWish(Long userId, Boolean isDelete);
 
     void deleteWishList(RequestDeleteWish requestDeleteWish);
 }

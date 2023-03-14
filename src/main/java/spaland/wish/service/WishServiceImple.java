@@ -62,9 +62,25 @@ public class WishServiceImple implements IWishService{
     }
 
     @Override
+    public List<ResponseGetUserWish> getAllByUserWish(Long userId, Boolean isDelete) {
+        List<Wish> wishes = iWishRepository.findAllByUserIdAndIsDelete(userId,isDelete);
+        List<ResponseGetUserWish> responseGetUserWishes = new ArrayList<>();
+        wishes.forEach(
+                userWish -> {
+                    ModelMapper modelMapper = new ModelMapper();
+                    responseGetUserWishes.add(
+                            modelMapper.map(userWish, ResponseGetUserWish.class)
+                    );
+                }
+        );
+        return responseGetUserWishes;
+    }
+
+
+    @Override
     public void deleteWishList(RequestDeleteWish requestDeleteWish) {
         Wish wish = iWishRepository.findById(requestDeleteWish.getId()).get();
-        wish.setDelete(true);
+        wish.setIsDelete(true);
         iWishRepository.save(wish);
 
     }
