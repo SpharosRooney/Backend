@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface ICartRepository extends JpaRepository<Cart, Long> {
     Cart save(Cart cart);
-    Product findAllByProductId(Long productId);
     List<Cart> findAllByUserId(Long userId);
     List<Cart> findAllByUserIdAndIsDelete(Long userId, Boolean isDelete);
 

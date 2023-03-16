@@ -9,7 +9,6 @@ import spaland.cart.vo.RequestCartCount;
 import spaland.cart.vo.RequestDeleteCart;
 import spaland.cart.vo.ResponseGetUserCart;
 import spaland.products.service.IProductService;
-import spaland.products.vo.ResponseProduct;
 
 import java.util.List;
 
@@ -38,10 +37,6 @@ public class CartController {
         );
     }
 
-    @GetMapping("/cartProduct/{productId}")
-    public ResponseProduct getByProductId(@PathVariable Long productId){
-        return iProductService.getProduct(productId);
-    }
 
     @PutMapping("/modify") //장바구니 상품 수량 수정을 위한 메서드
     public void modifyCart(@RequestBody RequestCartCount requestCartCount){
