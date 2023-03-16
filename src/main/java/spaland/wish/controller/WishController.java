@@ -38,7 +38,6 @@ public class WishController {
         );
     }
 
-
     @PutMapping("/delete") //위시리스트 삭제
     public void deleteWishList(@RequestBody RequestDeleteWish requestDeleteWish){
         iWishService.deleteWishList(requestDeleteWish);
