@@ -2,15 +2,19 @@ package spaland.coupon.service;
 
 import spaland.coupon.model.Coupon;
 import spaland.coupon.vo.RequestCoupon;
+import spaland.coupon.vo.ResponseCoupon;
 
 import java.util.List;
 
 public interface ICouponService {
 
-    void addCoupon(RequestCoupon requestCoupon);
+    ResponseCoupon addCoupon(RequestCoupon requestCoupon);
 
-    Coupon getCoupon(Long couponId);
+    ResponseCoupon getCoupon(Long couponId);
 
-    List<Coupon> getAll();
+    List<ResponseCoupon> getAll();
 
+    ResponseCoupon useCoupon(Long couponId);
+
+    ResponseCoupon refundCoupon(Long couponId);
 }

@@ -10,6 +10,8 @@ import spaland.giftbox.vo.RequestGiftbox;
 import spaland.giftbox.vo.ResponseGetUserGiftbox;
 import spaland.products.model.Product;
 import spaland.products.repository.IProductRepository;
+import spaland.shipping.model.UserShippingAddress;
+import spaland.shipping.vo.ResponseUserShippingAddress;
 import spaland.users.repository.IUserRespository;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class GiftboxServiceImple implements IGiftboxService{
     private final IGiftboxRepository iGiftboxRepository;
     private final IUserRespository iUserRespository;
     private final IProductRepository iProductRepository;
-
+    private final IGiftboxRepository iUserShippingAddressRepository;
 
     @Override
     public Giftbox addGiftbox(RequestGiftbox requestGiftbox) {
@@ -31,7 +33,7 @@ public class GiftboxServiceImple implements IGiftboxService{
                 .user(iUserRespository.findById(requestGiftbox.getUserId()).get())
                 .product(iProductRepository.findById(requestGiftbox.getProductId()).get())
                 .sender(requestGiftbox.getSender())
-                .description(requestGiftbox.getDescription())
+                .state(requestGiftbox.getState())
                 .letter(requestGiftbox.getLetter())
                 .giftAmount(requestGiftbox.getGiftAmount())
                 .build()
@@ -62,4 +64,6 @@ public class GiftboxServiceImple implements IGiftboxService{
         );
         return responseGetUserGiftboxes;
     }
+
+
 }
