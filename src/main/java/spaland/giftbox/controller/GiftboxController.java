@@ -33,9 +33,4 @@ public class GiftboxController {
         );
     }
 
-    @GetMapping("/userProduct/{productId}")
-    public ResponseProduct getByProductId(@PathVariable Long productId){
-        return iProductService.getProduct(productId);
-    }
-
 }
