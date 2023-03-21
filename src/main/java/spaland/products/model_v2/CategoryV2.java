@@ -18,3 +18,13 @@ public class CategoryV2 {
     Long id;
     String category;
 }
+
+/*
+롤케이크
+홀케이크
+플라스틱 텀블러
+스테인리스 텀블러
+보온병
+콜드컵
+4+1
+ */

@@ -18,3 +18,12 @@ public class TitleV2 {
     private Long id;
     private String title;
 }
+
+/*
+케이크
+텀블러/보온병
+머그/컵
+라이프스타일
+티/커피용품
+세트
+ */
