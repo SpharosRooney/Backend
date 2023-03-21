@@ -9,7 +9,7 @@ import spaland.products.vo.RequestProduct;
 import java.util.List;
 
 @RestController
-@RequestMapping("/vi/api/product")
+@RequestMapping("/v1/api/product")
 @RequiredArgsConstructor
 public class ProductController {
 

@@ -1,14 +1,13 @@
 package spaland.products.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import spaland.utility.BaseTimeEntity;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -31,4 +30,8 @@ public class Product extends BaseTimeEntity {
     private String category; // 카테고리
     private Integer price; // 가격
     private Integer inventory; // 재고
+    private String season; // 시즌
+    private String title; // 대분류
+
+
 }

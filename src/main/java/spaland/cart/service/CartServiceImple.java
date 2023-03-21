@@ -35,7 +35,7 @@ public class CartServiceImple implements ICartService{
                 .build()
         );
         log.info("{}", cart.toString());
-        return  cart; //리스트 보이게
+        return cart; //리스트 보이게
     }
 
     @Override
@@ -85,7 +85,7 @@ public class CartServiceImple implements ICartService{
         Cart cart = iCartRepository.findById(requestDeleteCart.getId()).get();
         cart.setIsDelete(true);
         iCartRepository.save(cart);
-        }
+    }
 
 
 }
