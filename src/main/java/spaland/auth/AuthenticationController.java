@@ -37,25 +37,26 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<String> authenticate(
-            @RequestBody AuthenticationRequest authenticationRequest) {
-        System.out.println("컨트롤러");
-        String token = authenticationService.authenticate(authenticationRequest).getRefreshToken();
-        log.info("{}",token);
-//        ResponseCookie cookie = cookieUtil.createCookie(
-//                COOKIE_NAME,authenticationService.authenticate(authenticationRequest).getRefreshToken());
-//
-//        response.setHeader(SET_COOKIE, cookie.toString());
-//        return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest).getToken());
-        return null;
+            @RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) {
+
+        AuthenticationResponse authenticationResponse = authenticationService.authenticate(authenticationRequest);
+        ResponseCookie cookie = cookieUtil.createCookie(COOKIE_NAME,authenticationResponse.getRefreshToken());
+
+        System.out.println("gdgd");
+        response.setHeader(SET_COOKIE, cookie.toString());
+        return ResponseEntity.ok(authenticationResponse.getToken());
     }
 
+
     @PostMapping("/refresh")
-    public ResponseEntity<String> refresh(@RequestHeader(value = COOKIE_NAME) RefreshRequest refreshRequest, HttpServletResponse response) {
+    public ResponseEntity<String> refresh(@RequestHeader(value = COOKIE_NAME) RefreshRequest refreshRequest,
+                                          HttpServletResponse response) {
         ResponseCookie cookie = cookieUtil.createCookie(
                 COOKIE_NAME,authenticationService.refresh(refreshRequest).getRefreshToken());
         response.setHeader(SET_COOKIE, cookie.toString());
         return ResponseEntity.ok(authenticationService.refresh(refreshRequest).getToken());
     }
+
 
     @GetMapping("/logout")
     public ResponseEntity<String> logout(@RequestHeader(value = "Authorization") String request,

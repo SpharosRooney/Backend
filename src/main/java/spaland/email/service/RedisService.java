@@ -22,7 +22,7 @@ public class RedisService {
 
     }
 
-    public void createEmailByRefreshToken(String email, String refreshToken) {
+    public void createEmailByRefreshToken(String refreshToken, String email) {
 
         ValueOperations<String, String> vop = redisTemplate.opsForValue();
         vop.set(refreshToken, email, Duration.ofSeconds(LIMIT_TIME));

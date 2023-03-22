@@ -38,38 +38,23 @@ public class AuthenticationService {
                     .phone(signupRequest.getPhone())
                     .role(Role.USER)
                     .build();
-
             return userRepository.save(user);
         }
 
         public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
-            System.out.println( "이메일 : " + authenticationRequest.getUserEmail());
-            System.out.println( "패스워드 : " + authenticationRequest.getPassword());
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    authenticationRequest.getUserEmail(), authenticationRequest.getPassword()));
 
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            authenticationRequest.getUserEmail(),
-                            authenticationRequest.getPassword()
-                    )
-            );
+            var user = userRepository.findByUserEmail(authenticationRequest.getUserEmail()).orElseThrow();
+            var jwtToken = jwtService.generateToken(user);
+            var refreshToken = jwtService.refreshToken(jwtToken);
 
-            System.out.println( "======================================================================");
-//            log.info("-----------------");
-            Optional<User> user = userRepository.findByUserEmail(authenticationRequest.getUserEmail()); //
-            if(user.isPresent() ){
-                log.info("user");
-            } else {
-                log.info("no User");
-            }
-//            log.info("{}",user.getUserEmail());
-//            var jwtToken = jwtService.generateToken(user);
-//            var refreshToken = jwtService.refreshToken(jwtToken);
-//            redis.createEmailByRefreshToken(refreshToken, user.getUserEmail());
-//            return AuthenticationResponse.builder()
-//                    .token(jwtToken)
-//                    .refreshToken(refreshToken)
-//                    .build();
-            return null;
+
+            redis.createEmailByRefreshToken(refreshToken, user.getUserEmail());
+            return AuthenticationResponse.builder()
+                    .token(jwtToken)
+                    .refreshToken(refreshToken)
+                    .build();
         }
 
         public AuthenticationResponse refresh(RefreshRequest refreshRequest) {
