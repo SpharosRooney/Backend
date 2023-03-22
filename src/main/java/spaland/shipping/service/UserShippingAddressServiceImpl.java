@@ -28,17 +28,28 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
     @Override
     public void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress) {
 
+        if(iUserShippingAddressRepository.findAllByUserId(requestAddUserShippingAddress.getUserId())==null){
+            requestAddUserShippingAddress.setIsUse(true);
+        }
+        else {
+            if (requestAddUserShippingAddress.getIsUse().equals(true)) {
+                for (UserShippingAddress userShippingAddress : iUserShippingAddressRepository.findAllByUserId(requestAddUserShippingAddress.getUserId())) {
+                    userShippingAddress.setIsUse(false);
+                    iUserShippingAddressRepository.save(userShippingAddress);
+                }
+            }
+        }
 
-            iUserShippingAddressRepository.save(
-                    UserShippingAddress.builder()
-                            .user(iUserRespository.findById(requestAddUserShippingAddress.getUserId()).get())
-                            .address(requestAddUserShippingAddress.getAddress())
-                            .detailAddress(requestAddUserShippingAddress.getDetailAddress())
-                            .shippingPhone(requestAddUserShippingAddress.getShippingPhone())
-                            .zipCode(requestAddUserShippingAddress.getZipCode())
-                            .isUse(requestAddUserShippingAddress.getIsUse())
-                            .build()
-            );
+        iUserShippingAddressRepository.save(
+            UserShippingAddress.builder()
+                    .user(iUserRespository.findById(requestAddUserShippingAddress.getUserId()).get())
+                    .address(requestAddUserShippingAddress.getAddress())
+                    .detailAddress(requestAddUserShippingAddress.getDetailAddress())
+                    .shippingPhone(requestAddUserShippingAddress.getShippingPhone())
+                    .zipCode(requestAddUserShippingAddress.getZipCode())
+                    .isUse(requestAddUserShippingAddress.getIsUse())
+                    .build()
+        );
 
     }
 
