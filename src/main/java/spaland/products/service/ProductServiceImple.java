@@ -7,11 +7,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import spaland.products.model_v2.Filter;
 import spaland.products.model.Product;
-import spaland.products.repository_v2.ICategoryRepositoryV2;
-import spaland.products.repository_v2.IFilterRepositoryV2;
+import spaland.products.repository_v2.*;
 import spaland.products.repository.IProductRepository;
-import spaland.products.repository_v2.ISeasonRepositoryV2;
-import spaland.products.repository_v2.IVolumeRepositoryV2;
 import spaland.products.service_v2.IFilterServiceV2;
 import spaland.products.vo.RequestProduct;
 
@@ -25,6 +22,7 @@ public class ProductServiceImple implements IProductService {
     private final IProductRepository iProductRepository;
 
     private final IFilterRepositoryV2 iFilterRepositoryV2;
+    private final ITitleRepositoryV2 iTitleRepositoryV2;
     private final ISeasonRepositoryV2 iSeasonRepositoryV2;
     private final ICategoryRepositoryV2 iCategoryRepositoryV2;
 //    private final IVolumeRepositoryV2 iVolumeRepositoryV2;
@@ -59,6 +57,7 @@ public class ProductServiceImple implements IProductService {
         }
 
         iFilterRepositoryV2.save(Filter.builder()
+                .title(iTitleRepositoryV2.findByTitle(requestProduct.getTitle()).getId())
                 .price((long) (product.getPrice() / 10000))
                 .season(iSeasonRepositoryV2.findBySeason(seasonName).getId())
                 .category(requestProduct.getCategory() == null ? null : iCategoryRepositoryV2.findByCategory(requestProduct.getCategory()).getId())
