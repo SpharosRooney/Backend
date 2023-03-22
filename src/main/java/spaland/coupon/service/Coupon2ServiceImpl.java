@@ -8,7 +8,7 @@ import spaland.coupon.model.Coupon2;
 import spaland.coupon.repository.ICoupon2Repository;
 import spaland.coupon.vo.RequestAddCoupon2;
 import spaland.coupon.vo.ResponseCoupon2;
-import spaland.users.repository.IUserRespository;
+import spaland.users.repository.IUserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 public class Coupon2ServiceImpl implements ICoupon2Service {
 
     private final ICoupon2Repository iCoupon2Repository;
-    private final IUserRespository iUserRespository;
+    private final IUserRepository iUserRepository;
 
     ModelMapper modelMapper = new ModelMapper();
 
@@ -31,7 +31,7 @@ public class Coupon2ServiceImpl implements ICoupon2Service {
         // 3. 이후 Coupon2 객체 빌드.
         iCoupon2Repository.save(
                 Coupon2.builder()
-                        .user(iUserRespository.findById(requestAddCoupon2.getUserId()).get())
+                        .user(iUserRepository.findById(requestAddCoupon2.getUserId()).get())
                         .status(requestAddCoupon2.getStatus())
                         .percent(requestAddCoupon2.getPercent())
                         .name(requestAddCoupon2.getName())

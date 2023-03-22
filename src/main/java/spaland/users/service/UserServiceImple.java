@@ -1,9 +1,10 @@
 package spaland.users.service;
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import spaland.users.model.User;
-import spaland.users.repository.IUserRespository;
+import spaland.users.repository.IUserRepository;
 import spaland.users.vo.RequestUser;
 import spaland.users.vo.ResponseUser;
 
@@ -13,40 +14,36 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserServiceImple implements IUserService{
 
-    private final IUserRespository iUserRespository;
+    private final IUserRepository iUserRepository;
 
     @Override
     public ResponseUser addUser(RequestUser requestUser) {
 
         UUID uuid = UUID.randomUUID();
         User user = User.builder()
-                .userId(uuid.toString())
-                .name(requestUser.getName())
-                .email(requestUser.getEmail())
+                .userNickname(requestUser.getUserNickname()+"#"+uuid.toString())
+                .userEmail(requestUser.getUserEmail())
+                .userName(requestUser.getUserName())
                 .password(requestUser.getPassword())
+                .phone(requestUser.getPhone())
                 .build();
 
-        User resUser = iUserRespository.save(user);
+                iUserRepository.save(user);
 
-        ResponseUser responseUser = ResponseUser.builder()
-                .id(resUser.getId())
-                .name(resUser.getName())
-                .email(resUser.getEmail())
-                .address(resUser.getAddress())
-                .build();
-
-        return responseUser;
+        return new ModelMapper().map(user, ResponseUser.class);
     }
 
     @Override
     public ResponseUser getUser(Long id) {
-        User user = iUserRespository.findById(id).get();
-        ResponseUser resUser = ResponseUser.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .email(user.getEmail())
-                .address(user.getAddress())
-                .build();
-        return resUser;
+        User user = iUserRepository.findById(id).get();
+
+        return new ModelMapper().map(user, ResponseUser.class);
+    }
+
+    @Override
+    public boolean checkDuplicateId(String userId) {
+        boolean possibleId = true;
+
+        return true;
     }
 }

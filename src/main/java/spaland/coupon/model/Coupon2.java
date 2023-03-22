@@ -1,6 +1,6 @@
 package spaland.coupon.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 import spaland.users.model.User;
 import spaland.utility.BaseTimeEntity;

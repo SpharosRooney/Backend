@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 @Repository
 public class RedisService {
@@ -26,6 +27,11 @@ public class RedisService {
         ValueOperations<String, String> vop = redisTemplate.opsForValue();
         vop.set(refreshToken, email, Duration.ofSeconds(LIMIT_TIME));
 
+    }
+
+    public void createBlacklistToken(String accessToken, Long expiration) {
+        ValueOperations<String, String> vop = redisTemplate.opsForValue();
+        vop.set(accessToken, "logout", expiration, TimeUnit.MILLISECONDS);
     }
 
     public String getConfirmCodeByEmail(String email) {

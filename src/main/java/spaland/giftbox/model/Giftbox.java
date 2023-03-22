@@ -1,6 +1,6 @@
 package spaland.giftbox.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import spaland.products.model.Product;

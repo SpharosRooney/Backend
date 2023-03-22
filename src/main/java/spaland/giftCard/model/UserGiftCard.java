@@ -1,6 +1,6 @@
 package spaland.giftCard.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 import spaland.users.model.User;
 

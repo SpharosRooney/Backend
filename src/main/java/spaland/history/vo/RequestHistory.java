@@ -1,6 +1,6 @@
 package spaland.history.vo;
 
-import jakarta.persistence.Column;
+import javax.persistence.Column;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

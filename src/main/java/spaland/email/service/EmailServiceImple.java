@@ -1,8 +1,6 @@
 package spaland.email.service;
 
-import jakarta.mail.Message;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +8,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import spaland.user.domain.User2;
-import spaland.user.repository.IUserRepository2;
+import spaland.email.vo.RequestCheckCode;
+import spaland.users.model.User;
+import spaland.users.repository.IUserRepository;
 
+import javax.mail.Message;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.util.Optional;
 import java.util.Random;
 
@@ -25,7 +27,7 @@ public class EmailServiceImple implements  IEmailService{
     JavaMailSender javaMailSender;
     private final Environment env;
     private final RedisService redisService;
-    private final IUserRepository2 iUserRepository;
+    private final IUserRepository iUserRepository;
 
     private MimeMessage createMessage(String email, String confirmKey) throws Exception {
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -75,18 +77,24 @@ public class EmailServiceImple implements  IEmailService{
     }
 
     @Override
-    public String sendConfirmCodeByEmail(String email) throws Exception {
+    public boolean sendConfirmCodeByEmail(String email) throws Exception {
         String confirmKey = createKey();
+        System.out.println(email);
         MimeMessage message = createMessage(email, confirmKey);
         redisService.createConfirmCodeByEmail(email, confirmKey);
-        Optional<User2> user = iUserRepository.findByEmail(email);
+        Optional<User> user = iUserRepository.findByUserEmail(email);
         if(user.isPresent()) {
-            return "입력하신 이메일은 이미 사용중입니다." ;
+            return false;
         }
         try {
+
+//            if(redisService.getConfirmCodeByEmail(email) != null) {
+//                redisService.removeConfirmCodeByEmail(email);
+//            }
+            redisService.createConfirmCodeByEmail(email, confirmKey);
             javaMailSender.send(message);
             log.info("Success Send Email : {} {}", email, confirmKey);
-            return "success";
+            return true;
         } catch (MailException e) {
             e.printStackTrace();
             throw new IllegalAccessException();
@@ -96,5 +104,16 @@ public class EmailServiceImple implements  IEmailService{
     @Override
     public String sendReissuePassword(String email) throws Exception {
         return null;
+    }
+
+    @Override
+    public boolean checkCode(RequestCheckCode requestCheckCode) {
+        boolean matchCode = false;
+
+        if(redisService.getConfirmCodeByEmail(requestCheckCode.getUserEmail()).equals(requestCheckCode.getConfirmKey())) {
+            redisService.removeConfirmCodeByEmail(requestCheckCode.getUserEmail());
+            matchCode = true;
+        }
+        return matchCode;
     }
 }

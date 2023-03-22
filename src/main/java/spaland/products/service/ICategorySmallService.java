@@ -10,6 +10,4 @@ public interface ICategorySmallService {
     void addCategory(RequestCategorySmall requestCategorySmall);
     CategorySmall getCategorySmall(Integer categoryId);
     List<CategorySmall> getAll();
-//    List<Category> getAllByType(String categoryType);
-
 }

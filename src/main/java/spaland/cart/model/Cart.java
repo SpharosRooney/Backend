@@ -1,11 +1,11 @@
 package spaland.cart.model;
 
-import jakarta.persistence.*;
 import lombok.*;
 import spaland.products.model.Product;
 import spaland.users.model.User;
 import spaland.utility.BaseTimeEntity;
 
+import javax.persistence.*;
 
 
 @AllArgsConstructor

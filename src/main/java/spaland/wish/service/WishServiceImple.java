@@ -6,7 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import spaland.products.model.Product;
 import spaland.products.repository.IProductRepository;
-import spaland.users.repository.IUserRespository;
+import spaland.users.repository.IUserRepository;
 import spaland.wish.model.Wish;
 import spaland.wish.repository.IWishRepository;
 import spaland.wish.vo.RequestDeleteWish;
@@ -20,12 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WishServiceImple implements IWishService{
     private final IWishRepository iWishRepository;
-    private final IUserRespository iUserRespository;
+    private final IUserRepository iUserRepository;
     private final IProductRepository iProductRepository;
     @Override
     public Wish addWish(RequestWish requestWish) {
         Wish wish = iWishRepository.save(Wish.builder()
-                .user(iUserRespository.findById(requestWish.getUserId()).get())
+                .user(iUserRepository.findById(requestWish.getUserId()).get())
                 .product(iProductRepository.findById(requestWish.getProductId()).get())
                 .build());
 

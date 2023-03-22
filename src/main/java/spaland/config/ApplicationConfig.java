@@ -11,26 +11,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import spaland.user.repository.IUserRepository2;
+import spaland.users.repository.IUserRepository;
 
 
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final IUserRepository2 iUserRepository;
+    private final IUserRepository iUserRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> iUserRepository.findByEmail(username).orElseThrow(
+        return username -> iUserRepository.findByUserEmail(username).orElseThrow(
                 () -> new UsernameNotFoundException("User not found")
         );
-//        return new UserDetailsService() {
-//            @Override
-//            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//                return null;
-//            }
-//        }
     }
 
     @Bean
