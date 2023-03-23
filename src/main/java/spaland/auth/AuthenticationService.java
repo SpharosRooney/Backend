@@ -49,7 +49,6 @@ public class AuthenticationService {
             var jwtToken = jwtService.generateToken(user);
             var refreshToken = jwtService.refreshToken(jwtToken);
 
-
             redis.createEmailByRefreshToken(refreshToken, user.getUserEmail());
             return AuthenticationResponse.builder()
                     .token(jwtToken)
@@ -60,10 +59,8 @@ public class AuthenticationService {
         public AuthenticationResponse refresh(RefreshRequest refreshRequest) {
             // create code check if refresh token is valid
             UserDetails userDetails = userDetailsService.loadUserByUsername(jwtService.extractUsername(refreshRequest.getRefreshToken()));
-            log.info("234"+userDetails.toString());
 
             var redisUserEmail = redis.getEmailByRefreshToken(refreshRequest.getRefreshToken());
-            log.info("5555"+redisUserEmail.toString());
             if (!userDetails.getUsername().equals(redisUserEmail) &&
                     !jwtService.isTokenValid(refreshRequest.getRefreshToken(), userDetails)) {
                 throw new RuntimeException("Refresh token is not valid");
