@@ -7,7 +7,6 @@ import spaland.wish.model.Wish;
 import java.util.List;
 
 public interface IWishRepository extends JpaRepository<Wish,Long> {
-//    List<Wish> findAllByProduct(Long productId);
-    Product findByProductId(Long productId);
     List<Wish> findAllByUserId(Long userId);
+    List<Wish> findAllByUserIdAndIsDelete(Long userId, Boolean isDelete);
 }

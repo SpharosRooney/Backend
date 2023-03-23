@@ -4,18 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import spaland.shipping.model.UserShippingAddress;
 import spaland.shipping.repository.IUserShippingAddressRepository;
 import spaland.shipping.vo.RequestAddUserShippingAddress;
 import spaland.shipping.vo.RequestEditUserShippingAddress;
 import spaland.shipping.vo.ResponseUserShippingAddress;
-import spaland.users.model.User;
-import spaland.users.repository.IUserRespository;
+import spaland.users.repository.IUserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -23,7 +20,7 @@ import java.util.stream.Collectors;
 public class UserShippingAddressServiceImpl implements IUserShippingAddressService {
 
     private final IUserShippingAddressRepository iUserShippingAddressRepository;
-    private final IUserRespository iUserRespository;
+    private final IUserRepository iUserRepository;
 
     @Override
     public void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress) {
@@ -41,7 +38,7 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
 
         iUserShippingAddressRepository.save(
                 UserShippingAddress.builder()
-                        .user(iUserRespository.findById(requestAddUserShippingAddress.getUserId()).get())
+                        .user(iUserRepository.findById(requestAddUserShippingAddress.getUserId()).get())
                         .address(requestAddUserShippingAddress.getAddress())
                         .detailAddress(requestAddUserShippingAddress.getDetailAddress())
                         .shippingPhone(requestAddUserShippingAddress.getShippingPhone())
@@ -49,6 +46,7 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
                         .isUse(requestAddUserShippingAddress.getIsUse())
                         .build()
         );
+
 
     }
 

@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import spaland.products.model.Product;
 import spaland.users.model.User;
+import spaland.utility.BaseTimeEntity;
 
 @Entity
 @Getter
@@ -13,7 +14,7 @@ import spaland.users.model.User;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Wish {
+public class Wish extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,8 +23,7 @@ public class Wish {
     @ManyToOne
     private User user;
 
-    @Column(nullable = false)
-    @ColumnDefault("False")
-    private boolean isDelete;
+    @Builder.Default
+    private Boolean isDelete = false;
 
 }

@@ -1,11 +1,11 @@
 package spaland.cart.model;
 
-import jakarta.persistence.*;
 import lombok.*;
 import spaland.products.model.Product;
 import spaland.users.model.User;
 import spaland.utility.BaseTimeEntity;
 
+import jakarta.persistence.*;
 
 
 @AllArgsConstructor
@@ -25,6 +25,7 @@ public class Cart extends BaseTimeEntity {
     @ManyToOne
     private Product product;
 
+    @Column(nullable = false)
     private Integer productAmount;
 
     @Builder.Default private Boolean isDelete = false;

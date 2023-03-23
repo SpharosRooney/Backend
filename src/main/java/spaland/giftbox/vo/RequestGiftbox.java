@@ -12,7 +12,7 @@ public class RequestGiftbox {
     private Long ProductId;
 
     private String sender;
-    private String description;
+    private Integer state;
     private Integer giftAmount;
     private String letter;
 
