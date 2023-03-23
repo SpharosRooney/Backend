@@ -28,10 +28,9 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
     @Override
     public void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress) {
 
-        if(iUserShippingAddressRepository.findAllByUserId(requestAddUserShippingAddress.getUserId())==null){
+        if (iUserShippingAddressRepository.findAllByUserId(requestAddUserShippingAddress.getUserId()) == null) {
             requestAddUserShippingAddress.setIsUse(true);
-        }
-        else {
+        } else {
             if (requestAddUserShippingAddress.getIsUse().equals(true)) {
                 for (UserShippingAddress userShippingAddress : iUserShippingAddressRepository.findAllByUserId(requestAddUserShippingAddress.getUserId())) {
                     userShippingAddress.setIsUse(false);
@@ -41,14 +40,14 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
         }
 
         iUserShippingAddressRepository.save(
-            UserShippingAddress.builder()
-                    .user(iUserRespository.findById(requestAddUserShippingAddress.getUserId()).get())
-                    .address(requestAddUserShippingAddress.getAddress())
-                    .detailAddress(requestAddUserShippingAddress.getDetailAddress())
-                    .shippingPhone(requestAddUserShippingAddress.getShippingPhone())
-                    .zipCode(requestAddUserShippingAddress.getZipCode())
-                    .isUse(requestAddUserShippingAddress.getIsUse())
-                    .build()
+                UserShippingAddress.builder()
+                        .user(iUserRespository.findById(requestAddUserShippingAddress.getUserId()).get())
+                        .address(requestAddUserShippingAddress.getAddress())
+                        .detailAddress(requestAddUserShippingAddress.getDetailAddress())
+                        .shippingPhone(requestAddUserShippingAddress.getShippingPhone())
+                        .zipCode(requestAddUserShippingAddress.getZipCode())
+                        .isUse(requestAddUserShippingAddress.getIsUse())
+                        .build()
         );
 
     }
@@ -69,7 +68,7 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
         UserShippingAddress userShippingAddress = iUserShippingAddressRepository.findById(userShippingId).get();
         ModelMapper modelMapper = new ModelMapper();
 
-        return modelMapper.map( userShippingAddress, ResponseUserShippingAddress.class);
+        return modelMapper.map(userShippingAddress, ResponseUserShippingAddress.class);
     }
 
     @Override
@@ -107,7 +106,7 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
         );
 
         for (int i = 0; i < userShippingAddressList.size(); i++) {
-            responseUserShippingAddresses.add(modelMapper.map(userShippingAddressList.get(i),ResponseUserShippingAddress.class));
+            responseUserShippingAddresses.add(modelMapper.map(userShippingAddressList.get(i), ResponseUserShippingAddress.class));
         }
 
         return responseUserShippingAddresses;

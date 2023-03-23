@@ -47,7 +47,4 @@ public class ShippingAddressController {
                 iUserShippingAddressService.getAllByIsUseByUser(userId, isUse)
         );
     }
-
-    //지울때 그냥 행에서 지워야겠다
-
 }
