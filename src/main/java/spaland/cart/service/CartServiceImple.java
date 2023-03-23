@@ -12,7 +12,6 @@ import spaland.cart.vo.RequestDeleteCart;
 import spaland.cart.vo.ResponseGetUserCart;
 import spaland.products.model.Product;
 import spaland.products.repository.IProductRepository;
-import spaland.users.model.User;
 import spaland.users.repository.IUserRepository;
 
 import java.util.ArrayList;
@@ -24,12 +23,12 @@ import java.util.List;
 public class CartServiceImple implements ICartService{
     private final ICartRepository iCartRepository;
     private final IProductRepository iProductRepository;
-    private final IUserRepository iUserRespository;
+    private final IUserRepository iUserRepository;
 
     @Override
     public Cart addCart(RequestCart requestCart) {
         Cart cart = iCartRepository.save(Cart.builder()
-                        .user(iUserRespository.findById(requestCart.getUserId()).get())
+                        .user(iUserRepository.findById(requestCart.getUserId()).get())
                         .product(iProductRepository.findById(requestCart.getProductId()).get())
                         .productAmount(requestCart.getProductAmount())
                 .build()
