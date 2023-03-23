@@ -42,11 +42,6 @@ public class GiftboxServiceImple implements IGiftboxService{
         return  giftbox; //리스트 보이게
     }
 
-    @Override
-    public Product getByProductId(Long productId) {
-        return iGiftboxRepository.findAllByProductId(productId);
-    }
-
 
     @Override
     public List<ResponseGetUserGiftbox> getAllbyUserId(Long userId) {
