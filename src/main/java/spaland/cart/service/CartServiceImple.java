@@ -33,14 +33,12 @@ public class CartServiceImple implements ICartService{
                         .productAmount(requestCart.getProductAmount())
                 .build()
         );
+        cart.setIsDelete(false);
+        iCartRepository.save(cart);
         log.info("{}", cart.toString());
         return  cart; //리스트 보이게
     }
 
-    @Override
-    public Product getByProductId(Long productId) {
-        return iCartRepository.findAllByProductId(productId);
-    }
 
     @Override
     public List<ResponseGetUserCart> getAllByUser(Long userId) {
