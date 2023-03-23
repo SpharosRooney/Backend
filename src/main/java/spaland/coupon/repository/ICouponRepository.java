@@ -6,4 +6,5 @@ import spaland.coupon.model.Coupon;
 
 public interface ICouponRepository extends JpaRepository<Coupon, Long> {
 
+    Object findByName(String name);
 }

@@ -6,11 +6,12 @@ import org.springframework.web.bind.annotation.*;
 import spaland.coupon.model.Coupon;
 import spaland.coupon.service.ICouponService;
 import spaland.coupon.vo.RequestCoupon;
+import spaland.coupon.vo.ResponseCoupon;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/vi/api/coupon")
+@RequestMapping("/v1/api/coupon")
 @RequiredArgsConstructor
 @Slf4j
 public class CouponController {
@@ -18,11 +19,22 @@ public class CouponController {
     private final ICouponService iCouponService;
 
     @PostMapping("/add")
-    public void addCoupon(@RequestBody RequestCoupon requestCoupon) { iCouponService.addCoupon(requestCoupon); }
+    public ResponseCoupon addCoupon(@RequestBody RequestCoupon requestCoupon) {
+        return iCouponService.addCoupon(requestCoupon); }
 
     @GetMapping("/get/{couponId}")
-    public Coupon getCoupon(@PathVariable Long couponId) {return iCouponService.getCoupon(couponId);}
+    public ResponseCoupon getCoupon(@PathVariable Long couponId) {return iCouponService.getCoupon(couponId);}
 
     @GetMapping("/get/all")
-    public List<Coupon> getAllCoupon() {return iCouponService.getAll();}
+    public List<ResponseCoupon> getAllCoupon() {return iCouponService.getAll();}
+
+    @PutMapping("/use/{couponId}")
+    public ResponseCoupon useCoupon(@PathVariable Long couponId) {
+        return iCouponService.useCoupon(couponId);
+    }
+
+    @PutMapping("/refund/{couponId}")
+    public ResponseCoupon refundCoupon(@PathVariable Long couponId) {
+        return iCouponService.refundCoupon(couponId);
+    }
 }

@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface ICartService {
     Cart addCart(RequestCart requestCart);
-    Product getByProductId(Long productId);
     void modifyCart(RequestCartCount requestCartCount);
     void deleteProduct(RequestDeleteCart requestDeleteCart);
     List<ResponseGetUserCart> getAllByUser(Long userId);

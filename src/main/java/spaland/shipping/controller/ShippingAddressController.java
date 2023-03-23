@@ -47,5 +47,4 @@ public class ShippingAddressController {
                 iUserShippingAddressService.getAllByIsUseByUser(userId, isUse)
         );
     }
-
 }

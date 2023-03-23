@@ -24,6 +24,13 @@ public class WishController {
        iWishService.addWish(requestWish);
     }
 
+    @GetMapping("/isDelete")
+    public ResponseEntity<List<ResponseGetUserWish>> getAllByUserIdAndIsDelete(@RequestParam Long userId, Boolean isDelete){
+        return ResponseEntity.ok(
+                iWishService.getAllByUserWish(userId, isDelete)
+        );
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<List<ResponseGetUserWish>> getAllByUser(@PathVariable Long userId){
         return ResponseEntity.ok(
@@ -31,12 +38,7 @@ public class WishController {
         );
     }
 
-    @GetMapping("/userProduct/{productId}")
-    public Product getByProductId(@PathVariable Long productId){
-        return iWishService.getByProductId(productId);
-    }
-
-    @PutMapping("/delete")
+    @PutMapping("/delete") //위시리스트 삭제
     public void deleteWishList(@RequestBody RequestDeleteWish requestDeleteWish){
         iWishService.deleteWishList(requestDeleteWish);
     }

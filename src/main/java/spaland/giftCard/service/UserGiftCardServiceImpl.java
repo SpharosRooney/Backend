@@ -11,8 +11,7 @@ import spaland.giftCard.repository.IUserGiftCardRepository;
 import spaland.giftCard.vo.RequestChargeUserGiftCard;
 import spaland.giftCard.vo.RequestUserGiftCard;
 import spaland.giftCard.vo.ResponseGiftCard;
-import spaland.users.repository.IUserRespository;
-import spaland.utility.BaseTimeEntity;
+import spaland.users.repository.IUserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.List;
 @Service
 public class UserGiftCardServiceImpl implements IUserGiftCardService {
 
-    private final IUserRespository iUserRespository;
+    private final IUserRepository iUserRepository;
     private final IGiftCardRepository iGiftCardRepository;
     private final IUserGiftCardRepository iUserGiftCardRepository;
 
@@ -31,7 +30,7 @@ public class UserGiftCardServiceImpl implements IUserGiftCardService {
     @Override
     public void addGiftCardByUser(RequestUserGiftCard requestUserGiftCard) {
         iUserGiftCardRepository.save(UserGiftCard.builder()
-                .user(iUserRespository.findById(requestUserGiftCard.getUserId()).get())
+                .user(iUserRepository.findById(requestUserGiftCard.getUserId()).get())
                 .giftCard(iGiftCardRepository.findById(requestUserGiftCard.getCardId()).get())
                 .build());
     }

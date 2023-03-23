@@ -19,7 +19,6 @@ public class UserController {
     public ResponseUser addUser(@RequestBody RequestUser requestUser){
 
         return iUserService.addUser(requestUser);
-
     }
 
     @GetMapping("/get/{id}")
@@ -28,5 +27,10 @@ public class UserController {
         return iUserService.getUser(id);
     }
 
+//    @GetMapping("checkduplicate/{id}")
+//    public boolean checkDuplicateId(@PathVariable String userid) {
+//        log.info("check id ? {}",userid);
+//        return iUserService.checkDuplicateId(userid);
+//    }
 
 }
