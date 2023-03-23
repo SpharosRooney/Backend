@@ -1,8 +1,12 @@
 package spaland.coupon.model;
 
-import jakarta.persistence.*;
 import lombok.*;
 import spaland.utility.BaseTimeEntity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 
 @Entity

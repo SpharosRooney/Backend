@@ -8,4 +8,5 @@ public interface IUserService {
     ResponseUser addUser(RequestUser requestUser);
     ResponseUser getUser(Long id);
 
+    boolean checkDuplicateId(String userId);
 }
