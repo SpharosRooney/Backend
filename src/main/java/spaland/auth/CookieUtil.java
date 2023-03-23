@@ -4,8 +4,8 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import spaland.config.JwtService;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 @Service

@@ -12,9 +12,9 @@ import spaland.email.vo.RequestCheckCode;
 import spaland.users.model.User;
 import spaland.users.repository.IUserRepository;
 
-import javax.mail.Message;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.Message;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import java.util.Optional;
 import java.util.Random;
 

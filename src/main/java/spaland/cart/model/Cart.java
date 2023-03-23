@@ -5,7 +5,7 @@ import spaland.products.model.Product;
 import spaland.users.model.User;
 import spaland.utility.BaseTimeEntity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 
 @AllArgsConstructor

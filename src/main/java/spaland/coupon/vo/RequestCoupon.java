@@ -1,6 +1,6 @@
 package spaland.coupon.vo;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

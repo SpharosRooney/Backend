@@ -1,6 +1,6 @@
 package spaland.giftCard.vo;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 

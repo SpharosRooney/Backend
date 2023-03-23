@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import spaland.config.JwtService;
 import spaland.email.service.RedisService;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 import static org.springframework.http.HttpHeaders.SET_COOKIE;
 import static spaland.config.JwtService.COOKIE_NAME;
