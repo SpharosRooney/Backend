@@ -38,11 +38,6 @@ public class WishController {
         );
     }
 
-    @GetMapping("/userProduct/{productId}") //상품 상세 정보
-    public Product getByProductId(@PathVariable Long productId){
-        return iWishService.getByProductId(productId);
-    }
-
     @PutMapping("/delete") //위시리스트 삭제
     public void deleteWishList(@RequestBody RequestDeleteWish requestDeleteWish){
         iWishService.deleteWishList(requestDeleteWish);

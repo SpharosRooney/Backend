@@ -34,19 +34,6 @@ public class WishServiceImple implements IWishService{
     }
 
     @Override
-    public Product getByProductId(Long productId) {
-        return iWishRepository.findByProductId(productId);
-    }
-
-
-
-
-//    @Override
-//    public List<Wish> getAllbyUserId(Long userId) {
-//        return iWishRepository.findAllByUserId(userId);
-//    }
-
-    @Override
     public List<ResponseGetUserWish> getAllByUser(Long userId) {
         List<Wish> wishes = iWishRepository.findAllByUserId(userId);
         List<ResponseGetUserWish> responseGetUserWishes = new ArrayList<>();
