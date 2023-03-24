@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class RequestDeleteCart {
-//    private List<Cart> CartId;
+
     private Long id;
     private Boolean isDelete;
 }

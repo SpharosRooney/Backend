@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spaland.cart.service.ICartService;
-import spaland.cart.vo.RequestCart;
-import spaland.cart.vo.RequestCartCount;
-import spaland.cart.vo.RequestDeleteCart;
-import spaland.cart.vo.ResponseGetUserCart;
+import spaland.cart.vo.*;
 import spaland.products.service.IProductService;
 
 import java.util.List;
@@ -24,19 +21,19 @@ public class CartController {
         iCartService.addCart(requestCart);
     }
 
-    @GetMapping("/isDelete")
+    @GetMapping("/isDelete") //유저의 장바구니를 볼 수 있음(isDelete = false)
     public ResponseEntity<List<ResponseGetUserCart>> getAllByUserCart(@RequestParam Long userId, Boolean isDelete){
         return ResponseEntity.ok(
                 iCartService.getAllByUserCart(userId,isDelete)
         );
     }
-    @GetMapping("/{userId}")
+
+    @GetMapping("/{userId}")//유저가 가진 장바구니 + 삭제한 장바구니 상품
     public ResponseEntity<List<ResponseGetUserCart>> getAllByUser(@PathVariable Long userId){
         return ResponseEntity.ok(
                 iCartService.getAllByUser(userId)
         );
     }
-
 
     @PutMapping("/modify") //장바구니 상품 수량 수정을 위한 메서드
     public void modifyCart(@RequestBody RequestCartCount requestCartCount){
@@ -47,4 +44,6 @@ public class CartController {
     public void deleteProduct(@RequestBody RequestDeleteCart requestDeleteCart){
         iCartService.deleteProduct(requestDeleteCart);
     }
+
+
 }
