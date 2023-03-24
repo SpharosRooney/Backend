@@ -7,6 +7,8 @@ import spaland.config.JwtService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
+import static spaland.config.JwtService.COOKIE_NAME;
+
 
 @Service
 public class CookieUtil {
@@ -19,6 +21,8 @@ public class CookieUtil {
                 .sameSite("None")
                 .build();
         return cookie;
+
+
     }
 
     public Cookie getCookie(HttpServletRequest req, String cookieName){

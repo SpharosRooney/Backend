@@ -40,9 +40,14 @@ public class AuthenticationController {
             @RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) {
 
         AuthenticationResponse authenticationResponse = authenticationService.authenticate(authenticationRequest);
-        ResponseCookie cookie = cookieUtil.createCookie(COOKIE_NAME,authenticationResponse.getRefreshToken());
-
-        response.setHeader(SET_COOKIE, cookie.toString() + ";");
+//        ResponseCookie cookie = cookieUtil.createCookie(COOKIE_NAME,authenticationResponse.getRefreshToken());
+        Cookie myCookie = new Cookie(COOKIE_NAME,authenticationResponse.getRefreshToken());
+        myCookie.setMaxAge(JwtService.REFRESH_TOKEN_VALIDATION_SECOND);
+        myCookie.setSecure(true);
+        myCookie.setHttpOnly(true);
+        myCookie.setPath("/");
+        response.addCookie(myCookie);
+//        response.setHeader(SET_COOKIE, cookie.toString() + ";");
         return ResponseEntity.ok(authenticationResponse.getToken());
     }
 

@@ -17,7 +17,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtService {
     public final static long TOKEN_VALIDATION_SECOND = 60 * 10; // 1분
-    public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 60 * 60 * 24 * 7; // 7일
+    public final static int REFRESH_TOKEN_VALIDATION_SECOND = 1000 * 60 * 60 * 24 * 7; // 7일
 
     public final static String COOKIE_NAME = "refresh_token";
 
