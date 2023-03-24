@@ -6,10 +6,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import spaland.cart.model.Cart;
 import spaland.cart.repository.ICartRepository;
-import spaland.cart.vo.RequestCart;
-import spaland.cart.vo.RequestCartCount;
-import spaland.cart.vo.RequestDeleteCart;
-import spaland.cart.vo.ResponseGetUserCart;
+import spaland.cart.vo.*;
+import spaland.giftCard.vo.ResponseGiftCard;
 import spaland.products.model.Product;
 import spaland.products.repository.IProductRepository;
 import spaland.users.repository.IUserRepository;
@@ -24,6 +22,8 @@ public class CartServiceImple implements ICartService{
     private final ICartRepository iCartRepository;
     private final IProductRepository iProductRepository;
     private final IUserRepository iUserRepository;
+
+    ModelMapper modelMapper = new ModelMapper();
 
     @Override
     public Cart addCart(RequestCart requestCart) {
@@ -46,7 +46,6 @@ public class CartServiceImple implements ICartService{
         List<ResponseGetUserCart> responseGetUserCarts = new ArrayList<>();
         cart.forEach(
                 userCart -> {
-                    ModelMapper modelMapper = new ModelMapper();
                     responseGetUserCarts.add(
                             modelMapper.map(userCart, ResponseGetUserCart.class)
                     );
@@ -57,18 +56,16 @@ public class CartServiceImple implements ICartService{
 
     @Override
     public List<ResponseGetUserCart> getAllByUserCart(Long userId, Boolean isDelete) {
-        List<Cart> cart = iCartRepository.findAllByUserIdAndIsDelete(userId,isDelete);
+        List<Cart> carts = iCartRepository.findAllByUserIdAndIsDelete(userId, isDelete);
         List<ResponseGetUserCart> responseGetUserCarts = new ArrayList<>();
-        cart.forEach(
-                userCart -> {
-                    ModelMapper modelMapper = new ModelMapper();
-                    responseGetUserCarts.add(
-                            modelMapper.map(userCart, ResponseGetUserCart.class)
-                    );
-                }
-        );
-            return responseGetUserCarts;
+        for(int i = 0; i < carts.size(); i++){
+            ResponseGetUserCart product = modelMapper.map(carts.get(i).getProduct(), ResponseGetUserCart.class);
+            product.setProductAmount(carts.get(i).getProductAmount());
+            responseGetUserCarts.add(product);
+        }
+        return responseGetUserCarts;
     }
+
 
     @Override
     public void modifyCart(RequestCartCount requestCartCount) {
@@ -83,6 +80,8 @@ public class CartServiceImple implements ICartService{
         cart.setIsDelete(true);
         iCartRepository.save(cart);
     }
+
+
 
 
 }
