@@ -13,7 +13,7 @@ import spaland.products.service.IProductService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/api/cart")
+@RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
 public class CartController {
     private final ICartService iCartService;

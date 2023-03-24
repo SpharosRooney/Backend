@@ -8,7 +8,7 @@ import spaland.users.vo.RequestUser;
 import spaland.users.vo.ResponseUser;
 
 @RestController
-@RequestMapping("/v1/api/users")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {

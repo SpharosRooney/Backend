@@ -20,7 +20,7 @@ import spaland.products.vo.RequestCategorySmall;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/api/category")
+@RequestMapping("/api/v1/category")
 @RequiredArgsConstructor
 public class CategoryController {
 

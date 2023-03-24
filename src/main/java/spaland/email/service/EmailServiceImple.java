@@ -1,6 +1,9 @@
 package spaland.email.service;
 
 
+import jakarta.mail.Message;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +15,6 @@ import spaland.email.vo.RequestCheckCode;
 import spaland.users.model.User;
 import spaland.users.repository.IUserRepository;
 
-import jakarta.mail.Message;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
 import java.util.Optional;
 import java.util.Random;
 
@@ -88,12 +88,12 @@ public class EmailServiceImple implements  IEmailService{
         }
         try {
 
+            log.info("Success Send Email : {} {}", email, confirmKey);
 //            if(redisService.getConfirmCodeByEmail(email) != null) {
 //                redisService.removeConfirmCodeByEmail(email);
 //            }
             redisService.createConfirmCodeByEmail(email, confirmKey);
             javaMailSender.send(message);
-            log.info("Success Send Email : {} {}", email, confirmKey);
             return true;
         } catch (MailException e) {
             e.printStackTrace();
