@@ -40,14 +40,8 @@ public class AuthenticationController {
             @RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) {
 
         AuthenticationResponse authenticationResponse = authenticationService.authenticate(authenticationRequest);
-//        ResponseCookie cookie = cookieUtil.createCookie(COOKIE_NAME,authenticationResponse.getRefreshToken());
-        Cookie myCookie = new Cookie(COOKIE_NAME,authenticationResponse.getRefreshToken());
-        myCookie.setMaxAge(JwtService.REFRESH_TOKEN_VALIDATION_SECOND);
-        myCookie.setSecure(true);
-        myCookie.setHttpOnly(true);
-        myCookie.setPath("/");
+        Cookie myCookie = cookieUtil.cookie(COOKIE_NAME,authenticationResponse.getRefreshToken());
         response.addCookie(myCookie);
-//        response.setHeader(SET_COOKIE, cookie.toString() + ";");
         return ResponseEntity.ok(authenticationResponse.getToken());
     }
 
@@ -55,9 +49,9 @@ public class AuthenticationController {
     @PostMapping("/refresh")
     public ResponseEntity<String> refresh(@RequestHeader(value = COOKIE_NAME) RefreshRequest refreshRequest,
                                           HttpServletResponse response) {
-        ResponseCookie cookie = cookieUtil.createCookie(
+        Cookie myCookie = cookieUtil.cookie(
                 COOKIE_NAME,authenticationService.refresh(refreshRequest).getRefreshToken());
-        response.setHeader(SET_COOKIE, cookie.toString());
+        response.addCookie(myCookie);
         return ResponseEntity.ok(authenticationService.refresh(refreshRequest).getToken());
     }
 
