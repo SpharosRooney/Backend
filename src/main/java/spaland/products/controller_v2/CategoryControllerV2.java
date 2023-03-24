@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("/v2/api/category")
+@RequestMapping("/api/v2/category")
 @RequiredArgsConstructor
 public class CategoryControllerV2 {
 

@@ -10,7 +10,7 @@ import spaland.products.vo.ResponseProduct;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/api/product")
+@RequestMapping("/api/v1/product")
 @RequiredArgsConstructor
 public class ProductController {
 

@@ -14,7 +14,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/v1/api/shippingAddress")
+@RequestMapping("/api/v1/shippingAddress")
 @RequiredArgsConstructor
 public class ShippingAddressController {
 

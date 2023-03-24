@@ -10,7 +10,7 @@ import spaland.history.vo.RequestHistory;
 import java.util.List;
 
 @RestController
-@RequestMapping("v1/api/history")
+@RequestMapping("/api/v1/history")
 @RequiredArgsConstructor
 @Slf4j
 public class HistoryController {

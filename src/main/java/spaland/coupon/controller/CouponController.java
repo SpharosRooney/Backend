@@ -11,7 +11,7 @@ import spaland.coupon.vo.ResponseCoupon;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/api/coupon")
+@RequestMapping("/api/v1/coupon")
 @RequiredArgsConstructor
 @Slf4j
 public class CouponController {
