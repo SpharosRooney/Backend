@@ -32,4 +32,5 @@ public class Product extends BaseTimeEntity {
     private String category; // 카테고리
     private String season; // 시즌
     private String title; // 대분류
+    private Boolean frozen; // 냉동 상품
 }
