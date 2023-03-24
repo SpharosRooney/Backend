@@ -42,7 +42,7 @@ public class AuthenticationController {
         AuthenticationResponse authenticationResponse = authenticationService.authenticate(authenticationRequest);
         ResponseCookie cookie = cookieUtil.createCookie(COOKIE_NAME,authenticationResponse.getRefreshToken());
 
-        response.setHeader(SET_COOKIE, cookie.toString());
+        response.setHeader(SET_COOKIE, cookie.toString() + ";");
         return ResponseEntity.ok(authenticationResponse.getToken());
     }
 
