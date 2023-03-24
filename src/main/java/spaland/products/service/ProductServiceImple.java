@@ -32,6 +32,7 @@ public class ProductServiceImple implements IProductService {
     public void addProduct(RequestProduct requestProduct) {
         ModelMapper modelMapper = new ModelMapper();
         Product product = modelMapper.map(requestProduct, Product.class);
+        product.setFrozen(requestProduct.getTitle().equals("케이크") ? true : false);
 
         String productName = requestProduct.getName();
         String seasonName = requestProduct.getSeason();
@@ -60,9 +61,10 @@ public class ProductServiceImple implements IProductService {
         iFilterRepositoryV2.save(Filter.builder()
                 .title(iTitleRepositoryV2.findByTitle(requestProduct.getTitle()).getId())
                 .price((long) (product.getPrice() / 10000))
-                .season(iSeasonRepositoryV2.findBySeason(seasonName).getId())
+                .season(iSeasonRepositoryV2.findBySeason(seasonName) == null ? null : iSeasonRepositoryV2.findBySeason(seasonName).getId())
                 .category(requestProduct.getCategory() == null ? null : iCategoryRepositoryV2.findByCategory(requestProduct.getCategory()).getId())
                 .volume(volumeIdx)
+                .frozen(requestProduct.getTitle().equals("케이크") ? true : false)
                 .productId(iProductRepository.save(product).getId())
                 .build());
     }
@@ -94,12 +96,12 @@ public class ProductServiceImple implements IProductService {
         List<ResponseProduct> responseProductList = new ArrayList<>();
 
         productList.forEach(
-            product -> {
-                ModelMapper modelMapper = new ModelMapper();
-                responseProductList.add(
-                        modelMapper.map(product, ResponseProduct.class)
-                );
-            }
+                product -> {
+                    ModelMapper modelMapper = new ModelMapper();
+                    responseProductList.add(
+                            modelMapper.map(product, ResponseProduct.class)
+                    );
+                }
         );
         return responseProductList;
     }
