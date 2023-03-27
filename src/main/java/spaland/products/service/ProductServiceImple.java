@@ -32,8 +32,6 @@ public class ProductServiceImple implements IProductService {
     public void addProduct(RequestProduct requestProduct) {
         ModelMapper modelMapper = new ModelMapper();
         Product product = modelMapper.map(requestProduct, Product.class);
-        product.setFrozen(requestProduct.getTitle().equals("케이크") ? 1L : 0);
-
         String productName = requestProduct.getName();
         String seasonName = requestProduct.getSeason();
 

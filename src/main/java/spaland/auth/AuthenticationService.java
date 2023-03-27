@@ -15,6 +15,7 @@ import spaland.users.model.User;
 import spaland.users.repository.IUserRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -30,11 +31,12 @@ public class AuthenticationService {
 
 
         public User signup(SignupRequest signupRequest) {
+            UUID uuid = UUID.randomUUID();
             var user = User.builder()
                     .userName(signupRequest.getUserName())
                     .password(passwordEncoder.encode(signupRequest.getPassword()))
                     .userEmail(signupRequest.getUserEmail())
-                    .userNickname(signupRequest.getUserNickname())
+                    .userNickname(signupRequest.getUserNickname()+"#"+uuid.toString())
                     .phone(signupRequest.getPhone())
                     .role(Role.USER)
                     .build();
