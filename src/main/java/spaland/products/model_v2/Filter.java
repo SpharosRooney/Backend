@@ -26,9 +26,5 @@ public class Filter {
     private Long season; // 시즌
     private Long category; // 카테고리
     private Long volume; // 용량
-<<<<<<< HEAD
     private Long frozen;
-=======
-    private Boolean frozen;
->>>>>>> develop
 }
