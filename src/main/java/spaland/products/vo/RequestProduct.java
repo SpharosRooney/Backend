@@ -20,6 +20,7 @@ public class RequestProduct {
     private String infoImg; // 정보 이미지
     private String infoImg2; // 정보 이미지
     private String infoImg3; // 정보 이미지
+    private String infoImg4; // 정보 이미지
     private String category; // 카테고리
     private String season;
     private String title;
