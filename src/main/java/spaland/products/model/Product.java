@@ -29,8 +29,9 @@ public class Product extends BaseTimeEntity {
     private String infoImg; // 정보 이미지
     private String infoImg2; // 정보 이미지
     private String infoImg3; // 정보 이미지
+    private String infoImg4; // 정보 이미지
     private String category; // 카테고리
     private String season; // 시즌
     private String title; // 대분류
-    private Boolean frozen; // 냉동 상품
+    private Long frozen; // 냉동 상품
 }

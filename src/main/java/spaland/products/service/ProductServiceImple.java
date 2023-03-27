@@ -32,7 +32,7 @@ public class ProductServiceImple implements IProductService {
     public void addProduct(RequestProduct requestProduct) {
         ModelMapper modelMapper = new ModelMapper();
         Product product = modelMapper.map(requestProduct, Product.class);
-        product.setFrozen(requestProduct.getTitle().equals("케이크") ? true : false);
+        product.setFrozen(requestProduct.getTitle().equals("케이크") ? 1L : 0);
 
         String productName = requestProduct.getName();
         String seasonName = requestProduct.getSeason();
@@ -64,7 +64,7 @@ public class ProductServiceImple implements IProductService {
                 .season(iSeasonRepositoryV2.findBySeason(seasonName) == null ? null : iSeasonRepositoryV2.findBySeason(seasonName).getId())
                 .category(requestProduct.getCategory() == null ? null : iCategoryRepositoryV2.findByCategory(requestProduct.getCategory()).getId())
                 .volume(volumeIdx)
-                .frozen(requestProduct.getTitle().equals("케이크") ? true : false)
+                .frozen(requestProduct.getTitle().equals("케이크") ? 1L : 0)
                 .productId(iProductRepository.save(product).getId())
                 .build());
     }
