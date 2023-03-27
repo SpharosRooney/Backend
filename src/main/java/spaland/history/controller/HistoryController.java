@@ -30,4 +30,5 @@ public class HistoryController {
     @GetMapping("/get/all")
     public List<History> getAll() { return iHistoryService.findAll();}
 
+
 }
