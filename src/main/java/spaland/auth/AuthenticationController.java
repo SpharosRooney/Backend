@@ -3,6 +3,8 @@ package spaland.auth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,14 +38,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<String> authenticate(
+    public ResponseEntity<Object> authenticate(
             @RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) {
 
         AuthenticationResponse authenticationResponse = authenticationService.authenticate(authenticationRequest);
         Cookie myCookie = cookieUtil.cookie(COOKIE_NAME,authenticationResponse.getRefreshToken());
         response.addCookie(myCookie);
 
-        return ResponseEntity.ok(authenticationResponse.getToken());
+        return new ResponseEntity<>(authenticationResponse, headers, HttpStatus.OK);
     }
 
 

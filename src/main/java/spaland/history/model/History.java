@@ -12,27 +12,32 @@ public class History extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
-    private String name; // 살품명
+    private Long productId;
 
     @Column(nullable = false)
-    private Integer productId; // 상품 일련 번호
+    private String name;
 
     @Column(nullable = false)
-    private String purchaseType; // 주문 유형
-
-    private String couponName; // 사용 쿠폰
-
-    @Column(nullable = false)
-    private String paymentType; // 결제 수단
+    private Long purchaseType;
+    private String gifText;
 
     @Column(nullable = false)
-    private Integer totalPay; // 결제 금액
+    private String paymentType;
 
     @Column(nullable = false)
-    private String recipient; // 수령인
+    private String shippingStatus;
+
+    @Column(nullable = false)
+    private String amount;
+
+    @Column(nullable = false)
+    private Integer price;
+
+    @Column(nullable = false)
+    private String recipient;
 
     private String currentState; // 주문 상태
 
