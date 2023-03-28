@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+import spaland.auth.vo.LogoutRequest;
+import spaland.auth.vo.RefreshRequest;
+import spaland.auth.vo.SignupRequest;
 import spaland.config.JwtService;
 import spaland.email.service.RedisService;
 
