@@ -1,5 +1,6 @@
 package spaland.products.service;
 
+import spaland.products.model.Product;
 import spaland.products.model.ProductCategoryList;
 import spaland.products.vo.RequestCategoryList;
 
@@ -9,9 +10,9 @@ public interface IProductCategoryListService {
 
     void addProductCategoryList(RequestCategoryList requestCategoryList);
     List<ProductCategoryList> getByProductId(Long productId);
-    List<ProductCategoryList> getByCategoryLargeId(Long categoryLargeId);
-    List<ProductCategoryList> getByCategoryMiddleId(Long categoryMiddleId);
-    List<ProductCategoryList> getByProductOptionId(Long productOptionId);
-    List<ProductCategoryList> getByEventId(Long eventId);
+    List<Product> getByCategoryLargeId(Integer categoryLargeId);
+    List<Product> getByCategoryMiddleId(Integer categoryMiddleId);
+    List<Product> getByProductOptionId(Integer productOptionId);
+//    List<Product> getByEventId(Integer eventId);
 
 }

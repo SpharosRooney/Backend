@@ -3,10 +3,13 @@ package spaland.products.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import spaland.products.model.Product;
 import spaland.products.model.ProductCategoryList;
 import spaland.products.repository.*;
 import spaland.products.vo.RequestCategoryList;
+import spaland.products.vo.ResponseProduct;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -30,7 +33,7 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
                         .categoryMiddle(iCategoryMiddleRepository.findById(requestCategoryList.getCategoryMiddleId()).get())
                         .product(iProductRepository.findById(requestCategoryList.getProductId()).get())
                         .productOption(iProductOptionRepository.findById(requestCategoryList.getProductOptionId()).get())
-                        .event(iEventRepository.findById(requestCategoryList.getEventId()).get())
+//                        .event(iEventRepository.findById(requestCategoryList.getEventId()).get())
                         .build()
         );
 
@@ -43,26 +46,50 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
     }
 
     @Override
-    public List<ProductCategoryList> getByCategoryLargeId(Long categoryLargeId) {
+    public List<Product> getByCategoryLargeId(Integer categoryLargeId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByCategoryLargeId(categoryLargeId);
-        return productCategoryLists;
+        List<Product> products = new ArrayList<>();
+        productCategoryLists.forEach(
+                productCategoryList -> {
+                    products.add(productCategoryList.getProduct());
+                });
+
+        return products;
     }
 
     @Override
-    public List<ProductCategoryList> getByCategoryMiddleId(Long categoryMiddleId) {
+    public List<Product> getByCategoryMiddleId(Integer categoryMiddleId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByCategoryMiddleId(categoryMiddleId);
-        return productCategoryLists;
+        List<Product> products = new ArrayList<>();
+        productCategoryLists.forEach(
+                productCategoryList -> {
+                    products.add(productCategoryList.getProduct());
+                });
+
+        return products;
     }
 
     @Override
-    public List<ProductCategoryList> getByProductOptionId(Long productOptionId) {
+    public List<Product> getByProductOptionId(Integer productOptionId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByProductOptionId(productOptionId);
-        return productCategoryLists;
+        List<Product> products = new ArrayList<>();
+        productCategoryLists.forEach(
+                productCategoryList -> {
+                    products.add(productCategoryList.getProduct());
+                });
+
+        return products;
     }
 
-    @Override
-    public List<ProductCategoryList> getByEventId(Long eventId) {
-        List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByEventId(eventId);
-        return productCategoryLists;
-    }
+//    @Override
+//    public List<Product> getByEventId(Integer eventId) {
+//        List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByEventId(eventId);
+//        List<Product> products = new ArrayList<>();
+//        productCategoryLists.forEach(
+//                productCategoryList -> {
+//                    products.add(productCategoryList.getProduct());
+//                });
+//
+//        return products;
+//    }
 }

@@ -26,7 +26,7 @@ public class ProductCategoryList extends BaseTimeEntity {
     private CategoryMiddle categoryMiddle;
     @ManyToOne
     private ProductOption productOption;
-    @ManyToOne
-    private Event event;
+//    @ManyToOne
+//    private Event event;
 
 }
