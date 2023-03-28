@@ -1,9 +1,11 @@
 package spaland.products.vo;
 
 import lombok.*;
+import spaland.products.model.ProductImage;
 
-@Getter
-@Setter
+import java.util.List;
+
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,8 +18,6 @@ public class ResponseProduct {
     private Integer price; // 가격
     private Integer inventory; // 재고
     private String titleImg; // 타이틀 이미지
-    private String infoImg; // 정보 이미지
-    private String infoImg2; // 정보 이미지
-    private String infoImg3; // 정보 이미지
+    private List<ProductImage> productImageList; // 상품 이미지 리스트
 
 }

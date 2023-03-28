@@ -5,28 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import spaland.utility.BaseTimeEntity;
 
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductCategoryList extends BaseTimeEntity {
+public class ProductImageList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
     @ManyToOne
-    private CategoryLarge categoryLarge;
-    @ManyToOne
-    private CategoryMiddle categoryMiddle;
-    @ManyToOne
-    private ProductOption productOption;
-    @ManyToOne
-    private Event event;
+    private ProductImage productImage;
 
 }
