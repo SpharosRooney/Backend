@@ -1,4 +1,4 @@
-package spaland.auth;
+package spaland.auth.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LogoutRequest {
-    private String userEmail;
+public class RefreshRequest {
+    private String refreshToken;
 }
