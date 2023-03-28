@@ -15,7 +15,6 @@ import java.util.List;
 public class ProductController {
 
     private final IProductService iProductService;
-    // final을 안쓰면 인식을 못한다..
 
     @PostMapping("/add")
     public void addProduct(@RequestBody RequestProduct requestProduct) {
