@@ -8,14 +8,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import spaland.auth.vo.RefreshRequest;
+import spaland.auth.vo.SignupRequest;
 import spaland.config.JwtService;
 import spaland.email.service.RedisService;
+import spaland.error.ApiException;
 import spaland.users.model.Role;
 import spaland.users.model.User;
 import spaland.users.repository.IUserRepository;
 
-import java.util.Optional;
 import java.util.UUID;
+
+import static spaland.error.ErrorCode.MEMBER_INVALID;
 
 @Slf4j
 @Service
@@ -47,7 +51,9 @@ public class AuthenticationService {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authenticationRequest.getUserEmail(), authenticationRequest.getPassword()));
 
-            var user = userRepository.findByUserEmail(authenticationRequest.getUserEmail()).orElseThrow();
+            var user = userRepository.findByUserEmail(authenticationRequest.getUserEmail())
+                    .orElseThrow(()-> new ApiException(MEMBER_INVALID));
+
             var jwtToken = jwtService.generateToken(user);
             var refreshToken = jwtService.refreshToken(jwtToken);
 

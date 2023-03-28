@@ -14,7 +14,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class SecurityConfig{
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -44,5 +44,7 @@ public class SecurityConfig {
                 .deleteCookies("refreshToken","token","JSESSIONID");
 
         return http.build();
+
     }
+
 }
