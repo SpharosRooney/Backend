@@ -3,7 +3,8 @@ package spaland.auth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseCookie;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +15,6 @@ import spaland.email.service.RedisService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
-import static org.springframework.http.HttpHeaders.SET_COOKIE;
 import static spaland.config.JwtService.COOKIE_NAME;
 
 @Slf4j
@@ -29,6 +29,7 @@ public class AuthenticationController {
     private final RedisService redisService;
     private final CookieUtil cookieUtil;
 
+
     @PostMapping("/signup")
     public void signup(
             @RequestBody SignupRequest signupRequest) {
@@ -38,12 +39,17 @@ public class AuthenticationController {
     @PostMapping("/authenticate")
     public ResponseEntity<String> authenticate(
             @RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) {
-
         AuthenticationResponse authenticationResponse = authenticationService.authenticate(authenticationRequest);
-        Cookie myCookie = cookieUtil.cookie(COOKIE_NAME,authenticationResponse.getRefreshToken());
-        response.addCookie(myCookie);
+//        Cookie myCookie = cookieUtil.cookie(COOKIE_NAME,authenticationResponse.getRefreshToken());
+//        response.addCookie(myCookie);
 
-        return ResponseEntity.ok(authenticationResponse.getToken());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + authenticationResponse.getToken())
+                .header(HttpHeaders.SET_COOKIE, "refresh-token=" + authenticationResponse.getRefreshToken()
+                        + "; domain= localhost; path=/; SameSite=None; Secure; httpOnly;")
+                .build();
+
     }
 
 
