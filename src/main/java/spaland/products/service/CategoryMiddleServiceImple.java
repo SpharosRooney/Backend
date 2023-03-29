@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import spaland.products.model.CategoryMiddle;
 import spaland.products.repository.ICategoryMiddleRepository;
 import spaland.products.vo.RequestCategoryMiddle;
+import spaland.products.vo.ResponseCategoryMiddle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -26,14 +28,25 @@ public class CategoryMiddleServiceImple implements ICategoryMiddleService{
     }
 
     @Override
-    public CategoryMiddle getCategoryMiddle(Integer categoryMiddleId) {
+    public ResponseCategoryMiddle getCategoryMiddle(Integer categoryMiddleId) {
 
-        return iCategoryMiddleRepository.findById(categoryMiddleId).get();
+        return new ModelMapper().map(iCategoryMiddleRepository.findById(categoryMiddleId).get(),ResponseCategoryMiddle.class);
     }
 
     @Override
-    public List<CategoryMiddle> getAll() {
-        return iCategoryMiddleRepository.findAll();
+    public List<ResponseCategoryMiddle> getAll() {
+        List<CategoryMiddle> categoryMiddleList =  iCategoryMiddleRepository.findAll();
+        List<ResponseCategoryMiddle> responseCategoryMiddles = new ArrayList<>();
+
+        categoryMiddleList.forEach(
+                categoryMiddle -> {
+                    ModelMapper modelMapper = new ModelMapper();
+                    responseCategoryMiddles.add(
+                            modelMapper.map(categoryMiddle,ResponseCategoryMiddle.class)
+                    );
+                });
+
+        return responseCategoryMiddles;
     }
 //
 //    @Override
