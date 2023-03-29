@@ -1,4 +1,4 @@
-package spaland.auth;
+package spaland.users.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
+public class LoginResponse {
     private String token;
     private String refreshToken;
+    private String userNickname;
 }
