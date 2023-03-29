@@ -24,54 +24,29 @@ public class SecurityConfig{
     private final AuthenticationProvider authenticationProvider;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+        throws Exception {
         http
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .addFilterBefore(new JwtAuthenticationFilter(jwtUtils, redisUtils), UsernamePasswordAuthenticationFilter.class)
-//                .exceptionHandling()
-//                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-//                .accessDeniedHandler(new JwtAccessDeniedHandler())
-                .and()
+                .csrf()
+                .disable()
                 .authorizeHttpRequests()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-//                .requestMatchers("/api/auth/v1/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
-//                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-//                .requestMatchers("/api/v1/**").authenticated()
-                .requestMatchers("/**").permitAll()
-        ;
+                .requestMatchers("/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)
+                .deleteCookies("refreshToken","token","JSESSIONID");
 
         return http.build();
-
-//
-//        @Bean
-//        public SecurityFilterChain securityFilterChain(HttpSecurity http)
-//            throws Exception {
-//            http
-//                    .csrf()
-//                    .disable()
-//                    .authorizeHttpRequests()
-//                    .requestMatchers("/**")
-//                    .permitAll()
-//                    .anyRequest()
-//                    .authenticated()
-//                    .and()
-//                    .sessionManagement()
-//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                    .and()
-//                    .authenticationProvider(authenticationProvider)
-//                    .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//            http.logout()
-//                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                    .logoutSuccessUrl("/login")
-//                    .invalidateHttpSession(true)
-//                    .deleteCookies("refreshToken","token","JSESSIONID");
-//
-//            return http.build();
-//        }
     }
-
 }
