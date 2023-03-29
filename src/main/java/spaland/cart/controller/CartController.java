@@ -1,14 +1,17 @@
 package spaland.cart.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import spaland.cart.service.ICartService;
 import spaland.cart.vo.*;
 import spaland.products.service.IProductService;
-
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
@@ -16,17 +19,18 @@ public class CartController {
     private final ICartService iCartService;
     private final IProductService iProductService;
 
-    @PostMapping("/add")
+
+    @PostMapping()
     public void addCart(@RequestBody RequestCart requestCart){
         iCartService.addCart(requestCart);
     }
 
-    @GetMapping("/isDelete") //유저의 장바구니를 볼 수 있음(isDelete = false)
-    public ResponseEntity<List<ResponseGetUserCart>> getAllByUserCart(@RequestParam Long userId, Boolean isDelete){
-        return ResponseEntity.ok(
-                iCartService.getAllByUserCart(userId,isDelete)
-        );
+    @GetMapping() //유저의 장바구니를 볼 수 있음(isDelete = false)
+    public ResponseEntity<List<ResponseGetUserCart>> getAllByUserCart(Authentication authentication, @RequestParam Boolean isDelete){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return ResponseEntity.ok(iCartService.getAllByUserCart(userDetails.getUsername(), false));
     }
+
 
     @GetMapping("/{userId}")//유저가 가진 장바구니 + 삭제한 장바구니 상품
     public ResponseEntity<List<ResponseGetUserCart>> getAllByUser(@PathVariable Long userId){

@@ -13,5 +13,5 @@ public interface ICartService {
     void deleteProduct(RequestDeleteCart requestDeleteCart);
 
     List<ResponseGetUserCart> getAllByUser(Long userId);
-    List<ResponseGetUserCart> getAllByUserCart(Long userId,Boolean isDelete); //유저의 카트를 보는것
+    List<ResponseGetUserCart> getAllByUserCart(String userEmail,Boolean isDelete); //유저의 카트를 보는것
 }

@@ -10,6 +10,7 @@ import spaland.cart.vo.*;
 import spaland.giftCard.vo.ResponseGiftCard;
 import spaland.products.model.Product;
 import spaland.products.repository.IProductRepository;
+import spaland.users.model.User;
 import spaland.users.repository.IUserRepository;
 
 import java.util.ArrayList;
@@ -55,8 +56,9 @@ public class CartServiceImple implements ICartService{
     }
 
     @Override
-    public List<ResponseGetUserCart> getAllByUserCart(Long userId, Boolean isDelete) {
-        List<Cart> carts = iCartRepository.findAllByUserIdAndIsDelete(userId, isDelete);
+    public List<ResponseGetUserCart> getAllByUserCart(String userEmail, Boolean isDelete) {
+        User user = iUserRepository.findByUserEmail(userEmail).orElseThrow(()->new RuntimeException());
+        List<Cart> carts = iCartRepository.findAllByUserIdAndIsDelete(user.getId(), isDelete);
         List<ResponseGetUserCart> responseGetUserCarts = new ArrayList<>();
         for(int i = 0; i < carts.size(); i++){
             ResponseGetUserCart product = modelMapper.map(carts.get(i).getProduct(), ResponseGetUserCart.class);
