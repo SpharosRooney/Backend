@@ -1,5 +1,6 @@
 package spaland.shipping.vo;
 
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +8,7 @@ import lombok.Setter;
 @Setter
 public class RequestEditUserShippingAddress {
 
+    @Column(nullable = false)
     private Long id;
     private String zipCode;
     private String address;

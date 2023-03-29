@@ -22,10 +22,8 @@ public class ShippingAddressController {
 
     @PostMapping
     public void addUserShippingAddress( @RequestBody RequestAddUserShippingAddress requestAddUserShippingAddress){
-
         log.info("add shipping address : {}", requestAddUserShippingAddress);
         iUserShippingAddressService.addShippingAddressByUser(requestAddUserShippingAddress);
-
     }
 
     @PutMapping
