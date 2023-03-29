@@ -11,7 +11,7 @@ public interface IUserShippingAddressService {
 
     void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress);
     void updateShippingAddressByUser(RequestEditUserShippingAddress requestEditUserShippingAddress);
-    ResponseUserShippingAddress getShippingAddress(Long userShippingId);
+//    ResponseUserShippingAddress getShippingAddress(Long userShippingId);
     List<ResponseUserShippingAddress> getAllByUser(Long userId);
     List<ResponseUserShippingAddress> getAllByIsUseByUser(Long userId, Boolean isUse);
 
