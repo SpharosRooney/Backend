@@ -19,5 +19,5 @@ public class ResponseProduct {
     private Integer inventory; // 재고
     private String titleImg; // 타이틀 이미지
     private List<ProductImage> productImageList; // 상품 이미지 리스트
-
+    private Boolean frozen; // 냉동 상품
 }

@@ -2,11 +2,15 @@ package spaland.products.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import spaland.products.model.Product;
 import spaland.products.model.ProductCategoryList;
 import spaland.products.repository.*;
 import spaland.products.vo.RequestCategoryList;
+import spaland.products.vo.ResponseProduct;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -43,26 +47,54 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
     }
 
     @Override
-    public List<ProductCategoryList> getByCategoryLargeId(Long categoryLargeId) {
+    public List<ResponseProduct> getByCategoryLargeId(Integer categoryLargeId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByCategoryLargeId(categoryLargeId);
-        return productCategoryLists;
+        List<ResponseProduct> responseProduct = new ArrayList<>();
+                productCategoryLists.forEach(
+                productCategoryList -> {
+                    ModelMapper modelMapper = new ModelMapper();
+                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(),ResponseProduct.class));
+                });
+
+        return responseProduct;
     }
 
     @Override
-    public List<ProductCategoryList> getByCategoryMiddleId(Long categoryMiddleId) {
+    public List<ResponseProduct> getByCategoryMiddleId(Integer categoryMiddleId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByCategoryMiddleId(categoryMiddleId);
-        return productCategoryLists;
+        List<ResponseProduct> responseProduct = new ArrayList<>();
+        productCategoryLists.forEach(
+                productCategoryList -> {
+                    ModelMapper modelMapper = new ModelMapper();
+                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(),ResponseProduct.class));
+                });
+
+        return responseProduct;
     }
 
     @Override
-    public List<ProductCategoryList> getByProductOptionId(Long productOptionId) {
+    public List<ResponseProduct> getByProductOptionId(Integer productOptionId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByProductOptionId(productOptionId);
-        return productCategoryLists;
+        List<ResponseProduct> responseProduct = new ArrayList<>();
+        productCategoryLists.forEach(
+                productCategoryList -> {
+                    ModelMapper modelMapper = new ModelMapper();
+                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(),ResponseProduct.class));
+                });
+
+        return responseProduct;
     }
 
     @Override
-    public List<ProductCategoryList> getByEventId(Long eventId) {
+    public List<ResponseProduct> getByEventId(Integer eventId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByEventId(eventId);
-        return productCategoryLists;
+        List<ResponseProduct> responseProduct = new ArrayList<>();
+        productCategoryLists.forEach(
+                productCategoryList -> {
+                    ModelMapper modelMapper = new ModelMapper();
+                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(),ResponseProduct.class));
+                });
+
+        return responseProduct;
     }
 }

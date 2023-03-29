@@ -22,7 +22,10 @@ public class ProductImageListController {
     public void addProductImageList(@RequestBody RequestProductImageList requestProductImageList) {
         iProductImageListService.addProductImageList(requestProductImageList);
     }
-
+    /*
+    @Todo
+    이 메서드의 경우 response를 만들어야하는지?
+     */
     @GetMapping("/{productImageListId}")
     public ProductImageList getProductImageList(@PathVariable Long productImageListId) {
         return iProductImageListService.getProductImageList(productImageListId);

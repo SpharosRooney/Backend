@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import spaland.products.model.CategoryLarge;
 import spaland.products.repository.ICategoryLargeRepository;
 import spaland.products.vo.RequestCategoryLarge;
+import spaland.products.vo.ResponseCategoryLarge;
+import spaland.products.vo.ResponseProduct;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -21,17 +24,26 @@ public class CategoryLargeServiceImple implements ICategoryLargeService{
     @Override
     public void addCategory(RequestCategoryLarge requestCategoryLarge) {
         ModelMapper modelMapper = new ModelMapper();
-        CategoryLarge categoryLarge = modelMapper.map(requestCategoryLarge, CategoryLarge.class); // 0번 파라미터가 1번 파라미터로 들어감
+        CategoryLarge categoryLarge = modelMapper.map(requestCategoryLarge, CategoryLarge.class);
         iCategoryLargeRepository.save(categoryLarge);
     }
 
     @Override
-    public CategoryLarge getCategoryLarge(Integer categoryLargeId) {
-        return iCategoryLargeRepository.findById(categoryLargeId).get();
+    public ResponseCategoryLarge getCategoryLarge(Integer categoryLargeId) {
+        return new ModelMapper().map(iCategoryLargeRepository.findById(categoryLargeId).get(), ResponseCategoryLarge.class);
     }
         @Override
-    public List<CategoryLarge> getAll() {
-        return iCategoryLargeRepository.findAll();
+    public List<ResponseCategoryLarge> getAll() {
+            List<CategoryLarge> categoryLargeList = iCategoryLargeRepository.findAll();
+            List<ResponseCategoryLarge> responseCategoryLarges = new ArrayList<>();
+            categoryLargeList.forEach(
+                    categoryLarge -> {
+                        ModelMapper modelMapper = new ModelMapper();
+                        responseCategoryLarges.add(
+                                modelMapper.map(categoryLarge, ResponseCategoryLarge.class)
+                        );
+                    });
+        return responseCategoryLarges;
     }
 //
 //    @Override

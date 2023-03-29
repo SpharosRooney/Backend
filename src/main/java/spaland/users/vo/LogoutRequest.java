@@ -1,4 +1,4 @@
-package spaland.auth.vo;
+package spaland.users.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

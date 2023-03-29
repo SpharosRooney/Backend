@@ -2,36 +2,69 @@ package spaland.users.service;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import spaland.users.vo.*;
+import spaland.config.JwtService;
+import spaland.email.service.RedisService;
+import spaland.error.ApiException;
+import spaland.users.model.Role;
 import spaland.users.model.User;
 import spaland.users.repository.IUserRepository;
-import spaland.users.vo.RequestUser;
-import spaland.users.vo.ResponseUser;
 
-import java.util.UUID;
+import static spaland.error.ErrorCode.MEMBER_INVALID;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImple implements IUserService{
 
     private final IUserRepository iUserRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
+    private final RedisService redis;
 
     @Override
-    public ResponseUser addUser(RequestUser requestUser) {
-
-        UUID uuid = UUID.randomUUID();
-        User user = User.builder()
-                .userNickname(requestUser.getUserNickname()+"#"+uuid.toString())
-                .userEmail(requestUser.getUserEmail())
-                .userName(requestUser.getUserName())
-                .password(requestUser.getPassword())
-                .phone(requestUser.getPhone())
+    public User singup(SignupRequest signupRequest) {
+        var user = User.builder()
+                .userName(signupRequest.getUserName())
+                .password(passwordEncoder.encode(signupRequest.getPassword()))
+                .userEmail(signupRequest.getUserEmail())
+                .userNickname(signupRequest.getUserNickname())
+                .phone(signupRequest.getPhone())
+                .role(Role.USER)
                 .build();
-
-                iUserRepository.save(user);
-
-        return new ModelMapper().map(user, ResponseUser.class);
+        return iUserRepository.save(user);
     }
+
+    public LoginResponse login(LoginRequest loginRequest) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginRequest.getUserEmail(), loginRequest.getPassword()));
+
+        User user = iUserRepository.findByUserEmail(loginRequest.getUserEmail())
+                .orElseThrow(()-> new ApiException(MEMBER_INVALID));
+
+        var jwtToken = jwtService.generateToken(user);
+        var refreshToken = jwtService.refreshToken(jwtToken);
+
+        redis.createEmailByRefreshToken(refreshToken, user.getUserEmail());
+        return LoginResponse.builder()
+                .token(jwtToken)
+                .refreshToken(refreshToken)
+                .userNickname(user.getUserNickname())
+                .build();
+    }
+
+    public LogoutResponse logout(LogoutRequest logoutRequest){
+        User user = iUserRepository.findByUserEmail(logoutRequest.getUserEmail()).get();
+        return LogoutResponse.builder()
+                .userNickname(user.getUserNickname()).build();
+    }
+
+
 
     @Override
     public ResponseUser getUser(Long id) {

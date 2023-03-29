@@ -8,15 +8,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.AbstractAuthenticationTargetUrlRequestHandler;
 import org.springframework.web.bind.annotation.*;
-import spaland.auth.vo.LogoutRequest;
+import spaland.auth.service.AuthenticationService;
 import spaland.auth.vo.RefreshRequest;
-import spaland.auth.vo.SignupRequest;
 import spaland.config.JwtService;
 import spaland.email.service.RedisService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import spaland.users.vo.SignupRequest;
+import spaland.utility.CookieUtil;
 
 import static spaland.config.JwtService.COOKIE_NAME;
 
@@ -41,7 +43,7 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<Object> authenticate(
-            @RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) {
+            @RequestBody AbstractAuthenticationTargetUrlRequestHandler authenticationRequest, HttpServletResponse response) {
         AuthenticationResponse authenticationResponse = authenticationService.authenticate(authenticationRequest);
 //        Cookie myCookie = cookieUtil.cookie(COOKIE_NAME,authenticationResponse.getRefreshToken());
 //        response.addCookie(myCookie);

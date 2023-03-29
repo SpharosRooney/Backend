@@ -19,6 +19,7 @@ public class ProductImageList {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
+
     @ManyToOne
     private ProductImage productImage;
 
