@@ -6,30 +6,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Data
-@Getter
-@Setter
 public class RequestHistory {
-    @Column(nullable = false)
-    private String name; // 살품명
 
     @Column(nullable = false)
-    private Integer productId; // 상품 일련 번호
+    private Long productId; // 상품 ID
+    @Column(nullable = false)
+    private Long userShippingAddress; // 배송지 ID;
 
     @Column(nullable = false)
-    private String purchaseType; // 주문 유형
+    private Long amount; // 상품 개수
 
     @Column(nullable = false)
-    private String paymentType; // 결제 수단
-
-    private String couponName;
+    private Long purchasePath; // 0이면 구매, 1이면 선물
+    @Column(nullable = false)
+    private String giftText;
 
     @Column(nullable = false)
-    private Integer totalPay; // 결제 금액
-
-    @Column(nullable = false)
-    private String recipient; // 수령인
-
-    @Column(nullable = false)
-    private String currentState; // 주문 상태
-
+    private String paymentType;
 }
