@@ -1,25 +1,26 @@
 package spaland.history.vo;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import spaland.users.model.User;
 
 @Data
 public class RequestHistory {
 
     @Column(nullable = false)
-    private Long productId; // 상품 ID
-    @Column(nullable = false)
-    private Long userShippingAddress; // 배송지 ID;
+    private Long userId;
 
     @Column(nullable = false)
-    private Long amount; // 상품 개수
+    private Long productId;
 
     @Column(nullable = false)
-    private Long purchasePath; // 0이면 구매, 1이면 선물
+    private Long userShippingAddress;
+
     @Column(nullable = false)
-    private String giftText;
+    private Integer amount;
 
     @Column(nullable = false)
     private String paymentType;
