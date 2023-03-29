@@ -9,6 +9,6 @@ public class RequestCategoryList {
     private Integer categoryLargeId;
     private Integer categoryMiddleId;
     private Integer productOptionId;
-//    private Integer eventId;
+    private Integer eventId;
 
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import spaland.products.model.ProductImage;
 import spaland.products.service.IProductImageService;
 import spaland.products.vo.RequestProductImage;
+import spaland.products.vo.ResponseProductImage;
 
 import java.util.List;
 
@@ -23,12 +24,12 @@ public class ProductImageController {
     }
 
     @GetMapping("/{productImageId}")
-    public ProductImage getProductImage(@PathVariable Long productImageId) {
+    public ResponseProductImage getProductImage(@PathVariable Long productImageId) {
         return iProductImageService.getProductImage(productImageId);
     }
 
     @GetMapping("/all")
-    public List<ProductImage> getAllProductImage() {
+    public List<ResponseProductImage> getAllProductImage() {
         return iProductImageService.getAllProductImage();
     }
 }

@@ -25,20 +25,20 @@ public class ProductCategoryListController {
     }
 
     @GetMapping("/category/large/{categoryLargeId}")
-    public List<Product> getByCategoryLargeId(@PathVariable Integer categoryLargeId) {
+    public List<ResponseProduct> getByCategoryLargeId(@PathVariable Integer categoryLargeId) {
         return iProductCategoryListService.getByCategoryLargeId(categoryLargeId);
     }
     @GetMapping("/category/middle/{categoryMiddleId}")
-    public List<Product> getByCategoryMiddleId(@PathVariable Integer categoryMiddleId) {
+    public List<ResponseProduct> getByCategoryMiddleId(@PathVariable Integer categoryMiddleId) {
         return iProductCategoryListService.getByCategoryMiddleId(categoryMiddleId);
     }
     @GetMapping("/category/option/{optionId}")
-    public List<Product> getByOptionId(@PathVariable Integer optionId) {
+    public List<ResponseProduct> getByOptionId(@PathVariable Integer optionId) {
         return iProductCategoryListService.getByProductOptionId(optionId);
     }
-//    @GetMapping("/category/event/{eventId}")
-//    public List<Product> getByEventId(@PathVariable Integer eventId) {
-//        return iProductCategoryListService.getByEventId(eventId);
-//    }
+    @GetMapping("/category/event/{eventId}")
+    public List<ResponseProduct> getByEventId(@PathVariable Integer eventId) {
+        return iProductCategoryListService.getByEventId(eventId);
+    }
 
 }
