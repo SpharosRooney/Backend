@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class CartServiceImple implements ICartService{
+public class CartServiceImple implements ICartService {
     private final ICartRepository iCartRepository;
     private final IProductRepository iProductRepository;
     private final IUserRepository iUserRepository;
@@ -27,32 +27,41 @@ public class CartServiceImple implements ICartService{
 
     @Override
     public Cart addCart(RequestCart requestCart) {
-        Cart cart = iCartRepository.save(Cart.builder()
+        List<Cart> carts = iCartRepository.findAllByUserId(requestCart.getUserId());
+        List<ResponseGetUserCart> responseGetUserCarts = getAllByUserCart(requestCart.getUserId(), Boolean.FALSE);
+        for (int i = 0; i < responseGetUserCarts.size(); i++) {
+            if (responseGetUserCarts.get(i).getProductId().equals(requestCart.getProductId())) {
+                carts.get(i).setProductAmount(carts.get(i).getProductAmount() + requestCart.getProductAmount());
+                return iCartRepository.save(carts.get(i));
+            } else {
+                Cart cart = iCartRepository.save(Cart.builder()
                         .user(iUserRepository.findById(requestCart.getUserId()).get())
                         .product(iProductRepository.findById(requestCart.getProductId()).get())
                         .productAmount(requestCart.getProductAmount())
-                .build()
-        );
-        cart.setIsDelete(false);
-        iCartRepository.save(cart);
-        log.info("{}", cart.toString());
-        return cart; //리스트 보이게
+                        .build()
+                );
+                cart.setIsDelete(false);
+                return iCartRepository.save(cart);
+            }
+        }
+        return null;
     }
 
 
-    @Override
-    public List<ResponseGetUserCart> getAllByUser(Long userId) {
-        List<Cart> cart = iCartRepository.findAllByUserId(userId);
-        List<ResponseGetUserCart> responseGetUserCarts = new ArrayList<>();
-        cart.forEach(
-                userCart -> {
-                    responseGetUserCarts.add(
-                            modelMapper.map(userCart, ResponseGetUserCart.class)
-                    );
-                }
-        );
-        return responseGetUserCarts;
-    }
+
+//    @Override
+//    public List<ResponseGetUserCart> getAllByUser(Long userId) {
+//        List<Cart> cart = iCartRepository.findAllByUserId(userId);
+//        List<ResponseGetUserCart> responseGetUserCarts = new ArrayList<>();
+//        cart.forEach(
+//                userCart -> {
+//                    responseGetUserCarts.add(
+//                            modelMapper.map(userCart, ResponseGetUserCart.class)
+//                    );
+//                }
+//        );
+//        return responseGetUserCarts;
+//    }
 
     @Override
     public List<ResponseGetUserCart> getAllByUserCart(Long userId, Boolean isDelete) {
