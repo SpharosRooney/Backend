@@ -21,34 +21,36 @@ public class CartController {
 
 
     @PostMapping()
-    public void addCart(@RequestBody RequestCart requestCart){
-        iCartService.addCart(requestCart);
+    public void addCart(Authentication authentication, @RequestBody RequestCart requestCart){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        iCartService.addCart(requestCart, userDetails.getUsername());
     }
 
 
-    @GetMapping("/{userId}") //유저의 장바구니를 볼 수 있음(isDelete = false)
+    @GetMapping() //유저의 장바구니를 볼 수 있음(isDelete = false)
     public ResponseEntity<List<ResponseGetUserCart>> getAllByUserCart(Authentication authentication, @RequestParam Boolean isDelete){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return ResponseEntity.ok(iCartService.getAllByUserCart(userDetails.getUsername(), false));
     }
 
-//    @GetMapping("/cartHistory")//유저가 가진 장바구니 + 삭제한 장바구니 상품
+    @PutMapping("/modify") //장바구니 상품 수량 수정을 위한 메서드
+    public void modifyCart(Authentication authentication,@RequestBody RequestCartCount requestCartCount){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        iCartService.modifyCart(requestCartCount, userDetails.getUsername());
+    }
+
+    @PutMapping() //장바구니 상품 삭제(true,false값으로 나타냄)
+    public void deleteProduct(Authentication authentication,@RequestBody RequestDeleteCart requestDeleteCart){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        iCartService.deleteProduct(requestDeleteCart, userDetails.getUsername());
+    }
+
+    //    @GetMapping("/cartHistory")//유저가 가진 장바구니 + 삭제한 장바구니 상품
 //    public ResponseEntity<List<ResponseGetUserCart>> getAllByUser(@PathVariable Long userId){
 //        return ResponseEntity.ok(
 //                iCartService.getAllByUser(userId)
 //        );
 //    }
-
-
-    @PutMapping("/modify") //장바구니 상품 수량 수정을 위한 메서드
-    public void modifyCart(@RequestBody RequestCartCount requestCartCount){
-        iCartService.modifyCart(requestCartCount);
-    }
-
-    @PutMapping() //장바구니 상품 삭제(true,false값으로 나타냄)
-    public void deleteProduct(@RequestBody RequestDeleteCart requestDeleteCart){
-        iCartService.deleteProduct(requestDeleteCart);
-    }
 
 
 }

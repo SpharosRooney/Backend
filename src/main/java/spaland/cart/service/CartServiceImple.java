@@ -15,6 +15,7 @@ import spaland.users.repository.IUserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -27,42 +28,27 @@ public class CartServiceImple implements ICartService {
     ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public Cart addCart(RequestCart requestCart) {
-        List<Cart> carts = iCartRepository.findAllByUserId(requestCart.getUserId());
-        List<ResponseGetUserCart> responseGetUserCarts = getAllByUserCart(requestCart.getUserId(), Boolean.FALSE);
-        for (int i = 0; i < responseGetUserCarts.size(); i++) {
-            if (responseGetUserCarts.get(i).getProductId().equals(requestCart.getProductId())) {
-                carts.get(i).setProductAmount(carts.get(i).getProductAmount() + requestCart.getProductAmount());
-                return iCartRepository.save(carts.get(i));
-            } else {
-                Cart cart = iCartRepository.save(Cart.builder()
-                        .user(iUserRepository.findById(requestCart.getUserId()).get())
-                        .product(iProductRepository.findById(requestCart.getProductId()).get())
-                        .productAmount(requestCart.getProductAmount())
-                        .build()
-                );
-                cart.setIsDelete(false);
-                return iCartRepository.save(cart);
-            }
+    public Cart addCart(RequestCart requestCart,String userEmail) {
+        User user = iUserRepository.findByUserEmail(userEmail).orElseThrow(() -> new RuntimeException());
+        Product product = iProductRepository.findById(requestCart.getProductId()).orElseThrow(() -> new RuntimeException());
+        Optional<Cart> cartOptional = iCartRepository.findByUserIdAndIsDeleteAndProductId(user.getId(), Boolean.FALSE, requestCart.getProductId());
+
+        Cart cart;
+        if(cartOptional.isPresent()) {
+            cart = cartOptional.get();
+            cart.setProductAmount(cart.getProductAmount() + requestCart.getProductAmount());
+        } else {
+            cart = iCartRepository.save(Cart.builder()
+                    .user(user)
+                    .product(product)
+                    .productAmount(requestCart.getProductAmount())
+                    .isDelete(Boolean.FALSE)
+                    .build()
+            );
         }
-        return null;
+        return iCartRepository.save(cart);
     }
 
-
-
-//    @Override
-//    public List<ResponseGetUserCart> getAllByUser(Long userId) {
-//        List<Cart> cart = iCartRepository.findAllByUserId(userId);
-//        List<ResponseGetUserCart> responseGetUserCarts = new ArrayList<>();
-//        cart.forEach(
-//                userCart -> {
-//                    responseGetUserCarts.add(
-//                            modelMapper.map(userCart, ResponseGetUserCart.class)
-//                    );
-//                }
-//        );
-//        return responseGetUserCarts;
-//    }
 
     @Override
     public List<ResponseGetUserCart> getAllByUserCart(String userEmail, Boolean isDelete) {
@@ -79,20 +65,32 @@ public class CartServiceImple implements ICartService {
 
 
     @Override
-    public void modifyCart(RequestCartCount requestCartCount) {
+    public void modifyCart(RequestCartCount requestCartCount,String userEmail) {
         Cart cart = iCartRepository.findById(requestCartCount.getId()).get();
         cart.setProductAmount(cart.getProductAmount() + requestCartCount.getProductAmount());
         iCartRepository.save(cart);
     }
 
     @Override
-    public void deleteProduct(RequestDeleteCart requestDeleteCart) {
+    public void deleteProduct(RequestDeleteCart requestDeleteCart,String userEmail) {
         Cart cart = iCartRepository.findById(requestDeleteCart.getId()).get();
         cart.setIsDelete(true);
         iCartRepository.save(cart);
     }
 
-
+//    @Override
+//    public List<ResponseGetUserCart> getAllByUser(Long userId) {
+//        List<Cart> cart = iCartRepository.findAllByUserId(userId);
+//        List<ResponseGetUserCart> responseGetUserCarts = new ArrayList<>();
+//        cart.forEach(
+//                userCart -> {
+//                    responseGetUserCarts.add(
+//                            modelMapper.map(userCart, ResponseGetUserCart.class)
+//                    );
+//                }
+//        );
+//        return responseGetUserCarts;
+//    }
 
 
 }

@@ -3,7 +3,6 @@ package spaland.products.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-<<<<<<< HEAD
 
 import org.springframework.stereotype.Service;
 import spaland.products.model.ProductImage;
@@ -14,14 +13,6 @@ import spaland.products.repository.IProductImageListRepository;
 
 import spaland.products.repository.IProductRepository;
 
-=======
-import org.springframework.stereotype.Service;
-import spaland.products.model.ProductImage;
-import spaland.products.model.ProductImageList;
-import spaland.products.model.Product;
-import spaland.products.repository.IProductImageListRepository;
-import spaland.products.repository.IProductRepository;
->>>>>>> b728447729d90fc3ea7cafc63d1634bb95b84e00
 import spaland.products.vo.RequestProduct;
 import spaland.products.vo.ResponseProduct;
 import java.util.ArrayList;
