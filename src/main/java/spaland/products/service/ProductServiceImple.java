@@ -10,7 +10,7 @@ import spaland.products.model.ProductImageList;
 
 import spaland.products.model.Product;
 import spaland.products.repository.IProductImageListRepository;
-
+import spaland.products.repository.IProductImageRepository;
 import spaland.products.repository.IProductRepository;
 
 import spaland.products.vo.RequestProduct;

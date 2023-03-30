@@ -3,7 +3,8 @@ package spaland.history.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import spaland.history.model.History;
+import spaland.history.dto.ResponseHistoryDTO;
+import spaland.history.dto.ResponseHistoryDetailDTO;
 import spaland.history.service.IHistoryService;
 import spaland.history.vo.RequestHistory;
 
@@ -17,17 +18,18 @@ public class HistoryController {
 
     private final IHistoryService iHistoryService;
 
-    @PostMapping("/add")
+    @PostMapping
     public void addHistory(@RequestBody RequestHistory requestHistory) {
         iHistoryService.addHistory(requestHistory);
     }
 
+    // @todo 히스토리 아이디로 조회하기 위해서, 히스토리 전체를 받았을 때,
     @GetMapping("/get/{historyId}")
-    public History getHistory(@PathVariable Integer historyId) {
+    public ResponseHistoryDetailDTO getHistory(@PathVariable Integer historyId) {
         return iHistoryService.getHistory(historyId);
     }
 
-    @GetMapping("/get/all")
-    public List<History> getAll() { return iHistoryService.findAll();}
-
+    @GetMapping("/all/{userId}")
+    public List<ResponseHistoryDTO> getAllbyUserId(@PathVariable Long userId) {
+        return iHistoryService.findAll(userId);}
 }
