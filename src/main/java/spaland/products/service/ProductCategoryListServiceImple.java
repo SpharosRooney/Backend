@@ -3,6 +3,7 @@ package spaland.products.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import spaland.products.model.Product;
 import spaland.products.model.ProductCategoryList;
@@ -96,5 +97,15 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
                 });
 
         return responseProduct;
+    }
+
+    @Override
+    public List<Product> findAllByFilter(Specification<ProductCategoryList> spec) {
+        List<ProductCategoryList> all = iProductCategoryListRepository.findAll(spec);
+        List<Product> productList = new ArrayList<Product>();
+        for (ProductCategoryList iter : all) {
+            productList.add(iter.getProduct());
+        }
+        return productList;
     }
 }

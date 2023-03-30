@@ -7,13 +7,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import spaland.products.model.ProductImage;
 import spaland.products.model.ProductImageList;
-import spaland.products.model_v2.Filter;
 import spaland.products.model.Product;
 import spaland.products.repository.IProductImageListRepository;
 import spaland.products.repository.IProductImageRepository;
-import spaland.products.repository_v2.*;
 import spaland.products.repository.IProductRepository;
-import spaland.products.service_v2.IFilterServiceV2;
 import spaland.products.vo.RequestProduct;
 import spaland.products.vo.ResponseProduct;
 
