@@ -1,6 +1,7 @@
 package spaland.users.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +19,7 @@ import spaland.users.repository.IUserRepository;
 import static spaland.error.ErrorCode.MEMBER_INVALID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImple implements IUserService{
 
@@ -42,7 +44,8 @@ public class UserServiceImple implements IUserService{
 
     public LoginResponse login(LoginRequest loginRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginRequest.getUserEmail(), loginRequest.getPassword()));
+                iUserRepository.findByUserEmail(loginRequest.getUserEmail()).get().getUserId(), loginRequest.getPassword()
+        ));
 
         User user = iUserRepository.findByUserEmail(loginRequest.getUserEmail())
                 .orElseThrow(()-> new ApiException(MEMBER_INVALID));
