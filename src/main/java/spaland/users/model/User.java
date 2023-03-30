@@ -25,7 +25,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     private Long id;
     private String userId; //uuid
     @Column(nullable = false, length = 100)
-    private String userNickname; //uuid
+    private String userNickname;
     @Column(nullable = false)
     private String userEmail;
     @Column(nullable = false)
@@ -49,7 +49,7 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userEmail;
+        return userId;
     }
 
     @Override

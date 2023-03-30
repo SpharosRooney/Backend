@@ -27,9 +27,11 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
     ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress) {
+    public void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress, String userEmail) {
+        User user = iUserRepository.findByUserId(userEmail).orElseThrow(()-> new RuntimeException());
 
-        List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserId(requestAddUserShippingAddress.getUserId());
+        List<UserShippingAddress> userShippingAddressList =
+                iUserShippingAddressRepository.findAllByUserId(user.getId());
 
         if (userShippingAddressList.size() == 0) {
             requestAddUserShippingAddress.setIsUse(true); // 기존 배송지 없으면 지금 입력하는 배송지를 기본 배송지로 해주는데
@@ -44,7 +46,7 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
 
         iUserShippingAddressRepository.save(
                 UserShippingAddress.builder()
-                        .user(iUserRepository.findById(requestAddUserShippingAddress.getUserId()).get())
+                        .user(iUserRepository.findById(user.getId()).get())
                         .address(requestAddUserShippingAddress.getAddress())
                         .detailAddress(requestAddUserShippingAddress.getDetailAddress())
                         .shippingPhone(requestAddUserShippingAddress.getShippingPhone())
@@ -55,9 +57,9 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
     }
 
     @Override
-    public void updateShippingAddressByUser(RequestEditUserShippingAddress requestEditUserShippingAddress) {
-
-        UserShippingAddress userShippingAddress = iUserShippingAddressRepository.findById(requestEditUserShippingAddress.getId()).get();
+    public void updateShippingAddressByUser(RequestEditUserShippingAddress requestEditUserShippingAddress, String userEmail) {
+        User user = iUserRepository.findByUserId(userEmail).orElseThrow(()->new RuntimeException());
+        UserShippingAddress userShippingAddress = iUserShippingAddressRepository.findById(user.getId()).get();
 
         if (requestEditUserShippingAddress.getIsUse() == true) {
             List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserId(userShippingAddress.getUser().getId());
@@ -81,17 +83,10 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
         iUserShippingAddressRepository.save(userShippingAddress);
     }
 
-//    @Override
-//    public ResponseUserShippingAddress getShippingAddress(Long userShippingId) {
-//        UserShippingAddress userShippingAddress = iUserShippingAddressRepository.findById(userShippingId).get();
-//
-//        return modelMapper.map(userShippingAddress, ResponseUserShippingAddress.class);
-//    }
-
     @Override
-    public List<ResponseUserShippingAddress> getAllByUser(Long userId) {
-
-        List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserId(userId);
+    public List<ResponseUserShippingAddress> getAllByUser(String userEmail) {
+        User user = iUserRepository.findByUserId(userEmail).orElseThrow(()->new RuntimeException());
+        List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserId(user.getId());
         List<ResponseUserShippingAddress> responseUserShippingAddresses = new ArrayList<>();
 
         userShippingAddressList.forEach(
@@ -106,9 +101,9 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
     }
 
     @Override
-    public List<ResponseUserShippingAddress> getAllByIsUseByUser(Long userId, Boolean isUse) {
-
-        List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserIdAndIsUse(userId, isUse);
+    public List<ResponseUserShippingAddress> getAllByIsUseByUser(String userEmail, Boolean isUse) {
+        User user = iUserRepository.findByUserId(userEmail).orElseThrow(()->new RuntimeException());
+        List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserIdAndIsUse(user.getId(), isUse);
         List<ResponseUserShippingAddress> responseUserShippingAddresses = new ArrayList<>();
 
         for (int i = 0; i < userShippingAddressList.size(); i++) {
@@ -116,5 +111,6 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
         }
 
         return responseUserShippingAddresses;
+
     }
 }

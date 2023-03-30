@@ -29,7 +29,7 @@ public class CartServiceImple implements ICartService {
 
     @Override
     public Cart addCart(RequestCart requestCart,String userEmail) {
-        User user = iUserRepository.findByUserEmail(userEmail).orElseThrow(() -> new RuntimeException());
+        User user = iUserRepository.findByUserId(userEmail).orElseThrow(() -> new RuntimeException());
         Product product = iProductRepository.findById(requestCart.getProductId()).orElseThrow(() -> new RuntimeException());
         Optional<Cart> cartOptional = iCartRepository.findByUserIdAndIsDeleteAndProductId(user.getId(), Boolean.FALSE, requestCart.getProductId());
 
@@ -52,7 +52,7 @@ public class CartServiceImple implements ICartService {
 
     @Override
     public List<ResponseGetUserCart> getAllByUserCart(String userEmail, Boolean isDelete) {
-        User user = iUserRepository.findByUserEmail(userEmail).orElseThrow(()->new RuntimeException());
+        User user = iUserRepository.findByUserId(userEmail).orElseThrow(()->new RuntimeException());
         List<Cart> carts = iCartRepository.findAllByUserIdAndIsDelete(user.getId(), isDelete);
         List<ResponseGetUserCart> responseGetUserCarts = new ArrayList<>();
         for(int i = 0; i < carts.size(); i++){
@@ -67,8 +67,11 @@ public class CartServiceImple implements ICartService {
     @Override
     public void modifyCart(RequestCartCount requestCartCount,String userEmail) {
         Cart cart = iCartRepository.findById(requestCartCount.getId()).get();
-        cart.setProductAmount(cart.getProductAmount() + requestCartCount.getProductAmount());
-        iCartRepository.save(cart);
+        Optional<Cart> cartOptional = iCartRepository.findByIdAndIsDelete(cart.getId(), Boolean.FALSE);
+        if (cartOptional.isPresent()){
+            cart.setProductAmount(cart.getProductAmount() + requestCartCount.getProductAmount());
+            iCartRepository.save(cart);
+        }
     }
 
     @Override

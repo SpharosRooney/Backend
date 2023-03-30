@@ -17,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartController {
     private final ICartService iCartService;
-    private final IProductService iProductService;
 
 
     @PostMapping()
