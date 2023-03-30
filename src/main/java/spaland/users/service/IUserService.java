@@ -10,7 +10,7 @@ public interface IUserService {
     User singup(SignupRequest signupRequest);
     ResponseUser getUser(Long id);
     LoginResponse login(LoginRequest loginRequest);
-    LogoutResponse logout(LogoutRequest logoutRequest);
+    LogoutResponse logout(String access, String refresh);
 
     boolean checkDuplicateId(String userId);
 }

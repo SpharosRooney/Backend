@@ -72,44 +72,14 @@ public class UserController {
 
 
     @GetMapping("/logout")
-    public ResponseEntity<String> logout(@RequestHeader(value = "Authorization") String request,
-                                         @RequestBody LogoutRequest logoutRequest,
+    public void logout(@RequestHeader(value = "Authorization") String access,
                                          @RequestHeader(value = COOKIE_NAME) String refresh,
                                          HttpServletResponse httpServletResponse){
-
 
         Cookie refreshToken = new Cookie(COOKIE_NAME,refresh);
         refreshToken.setHttpOnly(true);
         refreshToken.setMaxAge(0);
         httpServletResponse.addCookie(refreshToken); //쿠키 삭제
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(logoutRequest.getUserEmail());
-
-        if (request == null || !request.startsWith("Bearer ")) {
-            return null;
-        }
-
-        String accessToken = request.substring(7);
-        if(Boolean.FALSE.equals(jwtService.isTokenValid(accessToken,userDetails))){
-            throw new RuntimeException("잘못된 요청 입니다");
-        }
-
-        Long expiration = jwtService.getExpiration(accessToken);
-        if(expiration > 0L) {
-            redisService.createBlacklistToken(accessToken, expiration);
-        } //accessToken은 블랙리스트에 넣음
-
-
-        String userEmail = redisService.getEmailByRefreshToken(refresh);
-        if(userEmail != null){
-            redisService.removeEmailByRefreshToken(refresh); //레디스 삭제
-
-        }
-        LogoutResponse logoutResponse = iUserService.logout(logoutRequest);
-
-        return ResponseEntity.ok().body( logoutResponse.getUserNickname()+ " 님 로그아웃 되었습니다");
+        iUserService.logout(access,refresh);
     }
-
-
-
 }
