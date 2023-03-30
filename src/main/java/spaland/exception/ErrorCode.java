@@ -25,6 +25,8 @@ public enum ErrorCode {
     DUPLICATE_EMAIL(CONFLICT, "이미 가입된 메일입니다"),
 
     /* users    */
+    INVALID_MEMBER_INFO(NOT_FOUND,"유저 정보가 일치하지 않습니다."),
+    INVALID_MEMBER(NOT_FOUND,"등록되지 않은 유저입니다."),
 
 
     /* shipping */

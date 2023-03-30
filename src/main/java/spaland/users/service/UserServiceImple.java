@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import spaland.exception.CustomException;
 import spaland.users.vo.*;
 import spaland.config.JwtService;
 import spaland.email.service.RedisService;
@@ -16,6 +18,7 @@ import spaland.users.model.User;
 import spaland.users.repository.IUserRepository;
 
 import static spaland.error.ErrorCode.MEMBER_INVALID;
+import static spaland.exception.ErrorCode.INVALID_MEMBER;
 
 @Service
 @RequiredArgsConstructor
@@ -41,11 +44,16 @@ public class UserServiceImple implements IUserService{
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginRequest.getUserEmail(), loginRequest.getPassword()));
+
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    loginRequest.getUserEmail(), loginRequest.getPassword()));
+        } catch (AuthenticationException e) {
+            throw new CustomException(INVALID_MEMBER);
+        }
 
         User user = iUserRepository.findByUserEmail(loginRequest.getUserEmail())
-                .orElseThrow(()-> new ApiException(MEMBER_INVALID));
+                .orElseThrow(()-> new CustomException(INVALID_MEMBER));
 
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.refreshToken(jwtToken);
@@ -68,7 +76,8 @@ public class UserServiceImple implements IUserService{
 
     @Override
     public ResponseUser getUser(Long id) {
-        User user = iUserRepository.findById(id).get();
+
+        User user = iUserRepository.findById(id).orElseThrow(()->new CustomException(INVALID_MEMBER));
 
         return new ModelMapper().map(user, ResponseUser.class);
     }
