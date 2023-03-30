@@ -25,11 +25,11 @@ public class HistoryController {
 
     // @todo 히스토리 아이디로 조회하기 위해서, 히스토리 전체를 받았을 때,
     @GetMapping("/get/{historyId}")
-    public ResponseHistoryDetailDTO getHistory(@PathVariable Integer historyId) {
+    public ResponseHistoryDetailDTO getHistory(@PathVariable(value = "historyId") Integer historyId) {
         return iHistoryService.getHistory(historyId);
     }
 
     @GetMapping("/all/{userId}")
-    public List<ResponseHistoryDTO> getAllbyUserId(@PathVariable Long userId) {
+    public List<ResponseHistoryDTO> getAllbyUserId(@PathVariable(value = "userId") Long userId) {
         return iHistoryService.findAll(userId);}
 }

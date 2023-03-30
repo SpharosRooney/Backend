@@ -24,7 +24,7 @@ public class CategoryMiddleController {
  }
 
     @GetMapping("/{categoryMiddleId}")
-    public ResponseCategoryMiddle getCategoryMiddle(@PathVariable Integer categoryMiddleId) {
+    public ResponseCategoryMiddle getCategoryMiddle(@PathVariable(value = "categoryMiddleId") Integer categoryMiddleId) {
         return iCategoryMiddleService.getCategoryMiddle(categoryMiddleId);
     }
 
