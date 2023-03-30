@@ -30,7 +30,7 @@ public class ProductController {
     }
 
     @GetMapping("/get/{productId}")
-    public ResponseProduct getProduct(@PathVariable Long productId) {
+    public ResponseProduct getProduct(@PathVariable(value = "productId") Long productId) {
         return iProductService.getProduct(productId);
     }
 

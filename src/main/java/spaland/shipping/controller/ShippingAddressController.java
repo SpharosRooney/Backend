@@ -3,6 +3,8 @@ package spaland.shipping.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import spaland.shipping.model.UserShippingAddress;
 import spaland.shipping.service.IUserShippingAddressService;
@@ -22,28 +24,32 @@ public class ShippingAddressController {
 
     //@todo  RequestAddUserShippingAddress 필드 값으로 isUse가 필요하나요?
     @PostMapping
-    public void addUserShippingAddress( @RequestBody RequestAddUserShippingAddress requestAddUserShippingAddress){
+    public void addUserShippingAddress(Authentication authentication, @RequestBody RequestAddUserShippingAddress requestAddUserShippingAddress){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         log.info("add shipping address : {}", requestAddUserShippingAddress);
-        iUserShippingAddressService.addShippingAddressByUser(requestAddUserShippingAddress);
+        iUserShippingAddressService.addShippingAddressByUser(requestAddUserShippingAddress,userDetails.getUsername());
     }
 
     @PutMapping
-    public void editUserShippingAddress(@RequestBody RequestEditUserShippingAddress requestEditUserShippingAddress){
+    public void editUserShippingAddress(Authentication authentication, @RequestBody RequestEditUserShippingAddress requestEditUserShippingAddress){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         log.info("add shipping address : {}", requestEditUserShippingAddress);
-        iUserShippingAddressService.updateShippingAddressByUser(requestEditUserShippingAddress);
+        iUserShippingAddressService.updateShippingAddressByUser(requestEditUserShippingAddress,userDetails.getUsername());
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<ResponseUserShippingAddress>> getAllByUser(@PathVariable Long userId){
+    @GetMapping()
+    public ResponseEntity<List<ResponseUserShippingAddress>> getAllByUser(Authentication authentication){
+        UserDetails userDetails =(UserDetails) authentication.getPrincipal();
         return ResponseEntity.ok(
-                iUserShippingAddressService.getAllByUser(userId)
+                iUserShippingAddressService.getAllByUser(userDetails.getUsername())
         );
     }
 
     @GetMapping("/isUse")
-    public ResponseEntity<List<ResponseUserShippingAddress>> getAllByUserAndIsUse(@RequestParam Long userId, Boolean isUse){
+    public ResponseEntity<List<ResponseUserShippingAddress>> getAllByUserAndIsUse(Authentication authentication, @RequestParam Boolean isUse){
+        UserDetails userDetails =(UserDetails) authentication.getPrincipal();
         return ResponseEntity.ok(
-                iUserShippingAddressService.getAllByIsUseByUser(userId, isUse)
+                iUserShippingAddressService.getAllByIsUseByUser(userDetails.getUsername(), isUse)
         );
     }
 }

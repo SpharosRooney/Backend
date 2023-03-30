@@ -13,6 +13,9 @@ public interface ICartRepository extends JpaRepository<Cart, Long> {
     List<Cart> findAllByUserId(Long userId);
     Optional<Cart> findByUserIdAndIsDeleteAndProductId(Long userId, Boolean isDelete, Long productId);
 
+
+    Optional<Cart> findByIdAndIsDelete(Long id, Boolean isDelete);
+
     List<Cart> findAllByUserIdAndIsDelete(Long userId, Boolean isDelete);
 
 }

@@ -17,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartController {
     private final ICartService iCartService;
-    private final IProductService iProductService;
 
 
     @PostMapping()
@@ -28,7 +27,7 @@ public class CartController {
 
 
     @GetMapping() //유저의 장바구니를 볼 수 있음(isDelete = false)
-    public ResponseEntity<List<ResponseGetUserCart>> getAllByUserCart(Authentication authentication, @RequestParam Boolean isDelete){
+    public ResponseEntity<List<ResponseGetUserCart>> getAllByUserCart(Authentication authentication, @RequestParam(value = "isDelete") Boolean isDelete){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return ResponseEntity.ok(iCartService.getAllByUserCart(userDetails.getUsername(), false));
     }

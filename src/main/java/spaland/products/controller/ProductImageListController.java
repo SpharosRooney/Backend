@@ -27,12 +27,12 @@ public class ProductImageListController {
     이 메서드의 경우 response를 만들어야하는지?
      */
     @GetMapping("/{productImageListId}")
-    public ProductImageList getProductImageList(@PathVariable Long productImageListId) {
+    public ProductImageList getProductImageList(@PathVariable(value = "productImageListId") Long productImageListId) {
         return iProductImageListService.getProductImageList(productImageListId);
     }
 
     @GetMapping("/all/{productId}")
-    public List<ResponseProductImageList> getProductImageListByProductId(@PathVariable Long productId) {
+    public List<ResponseProductImageList> getProductImageListByProductId(@PathVariable(value = "productId") Long productId) {
         return iProductImageListService.getProductImageListByProductId(productId);
     }
 

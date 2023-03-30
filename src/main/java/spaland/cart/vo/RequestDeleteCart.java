@@ -11,5 +11,5 @@ import java.util.List;
 public class RequestDeleteCart {
 
     private Long id;
-    private Boolean isDelete;
+
 }
