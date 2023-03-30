@@ -1,35 +1,27 @@
 package spaland.history.vo;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import spaland.users.model.User;
 
 @Data
-@Getter
-@Setter
 public class RequestHistory {
-    @Column(nullable = false)
-    private String name; // 살품명
 
     @Column(nullable = false)
-    private Integer productId; // 상품 일련 번호
+    private Long userId;
 
     @Column(nullable = false)
-    private String purchaseType; // 주문 유형
+    private Long productId;
 
     @Column(nullable = false)
-    private String paymentType; // 결제 수단
-
-    private String couponName;
+    private Long userShippingAddress;
 
     @Column(nullable = false)
-    private Integer totalPay; // 결제 금액
+    private Integer amount;
 
     @Column(nullable = false)
-    private String recipient; // 수령인
-
-    @Column(nullable = false)
-    private String currentState; // 주문 상태
-
+    private String paymentType;
 }

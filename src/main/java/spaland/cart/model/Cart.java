@@ -14,7 +14,6 @@ import jakarta.persistence.*;
 @Getter
 @Setter
 @Builder
-//@DynamicInsert
 public class Cart extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

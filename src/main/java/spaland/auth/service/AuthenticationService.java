@@ -44,6 +44,5 @@ public class AuthenticationService {
                 .token(jwtAToken)
                 .refreshToken(jwtRToken)
                 .build();
-
     }
 }
