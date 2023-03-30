@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface IUserShippingAddressService {
 
-    void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress);
-    void updateShippingAddressByUser(RequestEditUserShippingAddress requestEditUserShippingAddress);
+    void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress,String userEmail);
+    void updateShippingAddressByUser(RequestEditUserShippingAddress requestEditUserShippingAddress,String userEmail);
 //    ResponseUserShippingAddress getShippingAddress(Long userShippingId);
-    List<ResponseUserShippingAddress> getAllByUser(Long userId);
-    List<ResponseUserShippingAddress> getAllByIsUseByUser(Long userId, Boolean isUse);
+    List<ResponseUserShippingAddress> getAllByUser(String userEmail);
+    List<ResponseUserShippingAddress> getAllByIsUseByUser(String userEmail, Boolean isUse);
 
 }

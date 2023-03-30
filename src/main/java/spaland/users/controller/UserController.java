@@ -40,7 +40,7 @@ public class UserController {
     @PostMapping("/signup")
     public void signup(
             @RequestBody SignupRequest signupRequest) {
-        userServiceImple.singup(signupRequest);
+        iUserService.singup(signupRequest);
     }
 
 
@@ -59,7 +59,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(
             @RequestBody @Valid LoginRequest loginRequest) {
-        LoginResponse loginResponse = userServiceImple.login(loginRequest);
+        LoginResponse loginResponse = iUserService.login(loginRequest);
         ResponseCookie refreshTokenCookie = cookieUtil.createCookie("refresh_token", loginResponse.getRefreshToken());
 
         HttpHeaders headers = new HttpHeaders();
@@ -105,7 +105,7 @@ public class UserController {
             redisService.removeEmailByRefreshToken(refresh); //레디스 삭제
 
         }
-        LogoutResponse logoutResponse = userServiceImple.logout(logoutRequest);
+        LogoutResponse logoutResponse = iUserService.logout(logoutRequest);
 
         return ResponseEntity.ok().body( logoutResponse.getUserNickname()+ " 님 로그아웃 되었습니다");
     }

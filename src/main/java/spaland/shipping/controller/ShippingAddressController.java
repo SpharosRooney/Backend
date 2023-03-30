@@ -3,6 +3,8 @@ package spaland.shipping.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import spaland.shipping.model.UserShippingAddress;
 import spaland.shipping.service.IUserShippingAddressService;
@@ -21,7 +23,8 @@ public class ShippingAddressController {
     private final IUserShippingAddressService iUserShippingAddressService;
 
     @PostMapping
-    public void addUserShippingAddress( @RequestBody RequestAddUserShippingAddress requestAddUserShippingAddress){
+    public void addUserShippingAddress(Authentication authentication, @RequestBody RequestAddUserShippingAddress requestAddUserShippingAddress){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         log.info("add shipping address : {}", requestAddUserShippingAddress);
         iUserShippingAddressService.addShippingAddressByUser(requestAddUserShippingAddress);
     }
