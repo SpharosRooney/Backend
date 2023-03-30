@@ -9,8 +9,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class RequestAddUserShippingAddress {
-    @Column(nullable = false)
-    private Long userId;
     private String zipCode;
     private String address;
     private String detailAddress;
