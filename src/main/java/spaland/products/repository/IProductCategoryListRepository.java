@@ -13,7 +13,4 @@ public interface IProductCategoryListRepository extends JpaRepository<ProductCat
     List<ProductCategoryList> findByCategoryMiddleId(Integer categoryMiddleId);
     List<ProductCategoryList> findByProductOptionId(Integer productOptionId);
     List<ProductCategoryList> findByEventId(Integer eventId);
-//    List<ProductCategoryList> findByOptionName(String optionName);
-//    List<ProductCategoryList> findByProductIdAndCategoryLargeIdAndCategoryMiddleIdAndProductOptionId(Long productId, Integer categoryLargeId, Integer categoryMiddleId, Integer productOptionId);
-
 }
