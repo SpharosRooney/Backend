@@ -10,8 +10,6 @@ import spaland.users.model.User;
 @Data
 public class RequestHistory {
 
-    @Column(nullable = false)
-    private Long userId;
 
     @Column(nullable = false)
     private Long productId;
