@@ -52,7 +52,6 @@ public class ProductServiceImple implements IProductService {
                 .productImageList(productImages)
                 .inventory(product.getInventory())
                 .id(product.getId())
-                .opt(product.getOpt())
                 .titleImg(product.getTitleImg())
                 .build();
     }

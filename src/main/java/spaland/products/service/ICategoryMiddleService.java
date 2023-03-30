@@ -11,6 +11,5 @@ public interface ICategoryMiddleService {
     void addCategory(RequestCategoryMiddle requestCategoryMiddle);
     ResponseCategoryMiddle getCategoryMiddle(Integer categoryMiddleId);
     List<ResponseCategoryMiddle> getAll();
-//    List<Category> getAllByType(String categoryType);
 
 }

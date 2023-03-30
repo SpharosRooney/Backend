@@ -11,7 +11,4 @@ public interface IProductService {
     void addProduct(RequestProduct requestProduct);
     ResponseProduct getProduct(Long productId);
     List<ResponseProduct> getAllProduct();
-
-//    Product purchase(Long productId, int productNum);
-    
 }
