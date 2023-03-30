@@ -1,5 +1,6 @@
 package spaland.users.vo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +18,5 @@ public class SignupRequest {
     private String password;
     private String phone;
 
-
 }
+

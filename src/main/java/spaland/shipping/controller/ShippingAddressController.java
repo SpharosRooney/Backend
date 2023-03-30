@@ -22,6 +22,7 @@ public class ShippingAddressController {
 
     private final IUserShippingAddressService iUserShippingAddressService;
 
+    //@todo  RequestAddUserShippingAddress 필드 값으로 isUse가 필요하나요?
     @PostMapping
     public void addUserShippingAddress(Authentication authentication, @RequestBody RequestAddUserShippingAddress requestAddUserShippingAddress){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();

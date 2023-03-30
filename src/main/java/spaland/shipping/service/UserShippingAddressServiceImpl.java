@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import spaland.exception.CustomException;
 import spaland.shipping.model.UserShippingAddress;
 import spaland.shipping.repository.IUserShippingAddressRepository;
 import spaland.shipping.vo.RequestAddUserShippingAddress;
@@ -16,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static spaland.exception.ErrorCode.INVALID_AUTH_TOKEN;
+import static spaland.exception.ErrorCode.INVALID_MEMBER;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -27,8 +31,9 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
     ModelMapper modelMapper = new ModelMapper();
 
     @Override
+
     public void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress, String userEmail) {
-        User user = iUserRepository.findByUserId(userEmail).orElseThrow(()-> new RuntimeException());
+        User user = iUserRepository.findByUserId(userEmail).orElseThrow(()-> new CustomException(INVALID_MEMBER));
 
         List<UserShippingAddress> userShippingAddressList =
                 iUserShippingAddressRepository.findAllByUserId(user.getId());

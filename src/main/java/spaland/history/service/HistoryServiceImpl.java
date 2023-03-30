@@ -2,6 +2,8 @@ package spaland.history.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import spaland.exception.CustomException;
+import spaland.exception.ErrorCode;
 import spaland.history.dto.ResponseHistoryDTO;
 import spaland.history.dto.ResponseHistoryDetailDTO;
 import spaland.history.model.History;
@@ -16,6 +18,9 @@ import spaland.users.repository.IUserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static spaland.exception.ErrorCode.TEST;
+
 
 @Service
 @RequiredArgsConstructor
@@ -109,6 +114,7 @@ public class HistoryServiceImpl implements IHistoryService{
 
     @Override
     public ResponseHistoryDetailDTO getHistory(Integer historyId, String userEmail) {
+        iHistoryRepository.findById(historyId).orElseThrow(() -> new CustomException(TEST));
         History history = iHistoryRepository.findById(historyId).get();
         Product product = iHistoryRepository.findById(historyId).get().getProduct();
         UserShippingAddress usa = iHistoryRepository.findById(historyId).get().getUserShippingAddress();
