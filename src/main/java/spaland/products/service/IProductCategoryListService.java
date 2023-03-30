@@ -1,5 +1,6 @@
 package spaland.products.service;
 
+import org.springframework.data.jpa.domain.Specification;
 import spaland.products.model.Product;
 import spaland.products.model.ProductCategoryList;
 import spaland.products.vo.RequestCategoryList;
@@ -16,4 +17,5 @@ public interface IProductCategoryListService {
     List<ResponseProduct> getByProductOptionId(Integer productOptionId);
     List<ResponseProduct> getByEventId(Integer eventId);
 
+    List<Product> findAllByFilter(Specification<ProductCategoryList> spec);
 }
