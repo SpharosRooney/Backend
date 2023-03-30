@@ -18,7 +18,7 @@ public class EmailController {
     private final IEmailService iEmailService;
 
     @GetMapping("/confirm/{email}")
-    public boolean createConfirmCodeByEmail(@PathVariable String email) throws Exception {
+    public boolean createConfirmCodeByEmail(@PathVariable(value = "email") String email) throws Exception {
 
         return iEmailService.sendConfirmCodeByEmail(email);
     }

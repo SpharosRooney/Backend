@@ -24,7 +24,7 @@ public class EventController {
     }
 
     @GetMapping("/{eventId}")
-    public ResponseEvent getEvent(@PathVariable("") Integer eventId) {
+    public ResponseEvent getEvent(@PathVariable(value = "eventId") Integer eventId) {
         return iEventService.getEvent(eventId);
     }
 

@@ -24,7 +24,7 @@ public class ProductImageController {
     }
 
     @GetMapping("/{productImageId}")
-    public ResponseProductImage getProductImage(@PathVariable Long productImageId) {
+    public ResponseProductImage getProductImage(@PathVariable(value = "productImageId") Long productImageId) {
         return iProductImageService.getProductImage(productImageId);
     }
 

@@ -29,7 +29,7 @@ public class HistoryController {
 
     //히스토리 아이디로 조회하기 위해서, 히스토리 전체를 받았을 때,
     @GetMapping("/{historyId}")
-    public ResponseHistoryDetailDTO getHistory(Authentication authentication, @PathVariable Integer historyId) {
+    public ResponseHistoryDetailDTO getHistory(Authentication authentication, @PathVariable(value = "historyId") Integer historyId) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return iHistoryService.getHistory(historyId, userDetails.getUsername());
     }
@@ -39,4 +39,5 @@ public class HistoryController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return iHistoryService.findAll(userDetails.getUsername());
     }
+
 }
