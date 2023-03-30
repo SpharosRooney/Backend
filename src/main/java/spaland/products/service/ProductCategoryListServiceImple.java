@@ -42,12 +42,6 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
     }
 
     @Override
-    public List<ProductCategoryList> getByProductId(Long productId) {
-        List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByProductId(productId);
-        return productCategoryLists;
-    }
-
-    @Override
     public List<ResponseProduct> getByCategoryLargeId(Integer categoryLargeId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByCategoryLargeId(categoryLargeId);
         List<ResponseProduct> responseProduct = new ArrayList<>();

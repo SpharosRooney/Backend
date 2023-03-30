@@ -12,6 +12,5 @@ public interface ICategoryLargeService {
     void addCategory(RequestCategoryLarge requestCategoryLarge);
     ResponseCategoryLarge getCategoryLarge(Integer categoryLargeId);
     List<ResponseCategoryLarge> getAll();
-//    List<Category> getAllByType(String categoryType);
 
 }
