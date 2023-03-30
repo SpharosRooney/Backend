@@ -45,7 +45,7 @@ public class UserController {
 
 
     @GetMapping("/get/{id}")
-    public ResponseUser getUser(@PathVariable Long id){
+    public ResponseUser getUser(@PathVariable(value = "id") Long id){
         log.info("input id ? {}",id);
         return iUserService.getUser(id);
     }

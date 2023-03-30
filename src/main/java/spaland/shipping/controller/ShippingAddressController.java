@@ -33,7 +33,7 @@ public class ShippingAddressController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<ResponseUserShippingAddress>> getAllByUser(@PathVariable Long userId){
+    public ResponseEntity<List<ResponseUserShippingAddress>> getAllByUser(@PathVariable(value = "userId") Long userId){
         return ResponseEntity.ok(
                 iUserShippingAddressService.getAllByUser(userId)
         );

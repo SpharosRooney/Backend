@@ -23,7 +23,7 @@ public class CategoryLargeController {
  }
 
     @GetMapping("/{categoryLargeId}")
-    public ResponseCategoryLarge getCategoryLarge(@PathVariable() Integer categoryLargeId) {
+    public ResponseCategoryLarge getCategoryLarge(@PathVariable(value = "categoryLargeId") Integer categoryLargeId) {
         return iCategoryLargeService.getCategoryLarge(categoryLargeId);
     }
 
