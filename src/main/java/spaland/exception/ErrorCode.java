@@ -20,7 +20,7 @@ public enum ErrorCode {
     */
 
     /* email    */
-    DIFFERENT_CONFIRM_KEY(NOT_FOUND,"인증번호 미일치"),
+    DIFFERENT_CONFIRM_KEY(NOT_FOUND,"인증번호가 일치하지 않습니다."),
     NULL_MAIL_ADMIN(NOT_FOUND, "인증번호 관리자가 등록되지 않았습니다."),
     DUPLICATE_EMAIL(CONFLICT, "이미 가입된 메일입니다"),
 
@@ -28,8 +28,8 @@ public enum ErrorCode {
     INVALID_MEMBER_INFO(NOT_FOUND,"유저 정보가 일치하지 않습니다."),
     INVALID_MEMBER(NOT_FOUND,"등록되지 않은 유저입니다."),
 
-
     /* shipping */
+    INVALID_MEMBER_SHIPPING(NOT_FOUND,"유효하지 않은 접근입니다."),
 
     /* products */
 

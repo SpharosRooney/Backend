@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import spaland.exception.CustomException;
 import spaland.shipping.model.UserShippingAddress;
 import spaland.shipping.repository.IUserShippingAddressRepository;
 import spaland.shipping.vo.RequestAddUserShippingAddress;
@@ -15,6 +16,8 @@ import spaland.users.repository.IUserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static spaland.exception.ErrorCode.INVALID_MEMBER_SHIPPING;
 
 @Service
 @Slf4j
@@ -28,7 +31,7 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
 
     @Override
     public void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress) {
-
+        iUserRepository.findById(requestAddUserShippingAddress.getUserId()).orElseThrow(()->new CustomException(INVALID_MEMBER_SHIPPING));
         List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserId(requestAddUserShippingAddress.getUserId());
 
         if (userShippingAddressList.size() == 0) {
