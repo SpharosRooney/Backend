@@ -38,11 +38,6 @@ public class ProductController {
     public List<ResponseProduct> getAlLProduct() {
         return iProductService.getAllProduct();
     }
-//
-//    @GetMapping("/purchase/{productId}/{productNum}") // 상품 구매 전 화면.
-//    public Product purchase(@PathVariable Long productId, @PathVariable int productNum) {
-//        return iProductService.purchase(productId,productNum);
-//    }
 
     @GetMapping("/get") // 나중에 add get 이런거 다 제거?
     public List<Product> findAllProduct(
