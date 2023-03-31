@@ -60,11 +60,11 @@ public class UserController {
     public ResponseEntity<?> login(
             @RequestBody @Valid LoginRequest loginRequest) {
         LoginResponse loginResponse = iUserService.login(loginRequest);
-        ResponseCookie refreshTokenCookie = cookieUtil.createCookie("refresh_token", loginResponse.getRefreshToken());
+        ResponseCookie refreshTokenCookie = cookieUtil.createCookie(COOKIE_NAME, loginResponse.getRefreshToken());
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + loginResponse.getToken());
-        headers.add(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
+//        headers.add(HttpHeaders.COOKIE, refreshTokenCookie.toString());
 
         return ResponseEntity.ok().headers(headers).body(loginResponse.getUserNickname());
 

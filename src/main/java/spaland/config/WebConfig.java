@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                 .allowedHeaders("*")
                 .exposedHeaders("*")
-                .allowedOrigins("http://localhost:8080","http://localhost:3000","http://10.10.10.67:3000","http://10.10.10.75:3000");
+                .allowedOriginPatterns("*");
     }
 
 //    public CorsConfigurationSource addCorsMappings() {
