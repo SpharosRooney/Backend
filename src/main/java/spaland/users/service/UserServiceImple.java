@@ -70,7 +70,7 @@ public class UserServiceImple implements IUserService{
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.refreshToken(jwtToken);
 
-        redis.createEmailByRefreshToken(refreshToken, user.getUserId());
+//        redis.createEmailByRefreshToken(refreshToken, user.getUserId());
         return LoginResponse.builder()
                 .token(jwtToken)
                 .refreshToken(refreshToken)
@@ -78,34 +78,31 @@ public class UserServiceImple implements IUserService{
                 .build();
     }
 
-    public LogoutResponse logout(String access, String refresh){
+    public void logout(String access){
 
         if (access == null || !access.startsWith("Bearer ")) {
-            return null;
+            //todo 잘못된 토큰
         }
 
         String accessToken = access.substring(7);
         User user = iUserRepository.findByUserId(jwtService.extractUsername(accessToken)).get();
 
         if(Boolean.FALSE.equals(jwtService.isTokenValid(accessToken,user))){
-            throw new RuntimeException("잘못된 요청 입니다");
+            throw new RuntimeException("잘못된 요청 입니다"); //todo 토큰 유효x
         }
 
         Long expiration = jwtService.getExpiration(accessToken);
         if(expiration > 0L) {
             redis.createBlacklistToken(accessToken, expiration);
         } //accessToken은 블랙리스트에 넣음
+//
+//        String refresh = jwtService.extractUsername(accessToken);
+//        String userEmail = redis.getEmailByRefreshToken(refresh);
+//        if(userEmail != null){
+//            redis.removeEmailByRefreshToken(refresh); //레디스 삭제
 
-
-        String userEmail = redis.getEmailByRefreshToken(refresh);
-        if(userEmail != null){
-            redis.removeEmailByRefreshToken(refresh); //레디스 삭제
-
-        }
-
-
-        return null;
     }
+
 
 
 

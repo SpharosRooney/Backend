@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         jwt = authHeader.substring(7);
         userId = jwtService.extractUsername(jwt);
-        refreshToken = jwtService.refreshToken(jwt);
+//        refreshToken = jwtService.refreshToken(jwt);
 
         try {
             if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -72,26 +72,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             //Todo 해당 유저를 찾을 수 없음
         }
-        try {
-            if (refreshToken != null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
-                if (jwtService.isRefreshTokenValid(refreshToken, userDetails)) {
-                    UsernamePasswordAuthenticationToken authenticationRefreshToken = new UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            null,
-                            userDetails.getAuthorities()
-                    );
-                    authenticationRefreshToken.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(request)
-                    );
-                    SecurityContextHolder.getContext().setAuthentication(authenticationRefreshToken);
-                } else {
-                    logger.warn("Cannot find refresh token"); //Todo refresh 토큰 유효 x
-                }
-            }
-        } catch (Exception e) {
-        // Todo 해당 유저를 찾을 수 없음
-        }
+//        try {
+//            if (refreshToken != null) {
+//                UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
+//                if (jwtService.isRefreshTokenValid(refreshToken, userDetails)) {
+//                    UsernamePasswordAuthenticationToken authenticationRefreshToken = new UsernamePasswordAuthenticationToken(
+//                            userDetails,
+//                            null,
+//                            userDetails.getAuthorities()
+//                    );
+//                    authenticationRefreshToken.setDetails(
+//                            new WebAuthenticationDetailsSource().buildDetails(request)
+//                    );
+//                    SecurityContextHolder.getContext().setAuthentication(authenticationRefreshToken);
+//                } else {
+//                    logger.warn("Cannot find refresh token"); //Todo refresh 토큰 유효 x
+//                }
+//            }
+//        } catch (Exception e) {
+//        // Todo 해당 유저를 찾을 수 없음
+//        }
         filterChain.doFilter(request, response);
     }
 }
