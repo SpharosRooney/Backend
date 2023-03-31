@@ -8,11 +8,11 @@ import spaland.products.model.Product;
 import java.util.List;
 
 public interface ICartService {
-    Cart addCart(RequestCart requestCart,String userEmail);
-    void modifyCart(RequestCartCount requestCartCount,String userEmail);
-    void deleteProduct(RequestDeleteCart requestDeleteCart,String userEmail);
+    Cart addCart(RequestCart requestCart,String userId);
+    void modifyCart(RequestCartCount requestCartCount,String userId);
+    void deleteProduct(RequestDeleteCart requestDeleteCart,String userId);
 
 //    List<ResponseGetUserCart> getAllByUser(Long userId);
-    List<ResponseGetUserCart> getAllByUserCart(String userEmail,Boolean isDelete); //유저의 카트를 보는것
+    List<ResponseGetUserCart> getAllByUserCart(String userId,Boolean isDelete); //유저의 카트를 보는것
 
 }

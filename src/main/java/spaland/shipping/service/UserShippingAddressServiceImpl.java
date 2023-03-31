@@ -32,8 +32,8 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
 
     @Override
 
-    public void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress, String userEmail) {
-        User user = iUserRepository.findByUserId(userEmail).orElseThrow(()-> new CustomException(INVALID_MEMBER));
+    public void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress, String userId) {
+        User user = iUserRepository.findByUserId(userId).orElseThrow(()-> new CustomException(INVALID_MEMBER));
 
         List<UserShippingAddress> userShippingAddressList =
                 iUserShippingAddressRepository.findAllByUserId(user.getId());
@@ -62,8 +62,8 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
     }
 
     @Override
-    public void updateShippingAddressByUser(RequestEditUserShippingAddress requestEditUserShippingAddress, String userEmail) {
-        User user = iUserRepository.findByUserId(userEmail).orElseThrow(()->new RuntimeException());
+    public void updateShippingAddressByUser(RequestEditUserShippingAddress requestEditUserShippingAddress, String userId) {
+        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new RuntimeException());
         UserShippingAddress userShippingAddress = iUserShippingAddressRepository.findById(user.getId()).get();
 
         if (requestEditUserShippingAddress.getIsUse() == true) {
@@ -89,8 +89,8 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
     }
 
     @Override
-    public List<ResponseUserShippingAddress> getAllByUser(String userEmail) {
-        User user = iUserRepository.findByUserId(userEmail).orElseThrow(()->new RuntimeException());
+    public List<ResponseUserShippingAddress> getAllByUser(String userId) {
+        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new RuntimeException());
         List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserId(user.getId());
         List<ResponseUserShippingAddress> responseUserShippingAddresses = new ArrayList<>();
 
@@ -106,8 +106,8 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
     }
 
     @Override
-    public List<ResponseUserShippingAddress> getAllByIsUseByUser(String userEmail, Boolean isUse) {
-        User user = iUserRepository.findByUserId(userEmail).orElseThrow(()->new RuntimeException());
+    public List<ResponseUserShippingAddress> getAllByIsUseByUser(String userId, Boolean isUse) {
+        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new RuntimeException());
         List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserIdAndIsUse(user.getId(), isUse);
         List<ResponseUserShippingAddress> responseUserShippingAddresses = new ArrayList<>();
 

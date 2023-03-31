@@ -7,9 +7,9 @@ import spaland.history.vo.RequestHistory;
 import java.util.List;
 
 public interface IHistoryService {
-    void addHistory(RequestHistory requestHistory,String userEmail);
+    void addHistory(RequestHistory requestHistory,String userId);
 
-    ResponseHistoryDetailDTO getHistory(Integer historyId,String userEmail);
+    ResponseHistoryDetailDTO getHistory(Integer historyId,String userId);
 
-    List<ResponseHistoryDTO> findAll(String userEmail);
+    List<ResponseHistoryDTO> findAll(String userId);
 }
