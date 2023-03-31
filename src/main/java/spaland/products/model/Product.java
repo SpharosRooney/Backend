@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Product extends BaseTimeEntity {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +25,6 @@ public class Product extends BaseTimeEntity {
     private Integer price; // 가격
     private Integer inventory; // 재고
     private String titleImg; // 타이틀 이미지
-    private Boolean frozen; // 냉동 상품
+    private Integer frozen; // 냉동 상품
 
 }
