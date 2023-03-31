@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import spaland.exception.CustomException;
 import spaland.products.model.Event;
 import spaland.products.repository.IEventRepository;
 import spaland.products.vo.RequestEvent;
@@ -11,6 +12,8 @@ import spaland.products.vo.ResponseEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static spaland.exception.ErrorCode.INVALID_EVENT;
 
 @Slf4j
 @Service
@@ -38,7 +41,7 @@ public class EventServiceImple implements IEventService {
     @Override
     public ResponseEvent getEvent(Integer eventId) {
 
-        return new ModelMapper().map(iEventRepository.findById(eventId).get(), ResponseEvent.class);
+        return new ModelMapper().map(iEventRepository.findById(eventId).orElseThrow(()-> new CustomException(INVALID_EVENT)), ResponseEvent.class);
     }
 
     @Override

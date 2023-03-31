@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import spaland.exception.CustomException;
 import spaland.products.model.Product;
 import spaland.products.model.ProductCategoryList;
 import spaland.products.repository.*;
@@ -13,6 +14,8 @@ import spaland.products.vo.ResponseProduct;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static spaland.exception.ErrorCode.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,11 +34,11 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
 
         iProductCategoryListRepository.save(
                 ProductCategoryList.builder()
-                        .categoryLarge(iCategoryLargeRepository.findById(requestCategoryList.getCategoryLargeId()).get())
-                        .categoryMiddle(iCategoryMiddleRepository.findById(requestCategoryList.getCategoryMiddleId()).get())
-                        .product(iProductRepository.findById(requestCategoryList.getProductId()).get())
-                        .productOption(iProductOptionRepository.findById(requestCategoryList.getProductOptionId()).get())
-                        .event(iEventRepository.findById(requestCategoryList.getEventId()).get())
+                        .categoryLarge(iCategoryLargeRepository.findById(requestCategoryList.getCategoryLargeId()).orElseThrow(() -> new CustomException(INVALID_CATEGORY)))
+                        .categoryMiddle(iCategoryMiddleRepository.findById(requestCategoryList.getCategoryMiddleId()).orElseThrow(() -> new CustomException(INVALID_CATEGORY)))
+                        .product(iProductRepository.findById(requestCategoryList.getProductId()).orElseThrow(() -> new CustomException(INVALID_PRODUCT)))
+                        .productOption(iProductOptionRepository.findById(requestCategoryList.getProductOptionId()).orElseThrow(() -> new CustomException(INVALID_OPTION)))
+                        .event(iEventRepository.findById(requestCategoryList.getEventId()).orElseThrow(() -> new CustomException(INVALID_EVENT)))
                         .build()
         );
 

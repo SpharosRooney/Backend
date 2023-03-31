@@ -27,31 +27,38 @@ public enum ErrorCode {
     /* users    */
     INVALID_MEMBER_INFO(NOT_FOUND,"유저 정보가 일치하지 않습니다."),
     INVALID_MEMBER(NOT_FOUND,"등록되지 않은 유저입니다."),
+    INVALID_MEMBER_USER(NOT_FOUND,"유저 정보를 찾을 수 없습니다."),
 
     /* shipping */
-    INVALID_MEMBER_SHIPPING(NOT_FOUND,"유효하지 않은 접근입니다."),
+    INVALID_MEMBER_SHIPPING(NOT_FOUND,"배송지 정보를 찾을 수 없습니다."),
 
     /* products */
+    INVALID_PRODUCT(NOT_FOUND,"상품 정보를 찾을 수 없습니다."),
+    INVALID_CATEGORY(NOT_FOUND,"카테고리 정보를 찾을 수 없습니다."),
+    INVALID_EVENT(NOT_FOUND,"기획전 정보를 찾을 수 없습니다."),
+    INVALID_IMAGE_LIST(NOT_FOUND,"이미지 정보를 찾을 수 없습니다."),
+    INVALID_IMAGE(NOT_FOUND,"이미지 정보를 찾을 수 없습니다."),
+    INVALID_OPTION(NOT_FOUND,"옵션 정보를 찾을 수 없습니다."),
+    INVALID_SEASON(NOT_FOUND,"시즌 정보를 찾을 수 없습니다."),
+
 
     /* history  */
+    INVALID_MEMBER_HISTORY(NOT_FOUND,"주문내역이 없습니다."),
 
     /* auth     */
     INVALID_AUTH_TOKEN(UNAUTHORIZED, "권한 정보가 없는 토큰입니다"),
     INVALID_REFRESH_TOKEN(BAD_REQUEST, "리프레시 토큰이 유효하지 않습니다"),
     MISMATCH_REFRESH_TOKEN(BAD_REQUEST, "리프레시 토큰의 유저 정보가 일치하지 않습니다"),
+    INVALID_ACCESS(NOT_FOUND,"유효하지 않은 접근입니다."),
 
 
     /* cart     */
+    INVALID_MEMBER_CART(NOT_FOUND,"상품 정보를 찾을 수 없습니다."),
 
 
-    CANNOT_FOLLOW_MYSELF(BAD_REQUEST, "자기 자신은 팔로우 할 수 없습니다"),
-
-
-    UNAUTHORIZED_MEMBER(UNAUTHORIZED, "현재 내 계정 정보가 존재하지 않습니다"),
 
     MEMBER_NOT_FOUND(NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다"),
     REFRESH_TOKEN_NOT_FOUND(NOT_FOUND, "로그아웃 된 사용자입니다"),
-    TEST(NOT_FOUND, "지정된 히스토리 번호가 존재하지 않습니다."),
 
 
     ;

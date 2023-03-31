@@ -3,6 +3,7 @@ package spaland.products.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import spaland.exception.CustomException;
 import spaland.products.model.ProductImageList;
 import spaland.products.repository.IProductImageListRepository;
 import spaland.products.repository.IProductImageRepository;
@@ -12,6 +13,8 @@ import spaland.products.vo.ResponseProductImageList;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static spaland.exception.ErrorCode.INVALID_IMAGE_LIST;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,7 +37,7 @@ public class ProductImageListServiceImple implements IProductImageListService{
 
     @Override
     public ProductImageList getProductImageList(Long productImageListId) {
-        return iProductImageListRepository.findById(productImageListId).get();
+        return iProductImageListRepository.findById(productImageListId).orElseThrow(() -> new CustomException(INVALID_IMAGE_LIST));
     }
 
     @Override
