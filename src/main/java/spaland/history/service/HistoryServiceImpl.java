@@ -97,8 +97,8 @@ public class HistoryServiceImpl implements IHistoryService{
 //    }
 
     @Override
-    public void addHistory(RequestHistory requestHistory, String userEmail) {
-        User user = iUserRepository.findByUserId(userEmail).orElseThrow(()->new RuntimeException());
+    public void addHistory(RequestHistory requestHistory, String userId) {
+        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new RuntimeException());
 
         iHistoryRepository.save(History.builder()
                 .user(iUserRepository.findById(user.getId()).get())
@@ -113,7 +113,7 @@ public class HistoryServiceImpl implements IHistoryService{
     }
 
     @Override
-    public ResponseHistoryDetailDTO getHistory(Integer historyId, String userEmail) {
+    public ResponseHistoryDetailDTO getHistory(Integer historyId, String userId) {
         iHistoryRepository.findById(historyId).orElseThrow(() -> new CustomException(TEST));
         History history = iHistoryRepository.findById(historyId).get();
         Product product = iHistoryRepository.findById(historyId).get().getProduct();
@@ -138,8 +138,8 @@ public class HistoryServiceImpl implements IHistoryService{
     }
 
     @Override
-    public List<ResponseHistoryDTO> findAll(String userEmail) {
-        User user = iUserRepository.findByUserId(userEmail).orElseThrow(()->new RuntimeException());
+    public List<ResponseHistoryDTO> findAll(String userId) {
+        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new RuntimeException());
         List<History> historyList = iHistoryRepository.findAllByUser(user);
         List<ResponseHistoryDTO> responseHistoryDTOList = new ArrayList<>();
 

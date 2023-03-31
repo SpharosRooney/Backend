@@ -28,8 +28,8 @@ public class CartServiceImple implements ICartService {
     ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public Cart addCart(RequestCart requestCart,String userEmail) {
-        User user = iUserRepository.findByUserId(userEmail).orElseThrow(() -> new RuntimeException());
+    public Cart addCart(RequestCart requestCart,String userId) {
+        User user = iUserRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException());
         Product product = iProductRepository.findById(requestCart.getProductId()).orElseThrow(() -> new RuntimeException());
         Optional<Cart> cartOptional = iCartRepository.findByUserIdAndIsDeleteAndProductId(user.getId(), Boolean.FALSE, requestCart.getProductId());
 
@@ -51,8 +51,8 @@ public class CartServiceImple implements ICartService {
 
 
     @Override
-    public List<ResponseGetUserCart> getAllByUserCart(String userEmail, Boolean isDelete) {
-        User user = iUserRepository.findByUserId(userEmail).orElseThrow(()->new RuntimeException());
+    public List<ResponseGetUserCart> getAllByUserCart(String userId, Boolean isDelete) {
+        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new RuntimeException());
         List<Cart> carts = iCartRepository.findAllByUserIdAndIsDelete(user.getId(), isDelete);
         List<ResponseGetUserCart> responseGetUserCarts = new ArrayList<>();
         for(int i = 0; i < carts.size(); i++){
@@ -65,7 +65,7 @@ public class CartServiceImple implements ICartService {
 
 
     @Override
-    public void modifyCart(RequestCartCount requestCartCount,String userEmail) {
+    public void modifyCart(RequestCartCount requestCartCount,String userId) {
         Cart cart = iCartRepository.findById(requestCartCount.getId()).get();
         Optional<Cart> cartOptional = iCartRepository.findByIdAndIsDelete(cart.getId(), Boolean.FALSE);
         if (cartOptional.isPresent()){
@@ -75,7 +75,7 @@ public class CartServiceImple implements ICartService {
     }
 
     @Override
-    public void deleteProduct(RequestDeleteCart requestDeleteCart,String userEmail) {
+    public void deleteProduct(RequestDeleteCart requestDeleteCart,String userId) {
         Cart cart = iCartRepository.findById(requestDeleteCart.getId()).get();
         cart.setIsDelete(true);
         iCartRepository.save(cart);
