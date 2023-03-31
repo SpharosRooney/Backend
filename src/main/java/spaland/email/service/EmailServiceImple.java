@@ -6,6 +6,7 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
@@ -90,7 +91,13 @@ public class EmailServiceImple implements  IEmailService{
         // @todo 받아온 이메일이 DB에 존재할 경우 에러 처리 => 중복 확인
         // redis에 키, 값 저장하는 메서드 중복됨
 //        Optional<User> user = iUserRepository.findByUserEmail(email);
-        iUserRepository.findByUserEmail(email).orElseThrow(() -> new CustomException(DUPLICATE_EMAIL));
+
+        try {
+            iUserRepository.findByUserEmail(email).isPresent();
+        } catch (Exception e) {
+            throw new CustomException(DUPLICATE_EMAIL);
+        }
+
 //        if(user.isPresent()) {
 //            return false;
 //        }

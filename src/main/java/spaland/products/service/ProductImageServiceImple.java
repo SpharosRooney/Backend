@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import spaland.exception.CustomException;
 import spaland.products.model.ProductImage;
 import spaland.products.repository.IProductImageRepository;
 import spaland.products.vo.RequestProductImage;
@@ -11,6 +12,8 @@ import spaland.products.vo.ResponseProductImage;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static spaland.exception.ErrorCode.INVALID_IMAGE;
 
 
 @Slf4j
@@ -32,7 +35,7 @@ public class ProductImageServiceImple implements IProductImageService{
 
     @Override
     public ResponseProductImage getProductImage(Long productImageId) {
-        return new ModelMapper().map(iProductImageRepository.findById(productImageId).get(), ResponseProductImage.class);
+        return new ModelMapper().map(iProductImageRepository.findById(productImageId).orElseThrow(() -> new CustomException(INVALID_IMAGE)), ResponseProductImage.class);
     }
 
     @Override
