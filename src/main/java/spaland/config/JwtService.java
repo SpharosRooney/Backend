@@ -19,7 +19,7 @@ public class JwtService {
     public final static long TOKEN_VALIDATION_SECOND = 60 * 60; //1시간
     public final static int REFRESH_TOKEN_VALIDATION_SECOND = 60 * 60 * 24 * 7; // 7일
 
-    public final static String COOKIE_NAME = "refresh_token";
+    public final static String COOKIE_NAME = "refreshToken";
 
 
     private static final String SECRET_KEY = "42264528482B4D6251655468576D5A7134743777217A25432A462D4A404E6352";

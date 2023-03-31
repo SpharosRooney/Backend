@@ -23,7 +23,7 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> iUserRepository.findByUserId(username).orElseThrow(
-                () -> new UsernameNotFoundException("User not found")
+                () -> new UsernameNotFoundException("User not found") //Todo 해당 유저를 찾을 수 없음
         );
     }
 
