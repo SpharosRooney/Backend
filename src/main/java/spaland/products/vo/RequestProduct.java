@@ -15,5 +15,5 @@ public class RequestProduct {
     private Integer price; // 가격
     private Integer inventory; // 재고
     private String titleImg; // 타이틀 이미지
-    private Boolean frozen; // 냉동 상품
+    private Integer frozen; // 냉동 상품
 }

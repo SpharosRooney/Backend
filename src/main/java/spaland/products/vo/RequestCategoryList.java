@@ -9,6 +9,7 @@ public class RequestCategoryList {
     private Integer categoryLargeId;
     private Integer categoryMiddleId;
     private Integer productOptionId;
+    private Integer productSeasonId;
     private Integer eventId;
 
 }
