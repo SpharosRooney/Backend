@@ -40,12 +40,12 @@ public class UserController {
     @PostMapping("/signup")
     public void signup(
             @RequestBody SignupRequest signupRequest) {
-        userServiceImple.singup(signupRequest);
+        iUserService.singup(signupRequest);
     }
 
 
     @GetMapping("/get/{id}")
-    public ResponseUser getUser(@PathVariable Long id){
+    public ResponseUser getUser(@PathVariable(value = "id") Long id){
         log.info("input id ? {}",id);
         return iUserService.getUser(id);
     }
@@ -59,57 +59,25 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(
             @RequestBody @Valid LoginRequest loginRequest) {
-        LoginResponse loginResponse = userServiceImple.login(loginRequest);
-        ResponseCookie refreshTokenCookie = cookieUtil.createCookie("refresh_token", loginResponse.getRefreshToken());
+        LoginResponse loginResponse = iUserService.login(loginRequest);
+        ResponseCookie refreshTokenCookie = cookieUtil.createCookie(COOKIE_NAME, loginResponse.getRefreshToken());
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + loginResponse.getToken());
-        headers.add(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
+//        headers.add(HttpHeaders.COOKIE, refreshTokenCookie.toString());
 
-        return new ResponseEntity<>(loginResponse.getUserNickname(),headers, HttpStatus.OK);
+        return ResponseEntity.ok().headers(headers).body(loginResponse.getUserNickname());
 
     }
 
 
     @GetMapping("/logout")
-    public ResponseEntity<String> logout(@RequestHeader(value = "Authorization") String request,
-                                         @RequestBody LogoutRequest logoutRequest,
-                                         @RequestHeader(value = COOKIE_NAME) String refresh,
-                                         HttpServletResponse httpServletResponse){
-
-
-        Cookie refreshToken = new Cookie(COOKIE_NAME,refresh);
-        refreshToken.setHttpOnly(true);
-        refreshToken.setMaxAge(0);
-        httpServletResponse.addCookie(refreshToken); //쿠키 삭제
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(logoutRequest.getUserEmail());
-
-        if (request == null || !request.startsWith("Bearer ")) {
-            return null;
-        }
-
-        String accessToken = request.substring(7);
-        if(Boolean.FALSE.equals(jwtService.isTokenValid(accessToken,userDetails))){
-            throw new RuntimeException("잘못된 요청 입니다");
-        }
-
-        Long expiration = jwtService.getExpiration(accessToken);
-        if(expiration > 0L) {
-            redisService.createBlacklistToken(accessToken, expiration);
-        } //accessToken은 블랙리스트에 넣음
-
-
-        String userEmail = redisService.getEmailByRefreshToken(refresh);
-        if(userEmail != null){
-            redisService.removeEmailByRefreshToken(refresh); //레디스 삭제
-
-        }
-        LogoutResponse logoutResponse = userServiceImple.logout(logoutRequest);
-
-        return ResponseEntity.ok().body( logoutResponse.getUserNickname()+ " 님 로그아웃 되었습니다");
+    public void logout(@RequestHeader(value = "Authorization") String accessToken){
+//                                         @RequestHeader(value = COOKIE_NAME) String refresh
+//        Cookie refreshToken = new Cookie(COOKIE_NAME,refresh);
+//        refreshToken.setHttpOnly(true);
+//        refreshToken.setMaxAge(0);
+//        httpServletResponse.addCookie(refreshToken); //쿠키 삭제
+        iUserService.logout(accessToken);
     }
-
-
-
 }

@@ -3,6 +3,7 @@ package spaland.products.service;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import spaland.exception.CustomException;
 import spaland.products.model.ProductSeason;
 import spaland.products.repository.IProductSeasonRepository;
 import spaland.products.vo.RequestProductSeason;
@@ -10,6 +11,8 @@ import spaland.products.vo.ResponseProductSeason;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static spaland.exception.ErrorCode.INVALID_SEASON;
 
 @RequiredArgsConstructor
 @Service
@@ -25,7 +28,7 @@ public class ProductSeasonServiceImple implements IProductSeasonService {
 
     @Override
     public ResponseProductSeason getProductSeason(Integer productSeasonId) {
-        return modelMapper.map(iProductSeasonRepository.findById(productSeasonId).get(), ResponseProductSeason.class);
+        return modelMapper.map(iProductSeasonRepository.findById(productSeasonId).orElseThrow(() -> new CustomException(INVALID_SEASON)), ResponseProductSeason.class);
     }
 
     @Override

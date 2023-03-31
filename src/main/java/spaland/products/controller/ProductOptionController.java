@@ -23,7 +23,7 @@ public class ProductOptionController {
     }
 
     @GetMapping("/{productOptionId}")
-    public ResponseProductOption getProductOption(@PathVariable Integer productOptionId) {
+    public ResponseProductOption getProductOption(@PathVariable(value = "productOptionId") Integer productOptionId) {
         return iProductOptionService.getProductOption(productOptionId);
     }
 

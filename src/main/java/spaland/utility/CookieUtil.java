@@ -16,9 +16,9 @@ public class CookieUtil {
         ResponseCookie cookie = ResponseCookie.from(cookieName, value)
                 .maxAge(JwtService.REFRESH_TOKEN_VALIDATION_SECOND)
                 .path("/")
-                .secure(true)
                 .httpOnly(true)
                 .sameSite("None")
+                .domain("localhost")
                 .build();
         return cookie;
 
