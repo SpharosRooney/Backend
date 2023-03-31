@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import spaland.cart.model.Cart;
 import spaland.cart.repository.ICartRepository;
 import spaland.cart.vo.*;
+import spaland.exception.CustomException;
 import spaland.giftCard.vo.ResponseGiftCard;
 import spaland.products.model.Product;
 import spaland.products.repository.IProductRepository;
@@ -16,6 +17,8 @@ import spaland.users.repository.IUserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static spaland.exception.ErrorCode.*;
 
 @RequiredArgsConstructor
 @Service
@@ -29,8 +32,8 @@ public class CartServiceImple implements ICartService {
 
     @Override
     public Cart addCart(RequestCart requestCart,String userId) {
-        User user = iUserRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException());
-        Product product = iProductRepository.findById(requestCart.getProductId()).orElseThrow(() -> new RuntimeException());
+        User user = iUserRepository.findByUserId(userId).orElseThrow(() -> new CustomException(INVALID_ACCESS));
+        Product product = iProductRepository.findById(requestCart.getProductId()).orElseThrow(() -> new CustomException(INVALID_PRODUCT));
         Optional<Cart> cartOptional = iCartRepository.findByUserIdAndIsDeleteAndProductId(user.getId(), Boolean.FALSE, requestCart.getProductId());
 
         Cart cart;
@@ -52,7 +55,7 @@ public class CartServiceImple implements ICartService {
 
     @Override
     public List<ResponseGetUserCart> getAllByUserCart(String userId, Boolean isDelete) {
-        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new RuntimeException());
+        User user = iUserRepository.findByUserId(userId).orElseThrow(() -> new CustomException(INVALID_ACCESS));
         List<Cart> carts = iCartRepository.findAllByUserIdAndIsDelete(user.getId(), isDelete);
         List<ResponseGetUserCart> responseGetUserCarts = new ArrayList<>();
         for(int i = 0; i < carts.size(); i++){
@@ -66,7 +69,7 @@ public class CartServiceImple implements ICartService {
 
     @Override
     public void modifyCart(RequestCartCount requestCartCount,String userId) {
-        Cart cart = iCartRepository.findById(requestCartCount.getId()).get();
+        Cart cart = iCartRepository.findById(requestCartCount.getId()).orElseThrow(() -> new CustomException(INVALID_MEMBER_CART));
         Optional<Cart> cartOptional = iCartRepository.findByIdAndIsDelete(cart.getId(), Boolean.FALSE);
         if (cartOptional.isPresent()){
             cart.setProductAmount(cart.getProductAmount() + requestCartCount.getProductAmount());
@@ -76,7 +79,7 @@ public class CartServiceImple implements ICartService {
 
     @Override
     public void deleteProduct(RequestDeleteCart requestDeleteCart,String userId) {
-        Cart cart = iCartRepository.findById(requestDeleteCart.getId()).get();
+        Cart cart = iCartRepository.findById(requestDeleteCart.getId()).orElseThrow(()-> new CustomException(INVALID_MEMBER_CART));
         cart.setIsDelete(true);
         iCartRepository.save(cart);
     }

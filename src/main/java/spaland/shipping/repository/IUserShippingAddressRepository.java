@@ -11,5 +11,4 @@ public interface IUserShippingAddressRepository extends JpaRepository<UserShippi
     UserShippingAddress save(UserShippingAddress userShippingAddress);
     List<UserShippingAddress> findAllByUserId(Long userId);
     List<UserShippingAddress> findAllByUserIdAndIsUse(Long userId, Boolean isUse);
-
 }

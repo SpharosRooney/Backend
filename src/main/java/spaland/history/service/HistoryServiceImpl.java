@@ -19,7 +19,7 @@ import spaland.users.repository.IUserRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-import static spaland.exception.ErrorCode.TEST;
+import static spaland.exception.ErrorCode.*;
 
 
 @Service
@@ -98,12 +98,12 @@ public class HistoryServiceImpl implements IHistoryService{
 
     @Override
     public void addHistory(RequestHistory requestHistory, String userId) {
-        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new RuntimeException());
+        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new CustomException(INVALID_ACCESS));
 
         iHistoryRepository.save(History.builder()
-                .user(iUserRepository.findById(user.getId()).get())
-                .product(iProductRepository.findById(requestHistory.getProductId()).get())
-                .userShippingAddress(iUserShippingAddressRepository.findById(requestHistory.getUserShippingAddress()).get())
+                .user(iUserRepository.findById(user.getId()).orElseThrow(()->new CustomException(INVALID_MEMBER_USER)))
+                .product(iProductRepository.findById(requestHistory.getProductId()).orElseThrow(()->new CustomException(INVALID_PRODUCT)))
+                .userShippingAddress(iUserShippingAddressRepository.findById(requestHistory.getUserShippingAddress()).orElseThrow(() -> new CustomException(INVALID_MEMBER_SHIPPING)))
                 .historyNum("asd")
                 .currentState(0L)
                 .amount(requestHistory.getAmount())
@@ -114,7 +114,7 @@ public class HistoryServiceImpl implements IHistoryService{
 
     @Override
     public ResponseHistoryDetailDTO getHistory(Integer historyId, String userId) {
-        iHistoryRepository.findById(historyId).orElseThrow(() -> new CustomException(TEST));
+        iHistoryRepository.findById(historyId).orElseThrow(() -> new CustomException(INVALID_MEMBER_HISTORY));
         History history = iHistoryRepository.findById(historyId).get();
         Product product = iHistoryRepository.findById(historyId).get().getProduct();
         UserShippingAddress usa = iHistoryRepository.findById(historyId).get().getUserShippingAddress();
@@ -139,7 +139,7 @@ public class HistoryServiceImpl implements IHistoryService{
 
     @Override
     public List<ResponseHistoryDTO> findAll(String userId) {
-        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new RuntimeException());
+        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new CustomException(INVALID_ACCESS));
         List<History> historyList = iHistoryRepository.findAllByUser(user);
         List<ResponseHistoryDTO> responseHistoryDTOList = new ArrayList<>();
 

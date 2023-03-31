@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.stereotype.Service;
+import spaland.exception.CustomException;
 import spaland.products.model.ProductImage;
 import spaland.products.model.ProductImageList;
 import spaland.products.model.Product;
@@ -15,6 +16,8 @@ import spaland.products.vo.RequestProduct;
 import spaland.products.vo.ResponseProduct;
 import java.util.ArrayList;
 import java.util.List;
+
+import static spaland.exception.ErrorCode.INVALID_PRODUCT;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,7 +37,7 @@ public class ProductServiceImple implements IProductService {
     @Override
     public ResponseProduct getProduct(Long productId) {
 
-        Product product = iProductRepository.findById(productId).get();
+        Product product = iProductRepository.findById(productId).orElseThrow(() -> new CustomException(INVALID_PRODUCT));
         List<ProductImageList> productImageList = iProductImageListRepository.findAllByProductId(product.getId());
         log.info("productImageList: {}", productImageList);
         List<ProductImage> productImages = new ArrayList<>();

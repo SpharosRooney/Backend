@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static spaland.exception.ErrorCode.INVALID_AUTH_TOKEN;
-import static spaland.exception.ErrorCode.INVALID_MEMBER;
+import static spaland.exception.ErrorCode.*;
 
 @Service
 @Slf4j
@@ -33,7 +32,7 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
     @Override
 
     public void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress, String userId) {
-        User user = iUserRepository.findByUserId(userId).orElseThrow(()-> new CustomException(INVALID_MEMBER));
+        User user = iUserRepository.findByUserId(userId).orElseThrow(()-> new CustomException(INVALID_ACCESS));
 
         List<UserShippingAddress> userShippingAddressList =
                 iUserShippingAddressRepository.findAllByUserId(user.getId());
@@ -61,9 +60,9 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
         );
     }
 
-    @Override
+    @Override // TODO: 2023-03-31 이해가 잘 안됩니다!
     public void updateShippingAddressByUser(RequestEditUserShippingAddress requestEditUserShippingAddress, String userId) {
-        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new RuntimeException());
+        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new CustomException(INVALID_ACCESS));
         UserShippingAddress userShippingAddress = iUserShippingAddressRepository.findById(user.getId()).get();
 
         if (requestEditUserShippingAddress.getIsUse() == true) {
@@ -90,8 +89,11 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
 
     @Override
     public List<ResponseUserShippingAddress> getAllByUser(String userId) {
-        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new RuntimeException());
+        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new CustomException(INVALID_ACCESS));
         List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserId(user.getId());
+        if(userShippingAddressList.isEmpty()){
+            throw new CustomException(INVALID_ACCESS);
+        }
         List<ResponseUserShippingAddress> responseUserShippingAddresses = new ArrayList<>();
 
         userShippingAddressList.forEach(
@@ -107,7 +109,7 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
 
     @Override
     public List<ResponseUserShippingAddress> getAllByIsUseByUser(String userId, Boolean isUse) {
-        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new RuntimeException());
+        User user = iUserRepository.findByUserId(userId).orElseThrow(()->new CustomException(INVALID_ACCESS));
         List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserIdAndIsUse(user.getId(), isUse);
         List<ResponseUserShippingAddress> responseUserShippingAddresses = new ArrayList<>();
 
