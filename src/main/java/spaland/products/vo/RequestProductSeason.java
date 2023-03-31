@@ -8,7 +8,7 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public class RequestCategorySmall {
+public class RequestProductSeason {
 
     @Column(nullable = false)
     private  String name;
