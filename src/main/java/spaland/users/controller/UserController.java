@@ -66,7 +66,7 @@ public class UserController {
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + loginResponse.getToken());
         headers.add(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
 
-        return new ResponseEntity<>(loginResponse.getUserNickname(),headers, HttpStatus.OK);
+        return ResponseEntity.ok().headers(headers).body(loginResponse.getUserNickname());
 
     }
 
