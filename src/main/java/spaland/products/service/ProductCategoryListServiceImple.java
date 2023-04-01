@@ -7,7 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import spaland.products.model.CategoryLarge;
 import spaland.products.model.Event;
-import spaland.exception.CustomException
+import spaland.exception.CustomException;
 import spaland.products.model.Product;
 import spaland.products.model.ProductCategoryList;
 import spaland.products.repository.*;
