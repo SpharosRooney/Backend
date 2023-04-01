@@ -78,22 +78,26 @@ public class UserServiceImple implements IUserService{
                 .build();
     }
 
-    public void logout(String access){
+    public void logout(String accessToken){
 
-        if (access == null || !access.startsWith("Bearer ")) {
+        if (accessToken == null || !accessToken.startsWith("Bearer ")) {
             //todo 잘못된 토큰
         }
 
-        String accessToken = access.substring(7);
-        User user = iUserRepository.findByUserId(jwtService.extractUsername(accessToken)).get();
+        String access = accessToken.substring(7);
 
-        if(Boolean.FALSE.equals(jwtService.isTokenValid(accessToken,user))){
+
+        User user = iUserRepository.findByUserId(jwtService.extractUsername(access)).get();
+
+
+
+        if(Boolean.FALSE.equals(jwtService.isTokenValid(access,user))){
             throw new RuntimeException("잘못된 요청 입니다"); //todo 토큰 유효x
         }
 
-        Long expiration = jwtService.getExpiration(accessToken);
+        Long expiration = jwtService.getExpiration(access);
         if(expiration > 0L) {
-            redis.createBlacklistToken(accessToken, expiration);
+            redis.createBlacklistToken(access, expiration);
         } //accessToken은 블랙리스트에 넣음
 //
 //        String refresh = jwtService.extractUsername(accessToken);
