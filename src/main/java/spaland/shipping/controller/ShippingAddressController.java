@@ -23,7 +23,6 @@ public class ShippingAddressController {
 
     private final IUserShippingAddressService iUserShippingAddressService;
 
-    //@todo  RequestAddUserShippingAddress 필드 값으로 isUse가 필요하나요?
     @PostMapping
     public ResponseEntity<Message> addUserShippingAddress(Authentication authentication, @RequestBody RequestAddUserShippingAddress requestAddUserShippingAddress){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -39,18 +38,14 @@ public class ShippingAddressController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<ResponseUserShippingAddress>> getAllByUser(Authentication authentication){
+    public ResponseEntity<Message> getAllByUser(Authentication authentication){
         UserDetails userDetails =(UserDetails) authentication.getPrincipal();
-        return ResponseEntity.ok(
-                iUserShippingAddressService.getAllByUser(userDetails.getUsername())
-        );
+        return iUserShippingAddressService.getAllByUser(userDetails.getUsername());
     }
 
     @GetMapping("/isUse")
-    public ResponseEntity<List<ResponseUserShippingAddress>> getAllByUserAndIsUse(Authentication authentication, @RequestParam Boolean isUse){
+    public ResponseEntity<Message> getAllByUserAndIsUse(Authentication authentication, @RequestParam Boolean isUse){
         UserDetails userDetails =(UserDetails) authentication.getPrincipal();
-        return ResponseEntity.ok(
-                iUserShippingAddressService.getAllByIsUseByUser(userDetails.getUsername(), isUse)
-        );
+        return iUserShippingAddressService.getAllByIsUseByUser(userDetails.getUsername(), isUse);
     }
 }
