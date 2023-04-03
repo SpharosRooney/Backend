@@ -59,6 +59,7 @@ public class UserController {
 //    @GetMapping("checkduplicate/{id}")
 //    public boolean checkDuplicateId(@PathVariable String userid) {
 //        log.info("check id ? {}",userid);
+    @PostMapping("/login")
     public ResponseEntity<?> login(
             @RequestBody @Valid LoginRequest loginRequest) {
         LoginResponse loginResponse = iUserService.login(loginRequest);
@@ -66,7 +67,7 @@ public class UserController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + loginResponse.getToken());
-//        headers.add(HttpHeaders.COOKIE, refreshTokenCookie.toString());
+        headers.add(HttpHeaders.COOKIE, refreshTokenCookie.toString());
 
         return ResponseEntity.ok().headers(headers).body(loginResponse.getUserNickname());
 

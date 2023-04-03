@@ -48,8 +48,7 @@ public class SecurityConfig{
         http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login")
-                .invalidateHttpSession(true)
-                .deleteCookies("refreshToken","token","JSESSIONID");
+                .invalidateHttpSession(true);
 
         return http.build();
     }

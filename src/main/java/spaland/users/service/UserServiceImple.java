@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -69,13 +70,11 @@ public class UserServiceImple implements IUserService{
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
-
         // @todo 이메일로 아이디 찾을 때 , 오류 처리.
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 iUserRepository.findByUserEmail(loginRequest.getUserEmail()).get().getUserId(), loginRequest.getPassword()));
         } catch (AuthenticationException e) {
-
             throw new CustomException(INVALID_MEMBER_INFO);
         }
 
@@ -83,12 +82,12 @@ public class UserServiceImple implements IUserService{
                 .orElseThrow(()-> new CustomException(INVALID_MEMBER));
 
         var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.refreshToken(jwtToken);
+//        var refreshToken = jwtService.refreshToken(jwtToken);
 
 //        redis.createEmailByRefreshToken(refreshToken, user.getUserId());
         return LoginResponse.builder()
                 .token(jwtToken)
-                .refreshToken(refreshToken)
+//                .refreshToken(refreshToken)
                 .userNickname(user.getUserNickname())
                 .build();
     }

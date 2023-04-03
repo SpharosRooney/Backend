@@ -15,6 +15,7 @@ import spaland.products.repository.IProductRepository;
 import spaland.products.vo.RequestProduct;
 import spaland.products.vo.ResponseProduct;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static spaland.exception.ErrorCode.INVALID_PRODUCT;
@@ -49,13 +50,14 @@ public class ProductServiceImple implements IProductService {
         log.info("productImages: {}", productImages);
 
         return ResponseProduct.builder()
-                .discription(product.getDiscription())
+                .description(product.getDescription())
                 .name(product.getName())
                 .price(product.getPrice())
                 .productImageList(productImages)
                 .inventory(product.getInventory())
                 .id(product.getId())
                 .titleImg(product.getTitleImg())
+                .salesQuantity(product.getSalesQuantity())
                 .build();
     }
 
@@ -73,5 +75,12 @@ public class ProductServiceImple implements IProductService {
                 }
         );
         return responseProductList;
+    }
+
+    @Override
+    public List<ResponseProduct> getAllProductBySort() {
+        List<ResponseProduct> allProduct = getAllProduct();
+        allProduct.sort(Comparator.comparing(ResponseProduct::getSalesQuantity).reversed());
+        return allProduct;
     }
 }

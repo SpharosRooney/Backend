@@ -39,15 +39,20 @@ public class ProductController {
         return iProductService.getAllProduct();
     }
 
-    @GetMapping("/get") // 나중에 add get 이런거 다 제거?
+    @GetMapping("/get/allBySort")
+    public List<ResponseProduct> getAlLProductBySort() {
+        return iProductService.getAllProductBySort();
+    }
+
+    @GetMapping("/get")
     public List<Product> findAllProduct(
             @RequestParam(required = false) String keyword, // 검색키워드
             @RequestParam(required = false) String categoryLarge, // 대분류 (케이크, 텀블러/보온병, ...)
             @RequestParam(required = false) List<String> categoryMiddle, // 카테고리(롤케이크, ...)
             @RequestParam(required = false) String option, // 용량(volume) (short, tall, ...)
             @RequestParam(required = false) List<String> event, // 시즌 (Spring, 커티스쿨릭, ...)
-            @RequestParam(required = false) String price // 가격 (1만원미만, 1만원대, ..)
-//            @RequestParam(required = false) String sort // 정렬기준
+            @RequestParam(required = false) String price, // 가격 (1만원미만, 1만원대, ..)
+            @RequestParam(required = false) String sort // 추천순(=판매량순), 낮은가격순, 높은가격순
     ) {
         Specification<ProductCategoryList> spec = (root, query, criteriaBuilder) -> null;
 
@@ -66,16 +71,16 @@ public class ProductController {
             spec = spec.and(CategorySpecification.equalOption(option)); //ok
         }
         if (event != null) {
-            for(String iter:event) {
+            for (String iter : event) {
                 spec = spec.and(CategorySpecification.equalEvent(iter)); //ok
             }
         }
         if (price != null) {
             spec = spec.and(CategorySpecification.equalPrice(price)); //ok
         }
-//        if (sort != null) {
-//            spec = spec.and(CategorySpecification.equalSort(sort));
-//        }
+        if (sort != null) {
+            spec = spec.and(CategorySpecification.applySort(sort));
+        }
 
         return iProductCategoryListService.findAllByFilter(spec);
     }

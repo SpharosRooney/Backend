@@ -42,7 +42,7 @@ public class AuthenticationService {
         var jwtRToken = refreshRequest.getRefreshToken();
         return LoginResponse.builder()
                 .token(jwtAToken)
-                .refreshToken(jwtRToken)
+//                .refreshToken(jwtRToken)
                 .build();
     }
 }
