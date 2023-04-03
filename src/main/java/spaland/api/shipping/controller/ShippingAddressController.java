@@ -40,7 +40,7 @@ public class ShippingAddressController {
     }
 
     @GetMapping("/isUse")
-    public ResponseEntity<Message> getAllByUserAndIsUse(Authentication authentication, @RequestParam Boolean isUse){
+    public ResponseEntity<Message> getAllByUserAndIsUse(Authentication authentication, @RequestParam(value = "isUse") Boolean isUse){
         UserDetails userDetails =(UserDetails) authentication.getPrincipal();
         return iUserShippingAddressService.getAllByIsUseByUser(userDetails.getUsername(), isUse);
     }
