@@ -112,7 +112,7 @@ public class HistoryServiceImpl implements IHistoryService{
 
     }
 
-    @Override
+    @Override // TODO: 중복되는 코드 간략히.
     public ResponseHistoryDetailDTO getHistory(Integer historyId, String userId) {
         iHistoryRepository.findById(historyId).orElseThrow(() -> new CustomException(INVALID_MEMBER_HISTORY));
         History history = iHistoryRepository.findById(historyId).get();

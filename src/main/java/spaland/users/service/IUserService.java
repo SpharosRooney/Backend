@@ -9,7 +9,7 @@ import spaland.users.vo.*;
 
 public interface IUserService {
 
-    User singup(SignupRequest signupRequest);
+    ResponseEntity<Message> singup(SignupRequest signupRequest);
     ResponseEntity<Message> getUser(Long id);
     LoginResponse login(LoginRequest loginRequest);
     void logout(String access);

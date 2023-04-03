@@ -41,7 +41,7 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
 
         iProductCategoryListRepository.save(
                 ProductCategoryList.builder()
-                        .product(iProductRepository.findById(requestCategoryList.getProductId()).orElseThrow())
+                        .product(iProductRepository.findById(requestCategoryList.getProductId()).get())
                         .categoryLarge(iCategoryLargeRepository.findById(requestCategoryList.getCategoryLargeId()).get())
                         .categoryMiddle(getValue(iCategoryMiddleRepository.findById(requestCategoryList.getCategoryMiddleId())))
                         .productOption(getValue(iProductOptionRepository.findById(requestCategoryList.getProductOptionId())))

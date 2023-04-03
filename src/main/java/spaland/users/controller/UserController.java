@@ -40,9 +40,9 @@ public class UserController {
 
 
     @PostMapping("/signup")
-    public void signup(
+    public ResponseEntity<Message> signup(
             @RequestBody SignupRequest signupRequest) {
-        iUserService.singup(signupRequest);
+        return iUserService.singup(signupRequest);
     }
 
 
@@ -56,10 +56,6 @@ public class UserController {
 //    @GetMapping("checkduplicate/{id}")
 //    public boolean checkDuplicateId(@PathVariable String userid) {
 //        log.info("check id ? {}",userid);
-//        return iUserService.checkDuplicateId(userid);
-//    }
-
-    @PostMapping("/login")
     public ResponseEntity<?> login(
             @RequestBody @Valid LoginRequest loginRequest) {
         LoginResponse loginResponse = iUserService.login(loginRequest);

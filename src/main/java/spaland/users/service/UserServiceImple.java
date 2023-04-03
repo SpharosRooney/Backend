@@ -44,12 +44,12 @@ public class UserServiceImple implements IUserService{
     private final RedisService redis;
 
     @Override
-    public User singup(SignupRequest signupRequest) {
+    public ResponseEntity<Message> singup(SignupRequest signupRequest) {
 
         if(iUserRepository.findByUserEmail(signupRequest.getUserEmail()).isPresent()) {
             throw new CustomException(DUPLICATE_EMAIL_2);
         }
-
+        
          var user = User.builder()
                 .userName(signupRequest.getUserName())
                 .password(passwordEncoder.encode(signupRequest.getPassword()))
@@ -59,7 +59,12 @@ public class UserServiceImple implements IUserService{
                 .userId(UUID.randomUUID().toString())
                 .role(Role.USER)
                 .build();
-        return iUserRepository.save(user);
+
+        Message message = new Message();
+        message.setMessage("회원가입 성공");
+        message.setData(new ModelMapper().map(user, ResponseUser.class));
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
@@ -123,15 +128,12 @@ public class UserServiceImple implements IUserService{
     public ResponseEntity<Message> getUser(Long id) {
 
         User user = iUserRepository.findById(id).orElseThrow(()->new CustomException(INVALID_MEMBER));
-        Message message = new Message();
-        HttpHeaders headers= new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-        message.setStatus(StatusEnum.OK);
+        Message message = new Message();
         message.setMessage("로그인 성공");
         message.setData(new ModelMapper().map(user, ResponseUser.class));
 
-        return new ResponseEntity<>(message, headers, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
