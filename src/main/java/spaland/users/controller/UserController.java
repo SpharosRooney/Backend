@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+import spaland.Response.Message;
 import spaland.auth.service.AuthenticationService;
 import spaland.config.JwtService;
 import spaland.email.service.RedisService;
@@ -39,25 +40,22 @@ public class UserController {
 
 
     @PostMapping("/signup")
-    public void signup(
+    public ResponseEntity<Message> signup(
             @RequestBody SignupRequest signupRequest) {
-        iUserService.singup(signupRequest);
+        return iUserService.singup(signupRequest);
     }
 
 
     @GetMapping("/get/{id}")
-    public ResponseUser getUser(@PathVariable(value = "id") Long id){
+    public ResponseEntity<Message> getUser(@PathVariable(value = "id") Long id){
         log.info("input id ? {}",id);
+
         return iUserService.getUser(id);
     }
 
 //    @GetMapping("checkduplicate/{id}")
 //    public boolean checkDuplicateId(@PathVariable String userid) {
 //        log.info("check id ? {}",userid);
-//        return iUserService.checkDuplicateId(userid);
-//    }
-
-    @PostMapping("/login")
     public ResponseEntity<?> login(
             @RequestBody @Valid LoginRequest loginRequest) {
         LoginResponse loginResponse = iUserService.login(loginRequest);

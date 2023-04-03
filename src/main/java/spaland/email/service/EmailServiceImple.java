@@ -91,11 +91,12 @@ public class EmailServiceImple implements  IEmailService{
         // @todo 받아온 이메일이 DB에 존재할 경우 에러 처리 => 중복 확인
         // redis에 키, 값 저장하는 메서드 중복됨
 //        Optional<User> user = iUserRepository.findByUserEmail(email);
+        System.out.println("tq" + iUserRepository.findByUserEmail(email).isPresent());
+        if(iUserRepository.findByUserEmail(email).isPresent()) {
 
-        try {
-            iUserRepository.findByUserEmail(email).isPresent();
-        } catch (Exception e) {
+            System.out.println("gd");
             throw new CustomException(DUPLICATE_EMAIL);
+
         }
 
 //        if(user.isPresent()) {

@@ -6,5 +6,12 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class CustomException extends RuntimeException {
-    private final ErrorCode errorCode;
+    private  ErrorCode errorCode;
+    private String Message;
+
+    public CustomException(ErrorCode errorCode) {
+        super(errorCode.getDetail());
+        this.errorCode = errorCode;
+        this.Message = errorCode.getDetail();
+    }
 }

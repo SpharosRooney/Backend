@@ -3,6 +3,9 @@ package spaland.users.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import spaland.Response.Message;
+import spaland.Response.StatusEnum;
 import spaland.exception.CustomException;
 import spaland.users.vo.*;
 import spaland.config.JwtService;
@@ -21,11 +26,11 @@ import spaland.users.model.Role;
 import spaland.users.model.User;
 import spaland.users.repository.IUserRepository;
 
+import java.nio.charset.Charset;
 import java.util.UUID;
 
 import static spaland.error.ErrorCode.MEMBER_INVALID;
-import static spaland.exception.ErrorCode.INVALID_MEMBER;
-import static spaland.exception.ErrorCode.INVALID_MEMBER_INFO;
+import static spaland.exception.ErrorCode.*;
 
 @Service
 @Slf4j
@@ -39,9 +44,13 @@ public class UserServiceImple implements IUserService{
     private final RedisService redis;
 
     @Override
-    public User singup(SignupRequest signupRequest) {
+    public ResponseEntity<Message> singup(SignupRequest signupRequest) {
 
-        var user = User.builder()
+        if(iUserRepository.findByUserEmail(signupRequest.getUserEmail()).isPresent()) {
+            throw new CustomException(DUPLICATE_EMAIL_2);
+        }
+        
+         var user = User.builder()
                 .userName(signupRequest.getUserName())
                 .password(passwordEncoder.encode(signupRequest.getPassword()))
                 .userEmail(signupRequest.getUserEmail())
@@ -50,7 +59,12 @@ public class UserServiceImple implements IUserService{
                 .userId(UUID.randomUUID().toString())
                 .role(Role.USER)
                 .build();
-        return iUserRepository.save(user);
+
+        Message message = new Message();
+        message.setMessage("회원가입 성공");
+        message.setData(new ModelMapper().map(user, ResponseUser.class));
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
@@ -111,11 +125,15 @@ public class UserServiceImple implements IUserService{
 
 
     @Override
-    public ResponseUser getUser(Long id) {
+    public ResponseEntity<Message> getUser(Long id) {
 
         User user = iUserRepository.findById(id).orElseThrow(()->new CustomException(INVALID_MEMBER));
 
-        return new ModelMapper().map(user, ResponseUser.class);
+        Message message = new Message();
+        message.setMessage("로그인 성공");
+        message.setData(new ModelMapper().map(user, ResponseUser.class));
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
