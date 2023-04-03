@@ -35,9 +35,6 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
     @Override
     public void addProductCategoryList(RequestCategoryList requestCategoryList) {
 
-        Optional<Product> byId = iProductRepository.findById(requestCategoryList.getProductId());
-        Optional<CategoryLarge> byId1 = iCategoryLargeRepository.findById(requestCategoryList.getCategoryLargeId());
-
         iProductCategoryListRepository.save(
                 ProductCategoryList.builder()
                         .product(iProductRepository.findById(requestCategoryList.getProductId()).get())
