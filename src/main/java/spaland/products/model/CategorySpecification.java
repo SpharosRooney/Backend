@@ -1,6 +1,9 @@
 package spaland.products.model;
 
 import org.springframework.data.jpa.domain.Specification;
+import spaland.utility.BaseTimeEntity;
+
+import java.time.LocalDateTime;
 
 public class CategorySpecification {
 
@@ -70,5 +73,12 @@ public class CategorySpecification {
             };
         }
         return null;
+    }
+
+    public static Specification<ProductCategoryList> newProduct() {
+        return (root, query, criteriaBuilder) -> {
+            query.orderBy(criteriaBuilder.desc(root.<BaseTimeEntity>get("updateDate"))); // 최신 등록된 기준으로 정렬
+            return query.getRestriction();
+        };
     }
 }
