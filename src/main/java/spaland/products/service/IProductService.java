@@ -11,4 +11,6 @@ public interface IProductService {
     void addProduct(RequestProduct requestProduct);
     ResponseProduct getProduct(Long productId);
     List<ResponseProduct> getAllProduct();
+
+    List<ResponseProduct> getAllProductBySort();
 }

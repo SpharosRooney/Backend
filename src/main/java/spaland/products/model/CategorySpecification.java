@@ -46,13 +46,29 @@ public class CategorySpecification {
             left = 50000;
             right = 9999999;
         }
-
         Integer finalLeft = left;
         Integer finalRight = right;
         return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("product").get("price"), finalLeft, finalRight);
     }
 
-    public static Specification<ProductCategoryList> equalSort(String sort) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("sort"), sort);
+    public static Specification<ProductCategoryList> applySort(String sort) {
+
+        if (sort.equals("추천순")) {
+            return (root, query, criteriaBuilder) -> {
+                query.orderBy(criteriaBuilder.desc(root.get("product").get("salesQuantity"))); // desc : 내림차순
+                return query.getRestriction();
+            };
+        } else if (sort.equals("낮은가격순")) {
+            return (root, query, criteriaBuilder) -> {
+                query.orderBy(criteriaBuilder.asc(root.get("product").get("price"))); // asc : 오름차순
+                return query.getRestriction();
+            };
+        } else if (sort.equals("높은가격순")) {
+            return (root, query, criteriaBuilder) -> {
+                query.orderBy(criteriaBuilder.desc(root.get("product").get("price"))); // desc : 내림차순
+                return query.getRestriction();
+            };
+        }
+        return null;
     }
 }
