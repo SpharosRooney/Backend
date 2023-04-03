@@ -3,7 +3,10 @@ package spaland.cart.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import spaland.Response.Message;
 import spaland.cart.model.Cart;
 import spaland.cart.repository.ICartRepository;
 import spaland.cart.vo.*;
@@ -13,6 +16,7 @@ import spaland.products.model.Product;
 import spaland.products.repository.IProductRepository;
 import spaland.users.model.User;
 import spaland.users.repository.IUserRepository;
+import spaland.users.vo.ResponseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +35,7 @@ public class CartServiceImple implements ICartService {
     ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public Cart addCart(RequestCart requestCart,String userId) {
+    public ResponseEntity<Message> addCart(RequestCart requestCart,String userId) {
         User user = iUserRepository.findByUserId(userId).orElseThrow(() -> new CustomException(INVALID_ACCESS));
         Product product = iProductRepository.findById(requestCart.getProductId()).orElseThrow(() -> new CustomException(INVALID_PRODUCT));
         Optional<Cart> cartOptional = iCartRepository.findByUserIdAndIsDeleteAndProductId(user.getId(), Boolean.FALSE, requestCart.getProductId());
@@ -40,6 +44,7 @@ public class CartServiceImple implements ICartService {
         if(cartOptional.isPresent()) {
             cart = cartOptional.get();
             cart.setProductAmount(cart.getProductAmount() + requestCart.getProductAmount());
+            cart = iCartRepository.save(cart);
         } else {
             cart = iCartRepository.save(Cart.builder()
                     .user(user)
@@ -49,12 +54,17 @@ public class CartServiceImple implements ICartService {
                     .build()
             );
         }
-        return iCartRepository.save(cart);
+        Message message = new Message();
+        message.setMessage("장바구니에 추가되었습니다");
+        message.setData(null);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
+//        return iCartRepository.save(cart);
     }
 
 
     @Override
-    public List<ResponseGetUserCart> getAllByUserCart(String userId, Boolean isDelete) {
+    public ResponseEntity<Message> getAllByUserCart(String userId, Boolean isDelete) {
         User user = iUserRepository.findByUserId(userId).orElseThrow(() -> new CustomException(INVALID_ACCESS));
         List<Cart> carts = iCartRepository.findAllByUserIdAndIsDelete(user.getId(), isDelete);
         List<ResponseGetUserCart> responseGetUserCarts = new ArrayList<>();
@@ -63,40 +73,44 @@ public class CartServiceImple implements ICartService {
             product.setProductAmount(carts.get(i).getProductAmount());
             responseGetUserCarts.add(product);
         }
-        return responseGetUserCarts;
+        Message message = new Message();
+        message.setMessage("success");
+        message.setData(responseGetUserCarts);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
 
     @Override
-    public void modifyCart(RequestCartCount requestCartCount,String userId) {
+    public ResponseEntity<Message> modifyCart(RequestCartCount requestCartCount,String userId) {
         Cart cart = iCartRepository.findById(requestCartCount.getId()).orElseThrow(() -> new CustomException(INVALID_MEMBER_CART));
+        User user = iUserRepository.findByUserId(userId).orElseThrow(() -> new CustomException(INVALID_ACCESS));
         Optional<Cart> cartOptional = iCartRepository.findByIdAndIsDelete(cart.getId(), Boolean.FALSE);
         if (cartOptional.isPresent()){
             cart.setProductAmount(cart.getProductAmount() + requestCartCount.getProductAmount());
             iCartRepository.save(cart);
         }
+        Message message = new Message();
+        message.setMessage("수정되었습니다.");
+        message.setData(null);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public void deleteProduct(RequestDeleteCart requestDeleteCart,String userId) {
+    public ResponseEntity<Message> deleteProduct(RequestDeleteCart requestDeleteCart,String userId) {
+        User user = iUserRepository.findByUserId(userId).orElseThrow(() -> new CustomException(INVALID_ACCESS));
         Cart cart = iCartRepository.findById(requestDeleteCart.getId()).orElseThrow(()-> new CustomException(INVALID_MEMBER_CART));
         cart.setIsDelete(true);
         iCartRepository.save(cart);
+
+        Message message = new Message();
+        message.setMessage("삭제되었습니다.");
+        message.setData(null);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-//    @Override
-//    public List<ResponseGetUserCart> getAllByUser(Long userId) {
-//        List<Cart> cart = iCartRepository.findAllByUserId(userId);
-//        List<ResponseGetUserCart> responseGetUserCarts = new ArrayList<>();
-//        cart.forEach(
-//                userCart -> {
-//                    responseGetUserCarts.add(
-//                            modelMapper.map(userCart, ResponseGetUserCart.class)
-//                    );
-//                }
-//        );
-//        return responseGetUserCarts;
-//    }
 
 
 }

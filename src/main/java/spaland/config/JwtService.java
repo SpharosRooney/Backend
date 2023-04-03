@@ -59,9 +59,6 @@ public class JwtService {
 
     public Boolean isTokenValid(String jwt, UserDetails userDetails) {
         final String username = extractUsername(jwt);
-        if (redisTemplate.hasKey(jwt)){
-            return false;
-        }
         return ( username.equals(userDetails.getUsername())) && !isTokenExpired(jwt);
     }
 
