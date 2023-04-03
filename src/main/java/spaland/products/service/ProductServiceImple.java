@@ -52,7 +52,7 @@ public class ProductServiceImple implements IProductService {
         log.info("productImages: {}", productImages);
 
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime oneWeekAgo = now.minusMonths(1);
+        LocalDateTime oneMonthAgo = now.minusMonths(1);
 
         return ResponseProduct.builder()
                 .description(product.getDescription())
@@ -63,7 +63,7 @@ public class ProductServiceImple implements IProductService {
                 .id(product.getId())
                 .titleImg(product.getTitleImg())
                 .salesQuantity(product.getSalesQuantity())
-                .isNew(product.getUpdateTime().isBefore(oneWeekAgo) ? false : true)
+                .isNew(product.getUpdateTime().isBefore(oneMonthAgo) ? false : true)
                 .build();
     }
 
@@ -72,19 +72,22 @@ public class ProductServiceImple implements IProductService {
         List<Product> productList = iProductRepository.findAll();
         List<ResponseProduct> responseProductList = new ArrayList<>();
 
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneMonthAgo = now.minusMonths(1);
+
         productList.forEach(
                 product -> {
                     ModelMapper modelMapper = new ModelMapper();
-                    responseProductList.add(
-                            modelMapper.map(product, ResponseProduct.class)
-                    );
+                    ResponseProduct temp = modelMapper.map(product, ResponseProduct.class);
+                    temp.setIsNew(product.getUpdateTime().isBefore(oneMonthAgo) ? false : true);
+                    responseProductList.add(temp);
                 }
         );
         return responseProductList;
     }
 
     @Override
-    public List<ResponseProduct> getAllProductBySort() {
+    public List<ResponseProduct> getAllProductWithSortBySalesQuantity() {
         List<ResponseProduct> allProduct = getAllProduct();
         allProduct.sort(Comparator.comparing(ResponseProduct::getSalesQuantity).reversed());
         return allProduct;

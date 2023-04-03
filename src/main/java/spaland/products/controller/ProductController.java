@@ -22,8 +22,6 @@ public class ProductController {
     private final IProductService iProductService;
     private final IProductCategoryListService iProductCategoryListService;
 
-    private final ICategoryLargeRepository iCategoryLargeRepository;
-
     @PostMapping("/add")
     public void addProduct(@RequestBody RequestProduct requestProduct) {
         iProductService.addProduct(requestProduct);
@@ -39,9 +37,9 @@ public class ProductController {
         return iProductService.getAllProduct();
     }
 
-    @GetMapping("/get/allBySort")
-    public List<ResponseProduct> getAlLProductBySort() {
-        return iProductService.getAllProductBySort();
+    @GetMapping("/get/allWithSortByDate")
+    public List<ResponseProduct> getAlLProductWithSortBySalesQuantity() {
+        return iProductService.getAllProductWithSortBySalesQuantity();
     }
 
     @GetMapping("/get")
@@ -52,7 +50,8 @@ public class ProductController {
             @RequestParam(required = false) String option, // 용량(volume) (short, tall, ...)
             @RequestParam(required = false) List<String> event, // 시즌 (Spring, 커티스쿨릭, ...)
             @RequestParam(required = false) String price, // 가격 (1만원미만, 1만원대, ..)
-            @RequestParam(required = false) String sort // 추천순(=판매량순), 낮은가격순, 높은가격순
+            @RequestParam(required = false) String sort, // 추천순(=판매량순), 낮은가격순, 높은가격순
+            @RequestParam(required = false) Boolean isNew // 신상품
     ) {
         Specification<ProductCategoryList> spec = (root, query, criteriaBuilder) -> null;
 
@@ -80,6 +79,9 @@ public class ProductController {
         }
         if (sort != null) {
             spec = spec.and(CategorySpecification.applySort(sort));
+        }
+        if (isNew == true){
+            spec = spec.and(CategorySpecification.newProduct());
         }
 
         return iProductCategoryListService.findAllByFilter(spec);
