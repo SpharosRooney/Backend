@@ -10,6 +10,8 @@ import spaland.products.repository.IEventRepository;
 import spaland.products.vo.RequestEvent;
 import spaland.products.vo.ResponseEvent;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,9 +51,10 @@ public class EventServiceImple implements IEventService {
         List<Event> eventList = iEventRepository.findAll();
         List<ResponseEvent> responseEventList = new ArrayList<>();
 
+        ModelMapper modelMapper = new ModelMapper();
+
         eventList.forEach(
                 event -> {
-                    ModelMapper modelMapper = new ModelMapper();
                     responseEventList.add(
                             modelMapper.map(event, ResponseEvent.class)
                     );
