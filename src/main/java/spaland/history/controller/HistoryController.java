@@ -31,13 +31,13 @@ public class HistoryController {
 
     //히스토리 아이디로 조회하기 위해서, 히스토리 전체를 받았을 때,
     @GetMapping("/{historyId}")
-    public ResponseHistoryDetailDTO getHistory(Authentication authentication, @PathVariable(value = "historyId") Integer historyId) {
+    public ResponseEntity<Message> getHistory(Authentication authentication, @PathVariable(value = "historyId") Integer historyId) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return iHistoryService.getHistory(historyId, userDetails.getUsername());
     }
 
     @GetMapping()
-    public List<ResponseHistoryDTO> getAllbyUserId(Authentication authentication) {
+    public ResponseEntity<Message> getAllbyUserId(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return iHistoryService.findAll(userDetails.getUsername());
     }

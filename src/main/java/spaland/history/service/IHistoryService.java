@@ -11,7 +11,7 @@ import java.util.List;
 public interface IHistoryService {
     ResponseEntity<Message> addHistory(RequestHistory requestHistory, String userId);
 
-    ResponseHistoryDetailDTO getHistory(Integer historyId,String userId);
+    ResponseEntity<Message> getHistory(Integer historyId,String userId);
 
-    List<ResponseHistoryDTO> findAll(String userId);
+    ResponseEntity<Message> findAll(String userId);
 }

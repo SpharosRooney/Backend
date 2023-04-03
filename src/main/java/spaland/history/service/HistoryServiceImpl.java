@@ -106,7 +106,7 @@ public class HistoryServiceImpl implements IHistoryService{
         iHistoryRepository.save(History.builder()
                 .user(iUserRepository.findById(user.getId()).orElseThrow(()->new CustomException(INVALID_MEMBER_USER)))
                 .product(iProductRepository.findById(requestHistory.getProductId()).orElseThrow(()->new CustomException(INVALID_PRODUCT)))
-                .userShippingAddress(iUserShippingAddressRepository.findById(requestHistory.getUserShippingAddress()).orElseThrow(() -> new CustomException(INVALID_MEMBER_SHIPPING)))
+                .userShippingAddress(iUserShippingAddressRepository.findById(requestHistory.getUserShippingAddressId()).orElseThrow(() -> new CustomException(INVALID_MEMBER_SHIPPING)))
                 .historyNum("asd")
                 .currentState(0L)
                 .amount(requestHistory.getAmount())
@@ -120,13 +120,13 @@ public class HistoryServiceImpl implements IHistoryService{
     }
 
     @Override // TODO: 중복되는 코드 간략히.
-    public ResponseHistoryDetailDTO getHistory(Integer historyId, String userId) {
+    public ResponseEntity<Message> getHistory(Integer historyId, String userId) {
         iHistoryRepository.findById(historyId).orElseThrow(() -> new CustomException(INVALID_MEMBER_HISTORY));
         History history = iHistoryRepository.findById(historyId).get();
         Product product = iHistoryRepository.findById(historyId).get().getProduct();
         UserShippingAddress usa = iHistoryRepository.findById(historyId).get().getUserShippingAddress();
 
-        ResponseHistoryDetailDTO responseHistotyDTO = ResponseHistoryDetailDTO.builder()
+        ResponseHistoryDetailDTO responseHistoryDTO = ResponseHistoryDetailDTO.builder()
                 .productId(product.getId())
                 .productName(product.getName())
                 .productPrice(product.getPrice())
@@ -141,11 +141,15 @@ public class HistoryServiceImpl implements IHistoryService{
                 .totalPrice(history.getAmount() * history.getAmount())
                 .build();
 
-        return responseHistotyDTO;
+        Message message = new Message();
+        message.setMessage("장바구니 상세 조회 성공");
+        message.setData(responseHistoryDTO);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public List<ResponseHistoryDTO> findAll(String userId) {
+    public ResponseEntity<Message> findAll(String userId) {
         User user = iUserRepository.findByUserId(userId).orElseThrow(()->new CustomException(INVALID_ACCESS));
         List<History> historyList = iHistoryRepository.findAllByUser(user);
         List<ResponseHistoryDTO> responseHistoryDTOList = new ArrayList<>();
@@ -159,9 +163,16 @@ public class HistoryServiceImpl implements IHistoryService{
                                     .productTitleImg(history.getProduct().getTitleImg())
                                     .amount(history.getAmount())
                                     .totalPrice(history.getAmount() * history.getAmount())
+                                    .currentState(history.getCurrentState())
                                     .build()
                     );
                 }
         );
-        return responseHistoryDTOList;    }
+
+        Message message = new Message();
+        message.setData(responseHistoryDTOList);
+        message.setMessage("장바구니 전체 조회 성공");
+        
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
 }

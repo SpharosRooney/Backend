@@ -55,7 +55,6 @@ public class UserController {
         return iUserService.getUser(id);
     }
 
-    @PostMapping
 //    @GetMapping("checkduplicate/{id}")
 //    public boolean checkDuplicateId(@PathVariable String userid) {
 //        log.info("check id ? {}",userid);
