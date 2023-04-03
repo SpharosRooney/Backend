@@ -15,7 +15,7 @@ public class RequestHistory {
     private Long productId;
 
     @Column(nullable = false)
-    private Long userShippingAddress;
+    private Long userShippingAddressId;
 
     @Column(nullable = false)
     private Integer amount;
