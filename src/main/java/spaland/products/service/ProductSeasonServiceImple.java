@@ -2,7 +2,10 @@ package spaland.products.service;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import spaland.Response.Message;
 import spaland.exception.CustomException;
 import spaland.products.model.ProductSeason;
 import spaland.products.repository.IProductSeasonRepository;
@@ -22,17 +25,24 @@ public class ProductSeasonServiceImple implements IProductSeasonService {
     ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public void addSeason(RequestProductSeason requestProductSeason) {
+    public ResponseEntity<Message> addSeason(RequestProductSeason requestProductSeason) {
         iProductSeasonRepository.save(modelMapper.map(requestProductSeason, ProductSeason.class));
+        Message message = new Message();
+        message.setMessage("시즌 등록 성공!");
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public ResponseProductSeason getProductSeason(Integer productSeasonId) {
-        return modelMapper.map(iProductSeasonRepository.findById(productSeasonId).orElseThrow(() -> new CustomException(INVALID_SEASON)), ResponseProductSeason.class);
+    public ResponseEntity<Message> getProductSeason(Integer productSeasonId) {
+        Message message = new Message();
+        message.setMessage("시즌 조회 성공!");
+        message.setData(modelMapper.map(iProductSeasonRepository.findById(productSeasonId).orElseThrow(() -> new CustomException(INVALID_SEASON)), ResponseProductSeason.class));
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public List<ResponseProductSeason> getAllProductSeason() {
+    public ResponseEntity<Message> getAllProductSeason() {
         List<ProductSeason> productSeasonList = iProductSeasonRepository.findAll();
         List<ResponseProductSeason> responseProductSeasons = new ArrayList<>();
         productSeasonList.forEach(
@@ -42,6 +52,10 @@ public class ProductSeasonServiceImple implements IProductSeasonService {
                             modelMapper.map(productSeason, ResponseProductSeason.class)
                     );
                 });
-        return responseProductSeasons;
+        Message message = new Message();
+        message.setMessage("시즌 전체 조회 성공!");
+        message.setData(responseProductSeasons);
+        
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

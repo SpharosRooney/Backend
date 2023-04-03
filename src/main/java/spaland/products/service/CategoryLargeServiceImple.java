@@ -3,7 +3,10 @@ package spaland.products.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import spaland.Response.Message;
 import spaland.exception.CustomException;
 import spaland.products.model.CategoryLarge;
 import spaland.products.repository.ICategoryLargeRepository;
@@ -25,18 +28,28 @@ public class CategoryLargeServiceImple implements ICategoryLargeService{
 
 
     @Override
-    public void addCategory(RequestCategoryLarge requestCategoryLarge) {
+    public ResponseEntity<Message> addCategory(RequestCategoryLarge requestCategoryLarge) {
         ModelMapper modelMapper = new ModelMapper();
         CategoryLarge categoryLarge = modelMapper.map(requestCategoryLarge, CategoryLarge.class);
         iCategoryLargeRepository.save(categoryLarge);
+
+        Message message = new Message();
+        message.setMessage("카테고리 등록 성공!");
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public ResponseCategoryLarge getCategoryLarge(Integer categoryLargeId) {
-        return new ModelMapper().map(iCategoryLargeRepository.findById(categoryLargeId).orElseThrow(()-> new CustomException(INVALID_CATEGORY)), ResponseCategoryLarge.class);
+    public ResponseEntity<Message> getCategoryLarge(Integer categoryLargeId) {
+
+        Message message = new Message();
+        message.setMessage("카테고리 조회 성공!");
+        message.setData(new ModelMapper().map(iCategoryLargeRepository.findById(categoryLargeId).orElseThrow(()-> new CustomException(INVALID_CATEGORY)), ResponseCategoryLarge.class));
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
         @Override
-    public List<ResponseCategoryLarge> getAll() {
+    public ResponseEntity<Message> getAll() {
             List<CategoryLarge> categoryLargeList = iCategoryLargeRepository.findAll();
             List<ResponseCategoryLarge> responseCategoryLarges = new ArrayList<>();
             categoryLargeList.forEach(
@@ -46,7 +59,12 @@ public class CategoryLargeServiceImple implements ICategoryLargeService{
                                 modelMapper.map(categoryLarge, ResponseCategoryLarge.class)
                         );
                     });
-        return responseCategoryLarges;
+            Message message = new Message();
+            message.setMessage("카테고리 전체 조회 성공!");
+            message.setData(responseCategoryLarges);
+
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 //
 //    @Override

@@ -2,7 +2,9 @@ package spaland.products.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import spaland.Response.Message;
 import spaland.products.model.CategorySpecification;
 import spaland.products.model.Product;
 import spaland.products.model.ProductCategoryList;
@@ -23,22 +25,22 @@ public class ProductController {
     private final IProductCategoryListService iProductCategoryListService;
 
     @PostMapping("/add")
-    public void addProduct(@RequestBody RequestProduct requestProduct) {
-        iProductService.addProduct(requestProduct);
+    public ResponseEntity<Message> addProduct(@RequestBody RequestProduct requestProduct) {
+        return iProductService.addProduct(requestProduct);
     }
 
     @GetMapping("/get/{productId}")
-    public ResponseProduct getProduct(@PathVariable(value = "productId") Long productId) {
+    public ResponseEntity<Message> getProduct(@PathVariable(value = "productId") Long productId) {
         return iProductService.getProduct(productId);
     }
 
     @GetMapping("/get/all")
-    public List<ResponseProduct> getAlLProduct() {
+    public ResponseEntity<Message> getAlLProduct() {
         return iProductService.getAllProduct();
     }
 
     @GetMapping("/get")
-    public List<Product> findAllProduct(
+    public ResponseEntity<Message> findAllProduct(
             @RequestParam(required = false) String keyword, // 검색키워드
             @RequestParam(required = false) String categoryLarge, // 대분류 (케이크, 텀블러/보온병, ...)
             @RequestParam(required = false) List<String> categoryMiddle, // 카테고리(롤케이크, ...)

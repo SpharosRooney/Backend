@@ -1,5 +1,7 @@
 package spaland.products.service;
 
+import org.springframework.http.ResponseEntity;
+import spaland.Response.Message;
 import spaland.products.model.Event;
 import spaland.products.vo.RequestEvent;
 import spaland.products.vo.ResponseEvent;
@@ -7,7 +9,7 @@ import spaland.products.vo.ResponseEvent;
 import java.util.List;
 
 public interface IEventService {
-    void addEvent(RequestEvent requestEvent);
-    ResponseEvent getEvent(Integer eventId);
-    List<ResponseEvent> getAllEvent();
+    ResponseEntity<Message> addEvent(RequestEvent requestEvent);
+    ResponseEntity<Message> getEvent(Integer eventId);
+    ResponseEntity<Message> getAllEvent();
 }
