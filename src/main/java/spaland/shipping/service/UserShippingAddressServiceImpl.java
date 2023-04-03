@@ -3,7 +3,10 @@ package spaland.shipping.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import spaland.Response.Message;
 import spaland.exception.CustomException;
 import spaland.shipping.model.UserShippingAddress;
 import spaland.shipping.repository.IUserShippingAddressRepository;
@@ -31,7 +34,7 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
 
     @Override
 
-    public void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress, String userId) {
+    public ResponseEntity<Message> addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress, String userId) {
         User user = iUserRepository.findByUserId(userId).orElseThrow(()-> new CustomException(INVALID_ACCESS));
 
         List<UserShippingAddress> userShippingAddressList =
@@ -58,10 +61,16 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
                         .isUse(requestAddUserShippingAddress.getIsUse())
                         .build()
         );
+        Message message = new Message();
+        message.setMessage("배송지가 추가되었습니다.");
+        message.setData(null);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
+
     }
 
     @Override // TODO: 2023-03-31 이해가 잘 안됩니다!
-    public void updateShippingAddressByUser(RequestEditUserShippingAddress requestEditUserShippingAddress, String userId) {
+    public ResponseEntity<Message> updateShippingAddressByUser(RequestEditUserShippingAddress requestEditUserShippingAddress, String userId) {
         User user = iUserRepository.findByUserId(userId).orElseThrow(()->new CustomException(INVALID_ACCESS));
         UserShippingAddress userShippingAddress = iUserShippingAddressRepository.findById(user.getId()).get();
 
@@ -85,6 +94,11 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
             userShippingAddress.setShippingPhone(requestEditUserShippingAddress.getShippingPhone());
 
         iUserShippingAddressRepository.save(userShippingAddress);
+        Message message = new Message();
+        message.setMessage("배송지가 추가되었습니다.");
+        message.setData(null);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
