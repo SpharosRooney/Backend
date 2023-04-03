@@ -20,4 +20,5 @@ public class ResponseProduct {
     private List<ProductImage> productImageList; // 상품 이미지 리스트
     private Integer frozen; // 냉동 상품
     private Long salesQuantity; //판매수량
+    private Boolean isNew;
 }
