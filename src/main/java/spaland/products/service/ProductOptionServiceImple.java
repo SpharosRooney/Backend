@@ -3,7 +3,10 @@ package spaland.products.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import spaland.Response.Message;
 import spaland.exception.CustomException;
 import spaland.products.model.ProductOption;
 import spaland.products.repository.IProductOptionRepository;
@@ -23,17 +26,26 @@ public class ProductOptionServiceImple implements IProductOptionService{
     private final IProductOptionRepository iProductOptionRepository;
 
     @Override
-    public void addProductOption(RequestProductOption productOption) {
+    public ResponseEntity<Message> addProductOption(RequestProductOption productOption) {
         iProductOptionRepository.save(new ModelMapper().map(productOption, ProductOption.class));
+
+        Message message = new Message();
+        message.setMessage("상품 옵션 등록 성공!");
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public ResponseProductOption getProductOption(Integer productOptionId) {
-        return new ModelMapper().map(iProductOptionRepository.findById(productOptionId).orElseThrow(() -> new CustomException(INVALID_OPTION)),ResponseProductOption.class);
+    public ResponseEntity<Message> getProductOption(Integer productOptionId) {
+
+        Message message = new Message();
+        message.setMessage("상품 옵션 조회 성공!");
+        message.setData(new ModelMapper().map(iProductOptionRepository.findById(productOptionId).orElseThrow(() -> new CustomException(INVALID_OPTION)),ResponseProductOption.class));
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public List<ResponseProductOption> getAllProductOption() {
+    public ResponseEntity<Message> getAllProductOption() {
         List<ProductOption> productOptionList = iProductOptionRepository.findAll();
         List<ResponseProductOption> responseProductOptions = new ArrayList<>();
 
@@ -44,6 +56,9 @@ public class ProductOptionServiceImple implements IProductOptionService{
                             modelMapper.map(productOption,ResponseProductOption.class)
                     );
                 });
-        return responseProductOptions;
+        Message message = new Message();
+        message.setMessage("상품 옵션 전체 조회 성공!");
+        message.setData(responseProductOptions);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

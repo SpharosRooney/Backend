@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import spaland.Response.Message;
 import spaland.exception.CustomException;
 import spaland.products.model.ProductImage;
 import spaland.products.model.ProductImageList;
@@ -31,14 +34,19 @@ public class ProductServiceImple implements IProductService {
     private final IProductImageListRepository iProductImageListRepository;
 
     @Override
-    public void addProduct(RequestProduct requestProduct) {
+    public ResponseEntity<Message> addProduct(RequestProduct requestProduct) {
         ModelMapper modelMapper = new ModelMapper();
         Product product = modelMapper.map(requestProduct, Product.class);
         iProductRepository.save(product);
+
+        Message message = new Message();
+        message.setMessage("상품 추가 성공!");
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public ResponseProduct getProduct(Long productId) {
+    public ResponseEntity<Message> getProduct(Long productId) {
 
         Product product = iProductRepository.findById(productId).orElseThrow(() -> new CustomException(INVALID_PRODUCT));
         List<ProductImageList> productImageList = iProductImageListRepository.findAllByProductId(product.getId());
@@ -54,7 +62,9 @@ public class ProductServiceImple implements IProductService {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime oneMonthAgo = now.minusMonths(1);
 
-        return ResponseProduct.builder()
+        Message message = new Message();
+        message.setMessage("상품 조회 성공!");
+        message.setData(ResponseProduct.builder()
                 .description(product.getDescription())
                 .name(product.getName())
                 .price(product.getPrice())
@@ -65,11 +75,13 @@ public class ProductServiceImple implements IProductService {
                 .frozen(product.getFrozen())
                 .salesQuantity(product.getSalesQuantity())
                 .isNew(product.getUpdateTime().isBefore(oneMonthAgo) ? false : true)
-                .build();
+                .build());
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public List<ResponseProduct> getAllProduct() {
+    public ResponseEntity<Message> getAllProduct() {
         List<Product> productList = iProductRepository.findAll();
         List<ResponseProduct> responseProductList = new ArrayList<>();
 
@@ -84,6 +96,9 @@ public class ProductServiceImple implements IProductService {
                     responseProductList.add(temp);
                 }
         );
-        return responseProductList;
+        Message message = new Message();
+        message.setMessage("상품 전체 조회 성공!");
+        message.setData(responseProductList);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

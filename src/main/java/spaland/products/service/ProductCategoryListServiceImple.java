@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import spaland.Response.Message;
 import spaland.products.model.CategoryLarge;
 import spaland.products.model.Event;
 import spaland.exception.CustomException;
@@ -33,7 +36,7 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
     private final IEventRepository iEventRepository;
 
     @Override
-    public void addProductCategoryList(RequestCategoryList requestCategoryList) {
+    public ResponseEntity<Message> addProductCategoryList(RequestCategoryList requestCategoryList) {
 
         iProductCategoryListRepository.save(
                 ProductCategoryList.builder()
@@ -45,14 +48,19 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
                         .event(getValue(iEventRepository.findById(requestCategoryList.getEventId())))
                         .build()
         );
+
+        Message message = new Message();
+        message.setData("해당 상품의 카테고리 등록 성공");
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
+    // TODO: 2023-04-03 이건 뭔가요!
     public static <T> T getValue(Optional<T> data) {
         return data.isPresent() ? data.get() : null;
     }
 
-    @Override
-    public List<ResponseProduct> getByCategoryLargeId(Integer categoryLargeId) {
+    @Override // TODO: 2023-04-03 여기 로직 손 봐야합니다!
+    public ResponseEntity<Message> getByCategoryLargeId(Integer categoryLargeId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByCategoryLargeId(categoryLargeId);
         List<ResponseProduct> responseProduct = new ArrayList<>();
         productCategoryLists.forEach(
@@ -60,12 +68,15 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
                     ModelMapper modelMapper = new ModelMapper();
                     responseProduct.add(modelMapper.map(productCategoryList.getProduct(), ResponseProduct.class));
                 });
+        Message message = new Message();
+        message.setData(productCategoryLists);
+        message.setMessage("카테고리로 상품 찾기 성공!");
 
-        return responseProduct;
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public List<ResponseProduct> getByCategoryMiddleId(Integer categoryMiddleId) {
+    public ResponseEntity<Message> getByCategoryMiddleId(Integer categoryMiddleId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByCategoryMiddleId(categoryMiddleId);
         List<ResponseProduct> responseProduct = new ArrayList<>();
         productCategoryLists.forEach(
@@ -73,12 +84,15 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
                     ModelMapper modelMapper = new ModelMapper();
                     responseProduct.add(modelMapper.map(productCategoryList.getProduct(), ResponseProduct.class));
                 });
+        Message message = new Message();
+        message.setData(responseProduct);
+        message.setMessage("카테고리로 상품 찾기 성공!");
 
-        return responseProduct;
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public List<ResponseProduct> getByProductOptionId(Integer productOptionId) {
+    public ResponseEntity<Message> getByProductOptionId(Integer productOptionId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByProductOptionId(productOptionId);
         List<ResponseProduct> responseProduct = new ArrayList<>();
         productCategoryLists.forEach(
@@ -87,11 +101,15 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
                     responseProduct.add(modelMapper.map(productCategoryList.getProduct(), ResponseProduct.class));
                 });
 
-        return responseProduct;
+        Message message = new Message();
+        message.setData(responseProduct);
+        message.setMessage("옵션으로 상품 찾기 성공!");
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public List<ResponseProduct> getByEventId(Integer eventId) {
+    public ResponseEntity<Message> getByEventId(Integer eventId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByEventId(eventId);
         List<ResponseProduct> responseProduct = new ArrayList<>();
         productCategoryLists.forEach(
@@ -99,17 +117,24 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
                     ModelMapper modelMapper = new ModelMapper();
                     responseProduct.add(modelMapper.map(productCategoryList.getProduct(), ResponseProduct.class));
                 });
+        Message message = new Message();
+        message.setData(responseProduct);
+        message.setMessage("이벤트로 상품 찾기 성공!");
 
-        return responseProduct;
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public List<Product> findAllByFilter(Specification<ProductCategoryList> spec) {
+    public ResponseEntity<Message> findAllByFilter(Specification<ProductCategoryList> spec) {
         List<ProductCategoryList> all = iProductCategoryListRepository.findAll(spec);
         List<Product> productList = new ArrayList<Product>();
         for (ProductCategoryList iter : all) {
             productList.add(iter.getProduct());
         }
-        return productList;
+        Message message = new Message();
+        message.setData(productList);
+        message.setMessage("필터로 상품 찾기 성공!");
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

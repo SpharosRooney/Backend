@@ -2,7 +2,9 @@ package spaland.products.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import spaland.Response.Message;
 import spaland.products.service.IProductOptionService;
 import spaland.products.vo.RequestProductOption;
 import spaland.products.vo.ResponseProductOption;
@@ -18,17 +20,17 @@ public class ProductOptionController {
     private final IProductOptionService iProductOptionService;
 
     @PostMapping
-    public void addOption(@RequestBody RequestProductOption requestProductOption) {
-        iProductOptionService.addProductOption(requestProductOption);
+    public ResponseEntity<Message> addOption(@RequestBody RequestProductOption requestProductOption) {
+        return iProductOptionService.addProductOption(requestProductOption);
     }
 
     @GetMapping("/{productOptionId}")
-    public ResponseProductOption getProductOption(@PathVariable(value = "productOptionId") Integer productOptionId) {
+    public ResponseEntity<Message> getProductOption(@PathVariable(value = "productOptionId") Integer productOptionId) {
         return iProductOptionService.getProductOption(productOptionId);
     }
 
     @GetMapping("/all")
-    public List<ResponseProductOption> getAll() {
+    public ResponseEntity<Message> getAll() {
         return iProductOptionService.getAllProductOption();
     }
 }

@@ -3,7 +3,10 @@ package spaland.products.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import spaland.Response.Message;
 import spaland.exception.CustomException;
 import spaland.products.model.CategoryMiddle;
 import spaland.products.repository.ICategoryMiddleRepository;
@@ -12,6 +15,7 @@ import spaland.products.vo.ResponseCategoryMiddle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import static spaland.exception.ErrorCode.INVALID_CATEGORY;
 
@@ -24,20 +28,28 @@ public class CategoryMiddleServiceImple implements ICategoryMiddleService{
 
 
     @Override
-    public void addCategory(RequestCategoryMiddle requestCategoryMiddle) {
+    public ResponseEntity<Message> addCategory(RequestCategoryMiddle requestCategoryMiddle) {
         ModelMapper modelMapper = new ModelMapper();
         CategoryMiddle categoryMiddle = modelMapper.map(requestCategoryMiddle, CategoryMiddle.class); // 0번 파라미터가 1번 파라미터로 들어감
         iCategoryMiddleRepository.save(categoryMiddle);
+
+        Message message = new Message();
+        message.setMessage("카테고리 등록 성공!");
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public ResponseCategoryMiddle getCategoryMiddle(Integer categoryMiddleId) {
+    public ResponseEntity<Message> getCategoryMiddle(Integer categoryMiddleId) {
 
-        return new ModelMapper().map(iCategoryMiddleRepository.findById(categoryMiddleId).orElseThrow(()-> new CustomException(INVALID_CATEGORY)),ResponseCategoryMiddle.class);
+        Message message = new Message();
+        message.setMessage("카테고리 조회 성공!");
+        message.setData(new ModelMapper().map(iCategoryMiddleRepository.findById(categoryMiddleId).orElseThrow(()-> new CustomException(INVALID_CATEGORY)),ResponseCategoryMiddle.class));
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public List<ResponseCategoryMiddle> getAll() {
+    public ResponseEntity<Message> getAll() {
         List<CategoryMiddle> categoryMiddleList =  iCategoryMiddleRepository.findAll();
         List<ResponseCategoryMiddle> responseCategoryMiddles = new ArrayList<>();
 
@@ -48,8 +60,11 @@ public class CategoryMiddleServiceImple implements ICategoryMiddleService{
                             modelMapper.map(categoryMiddle,ResponseCategoryMiddle.class)
                     );
                 });
+        Message message = new Message();
+        message.setMessage("카테고리 전체 조회 성공!");
+        message.setData(responseCategoryMiddles);
 
-        return responseCategoryMiddles;
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 //
 //    @Override

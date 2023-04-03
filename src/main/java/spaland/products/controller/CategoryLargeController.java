@@ -2,7 +2,9 @@ package spaland.products.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import spaland.Response.Message;
 import spaland.products.service.ICategoryLargeService;
 import spaland.products.vo.RequestCategoryLarge;
 import spaland.products.vo.ResponseCategoryLarge;
@@ -18,17 +20,17 @@ public class CategoryLargeController {
     private final ICategoryLargeService iCategoryLargeService;
 
     @PostMapping
-    public void addCategoryLarge(@RequestBody RequestCategoryLarge requestCategoryLarge) {
-        iCategoryLargeService.addCategory(requestCategoryLarge);
+    public ResponseEntity<Message> addCategoryLarge(@RequestBody RequestCategoryLarge requestCategoryLarge) {
+        return iCategoryLargeService.addCategory(requestCategoryLarge);
  }
 
     @GetMapping("/{categoryLargeId}")
-    public ResponseCategoryLarge getCategoryLarge(@PathVariable(value = "categoryLargeId") Integer categoryLargeId) {
+    public ResponseEntity<Message> getCategoryLarge(@PathVariable(value = "categoryLargeId") Integer categoryLargeId) {
         return iCategoryLargeService.getCategoryLarge(categoryLargeId);
     }
 
     @GetMapping("/all")
-    public List<ResponseCategoryLarge> getAll() {
+    public ResponseEntity<Message> getAll() {
         return iCategoryLargeService.getAll();
     }
 }

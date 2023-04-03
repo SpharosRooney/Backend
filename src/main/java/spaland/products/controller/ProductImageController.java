@@ -2,7 +2,9 @@ package spaland.products.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import spaland.Response.Message;
 import spaland.products.model.ProductImage;
 import spaland.products.service.IProductImageService;
 import spaland.products.vo.RequestProductImage;
@@ -19,17 +21,17 @@ public class ProductImageController {
     private final IProductImageService iProductImageService;
 
     @PostMapping
-    public void addProductImage(@RequestBody RequestProductImage requestProductImage) {
-        iProductImageService.addProductImage(requestProductImage);
+    public ResponseEntity<Message> addProductImage(@RequestBody RequestProductImage requestProductImage) {
+        return iProductImageService.addProductImage(requestProductImage);
     }
 
     @GetMapping("/{productImageId}")
-    public ResponseProductImage getProductImage(@PathVariable(value = "productImageId") Long productImageId) {
+    public ResponseEntity<Message> getProductImage(@PathVariable(value = "productImageId") Long productImageId) {
         return iProductImageService.getProductImage(productImageId);
     }
 
     @GetMapping("/all")
-    public List<ResponseProductImage> getAllProductImage() {
+    public ResponseEntity<Message> getAllProductImage() {
         return iProductImageService.getAllProductImage();
     }
 }

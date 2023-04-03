@@ -2,7 +2,9 @@ package spaland.products.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import spaland.Response.Message;
 import spaland.products.service.IProductOptionService;
 import spaland.products.service.IProductSeasonService;
 import spaland.products.vo.RequestProductOption;
@@ -21,17 +23,17 @@ public class ProductSeasonController {
     private final IProductSeasonService iProductSeasonService;
 
     @PostMapping
-    public void addSeason(@RequestBody RequestProductSeason requestProductSeason) {
-        iProductSeasonService.addSeason(requestProductSeason);
+    public ResponseEntity<Message> addSeason(@RequestBody RequestProductSeason requestProductSeason) {
+        return iProductSeasonService.addSeason(requestProductSeason);
     }
 
     @GetMapping("/{productSeasonId}")
-    public ResponseProductSeason getProductSeason(@PathVariable Integer productSeasonId) {
+    public ResponseEntity<Message> getProductSeason(@PathVariable Integer productSeasonId) {
         return iProductSeasonService.getProductSeason(productSeasonId);
     }
 
     @GetMapping("/all")
-    public List<ResponseProductSeason> getAll() {
+    public ResponseEntity<Message> getAll() {
         return iProductSeasonService.getAllProductSeason();
     }
 }
