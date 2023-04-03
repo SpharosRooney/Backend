@@ -14,6 +14,8 @@ import spaland.products.repository.IProductImageRepository;
 import spaland.products.repository.IProductRepository;
 import spaland.products.vo.RequestProduct;
 import spaland.products.vo.ResponseProduct;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -49,6 +51,9 @@ public class ProductServiceImple implements IProductService {
         );
         log.info("productImages: {}", productImages);
 
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneWeekAgo = now.minusMonths(1);
+
         return ResponseProduct.builder()
                 .description(product.getDescription())
                 .name(product.getName())
@@ -58,6 +63,7 @@ public class ProductServiceImple implements IProductService {
                 .id(product.getId())
                 .titleImg(product.getTitleImg())
                 .salesQuantity(product.getSalesQuantity())
+                .isNew(product.getUpdateTime().isBefore(oneWeekAgo) ? false : true)
                 .build();
     }
 
