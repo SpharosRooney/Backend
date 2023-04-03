@@ -37,11 +37,6 @@ public class ProductController {
         return iProductService.getAllProduct();
     }
 
-    @GetMapping("/get/allWithSortByDate")
-    public List<ResponseProduct> getAlLProductWithSortBySalesQuantity() {
-        return iProductService.getAllProductWithSortBySalesQuantity();
-    }
-
     @GetMapping("/get")
     public List<Product> findAllProduct(
             @RequestParam(required = false) String keyword, // 검색키워드
@@ -50,8 +45,7 @@ public class ProductController {
             @RequestParam(required = false) String option, // 용량(volume) (short, tall, ...)
             @RequestParam(required = false) List<String> event, // 시즌 (Spring, 커티스쿨릭, ...)
             @RequestParam(required = false) String price, // 가격 (1만원미만, 1만원대, ..)
-            @RequestParam(required = false) String sort, // 추천순(=판매량순), 낮은가격순, 높은가격순
-            @RequestParam(required = false) Boolean isNew // 신상품
+            @RequestParam(required = false) String sort // 추천순(=판매량순), 낮은가격순, 높은가격순, 신상품순
     ) {
         Specification<ProductCategoryList> spec = (root, query, criteriaBuilder) -> null;
 
@@ -79,9 +73,6 @@ public class ProductController {
         }
         if (sort != null) {
             spec = spec.and(CategorySpecification.applySort(sort));
-        }
-        if (isNew == true){
-            spec = spec.and(CategorySpecification.newProduct());
         }
 
         return iProductCategoryListService.findAllByFilter(spec);

@@ -62,6 +62,7 @@ public class ProductServiceImple implements IProductService {
                 .inventory(product.getInventory())
                 .id(product.getId())
                 .titleImg(product.getTitleImg())
+                .frozen(product.getFrozen())
                 .salesQuantity(product.getSalesQuantity())
                 .isNew(product.getUpdateTime().isBefore(oneMonthAgo) ? false : true)
                 .build();
@@ -84,12 +85,5 @@ public class ProductServiceImple implements IProductService {
                 }
         );
         return responseProductList;
-    }
-
-    @Override
-    public List<ResponseProduct> getAllProductWithSortBySalesQuantity() {
-        List<ResponseProduct> allProduct = getAllProduct();
-        allProduct.sort(Comparator.comparing(ResponseProduct::getSalesQuantity).reversed());
-        return allProduct;
     }
 }

@@ -71,14 +71,12 @@ public class CategorySpecification {
                 query.orderBy(criteriaBuilder.desc(root.get("product").get("price"))); // desc : 내림차순
                 return query.getRestriction();
             };
+        } else if (sort.equals("신상품순")) {
+            return (root, query, criteriaBuilder) -> {
+                query.orderBy(criteriaBuilder.desc(root.<BaseTimeEntity>get("updateDate"))); // 최신 등록된 기준으로 정렬
+                return query.getRestriction();
+            };
         }
         return null;
-    }
-
-    public static Specification<ProductCategoryList> newProduct() {
-        return (root, query, criteriaBuilder) -> {
-            query.orderBy(criteriaBuilder.desc(root.<BaseTimeEntity>get("updateDate"))); // 최신 등록된 기준으로 정렬
-            return query.getRestriction();
-        };
     }
 }
