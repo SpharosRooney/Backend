@@ -1,6 +1,7 @@
 package spaland.cart.model;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
 import spaland.products.model.Product;
 import spaland.users.model.User;
 import spaland.utility.BaseTimeEntity;
@@ -19,9 +20,9 @@ public class Cart extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
     @Column(nullable = false)
