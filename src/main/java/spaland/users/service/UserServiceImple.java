@@ -70,11 +70,13 @@ public class UserServiceImple implements IUserService{
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
+
         // @todo 이메일로 아이디 찾을 때 , 오류 처리.
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 iUserRepository.findByUserEmail(loginRequest.getUserEmail()).get().getUserId(), loginRequest.getPassword()));
         } catch (AuthenticationException e) {
+
             throw new CustomException(INVALID_MEMBER_INFO);
         }
 
@@ -82,7 +84,7 @@ public class UserServiceImple implements IUserService{
                 .orElseThrow(()-> new CustomException(INVALID_MEMBER));
 
         var jwtToken = jwtService.generateToken(user);
-//        var refreshToken = jwtService.refreshToken(jwtToken);
+        var refreshToken = jwtService.refreshToken(jwtToken);
 
 //        redis.createEmailByRefreshToken(refreshToken, user.getUserId());
         return LoginResponse.builder()

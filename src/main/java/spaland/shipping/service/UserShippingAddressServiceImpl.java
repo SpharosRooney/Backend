@@ -3,7 +3,10 @@ package spaland.shipping.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import spaland.Response.Message;
 import spaland.exception.CustomException;
 import spaland.shipping.model.UserShippingAddress;
 import spaland.shipping.repository.IUserShippingAddressRepository;
@@ -31,7 +34,7 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
 
     @Override
 
-    public void addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress, String userId) {
+    public ResponseEntity<Message> addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress, String userId) {
         User user = iUserRepository.findByUserId(userId).orElseThrow(()-> new CustomException(INVALID_ACCESS));
 
         List<UserShippingAddress> userShippingAddressList =
@@ -58,10 +61,16 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
                         .isUse(requestAddUserShippingAddress.getIsUse())
                         .build()
         );
+        Message message = new Message();
+        message.setMessage("배송지가 추가되었습니다.");
+        message.setData(null);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
+
     }
 
-    @Override // TODO: 2023-03-31 이해가 잘 안됩니다!
-    public void updateShippingAddressByUser(RequestEditUserShippingAddress requestEditUserShippingAddress, String userId) {
+    @Override
+    public ResponseEntity<Message> updateShippingAddressByUser(RequestEditUserShippingAddress requestEditUserShippingAddress, String userId) {
         User user = iUserRepository.findByUserId(userId).orElseThrow(()->new CustomException(INVALID_ACCESS));
         UserShippingAddress userShippingAddress = iUserShippingAddressRepository.findById(user.getId()).get();
 
@@ -85,10 +94,15 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
             userShippingAddress.setShippingPhone(requestEditUserShippingAddress.getShippingPhone());
 
         iUserShippingAddressRepository.save(userShippingAddress);
+        Message message = new Message();
+        message.setMessage("배송지가 수정되었습니다.");
+        message.setData(null);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public List<ResponseUserShippingAddress> getAllByUser(String userId) {
+    public ResponseEntity<Message> getAllByUser(String userId) {
         User user = iUserRepository.findByUserId(userId).orElseThrow(()->new CustomException(INVALID_ACCESS));
         List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserId(user.getId());
         if(userShippingAddressList.isEmpty()){
@@ -103,12 +117,15 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
                     );
                 }
         );
+        Message message = new Message();
+        message.setMessage("success");
+        message.setData(responseUserShippingAddresses);
 
-        return responseUserShippingAddresses;
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override
-    public List<ResponseUserShippingAddress> getAllByIsUseByUser(String userId, Boolean isUse) {
+    public ResponseEntity<Message> getAllByIsUseByUser(String userId, Boolean isUse) {
         User user = iUserRepository.findByUserId(userId).orElseThrow(()->new CustomException(INVALID_ACCESS));
         List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserIdAndIsUse(user.getId(), isUse);
         List<ResponseUserShippingAddress> responseUserShippingAddresses = new ArrayList<>();
@@ -117,7 +134,11 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
             responseUserShippingAddresses.add(modelMapper.map(userShippingAddressList.get(i), ResponseUserShippingAddress.class));
         }
 
-        return responseUserShippingAddresses;
+        Message message = new Message();
+        message.setMessage("success");
+        message.setData(responseUserShippingAddresses);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
 
     }
 }
