@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class ResponseGetUserCart {
-    private Long id;
     private Long productId;
-    private Long userId;
+    private String name; // 상품명
+    private Integer price; // 가격
+    private String titleImg; // 타이틀 이미지
     private Integer productAmount;
-    private Boolean isDelete;
 }

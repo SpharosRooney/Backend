@@ -12,6 +12,5 @@ public interface IProductService {
     ResponseProduct getProduct(Long productId);
     List<ResponseProduct> getAllProduct();
 
-//    Product purchase(Long productId, int productNum);
-    
+    List<ResponseProduct> getAllProductBySort();
 }

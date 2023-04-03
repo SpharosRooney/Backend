@@ -4,11 +4,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import spaland.exception.CustomException;
 import spaland.products.model.CategoryMiddle;
 import spaland.products.repository.ICategoryMiddleRepository;
 import spaland.products.vo.RequestCategoryMiddle;
+import spaland.products.vo.ResponseCategoryMiddle;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static spaland.exception.ErrorCode.INVALID_CATEGORY;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,14 +31,25 @@ public class CategoryMiddleServiceImple implements ICategoryMiddleService{
     }
 
     @Override
-    public CategoryMiddle getCategoryMiddle(Integer categoryMiddleId) {
+    public ResponseCategoryMiddle getCategoryMiddle(Integer categoryMiddleId) {
 
-        return iCategoryMiddleRepository.findById(categoryMiddleId).get();
+        return new ModelMapper().map(iCategoryMiddleRepository.findById(categoryMiddleId).orElseThrow(()-> new CustomException(INVALID_CATEGORY)),ResponseCategoryMiddle.class);
     }
 
     @Override
-    public List<CategoryMiddle> getAll() {
-        return iCategoryMiddleRepository.findAll();
+    public List<ResponseCategoryMiddle> getAll() {
+        List<CategoryMiddle> categoryMiddleList =  iCategoryMiddleRepository.findAll();
+        List<ResponseCategoryMiddle> responseCategoryMiddles = new ArrayList<>();
+
+        categoryMiddleList.forEach(
+                categoryMiddle -> {
+                    ModelMapper modelMapper = new ModelMapper();
+                    responseCategoryMiddles.add(
+                            modelMapper.map(categoryMiddle,ResponseCategoryMiddle.class)
+                    );
+                });
+
+        return responseCategoryMiddles;
     }
 //
 //    @Override

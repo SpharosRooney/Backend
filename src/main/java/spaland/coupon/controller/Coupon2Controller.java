@@ -10,7 +10,7 @@ import spaland.coupon.vo.ResponseCoupon2;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v2/api/coupon") // 관리자 버전
+@RequestMapping("/api/v2/coupon") // 관리자 버전
 @RequiredArgsConstructor
 public class Coupon2Controller {
 

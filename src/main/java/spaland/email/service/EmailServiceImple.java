@@ -1,22 +1,28 @@
 package spaland.email.service;
 
 
+import jakarta.mail.Message;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import spaland.email.vo.RequestCheckCode;
+import spaland.exception.CustomException;
+import spaland.exception.ErrorCode;
 import spaland.users.model.User;
 import spaland.users.repository.IUserRepository;
 
-import jakarta.mail.Message;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
 import java.util.Optional;
 import java.util.Random;
+
+import static spaland.exception.ErrorCode.DIFFERENT_CONFIRM_KEY;
+import static spaland.exception.ErrorCode.DUPLICATE_EMAIL;
 
 @Slf4j
 @Service
@@ -82,18 +88,29 @@ public class EmailServiceImple implements  IEmailService{
         System.out.println(email);
         MimeMessage message = createMessage(email, confirmKey);
         redisService.createConfirmCodeByEmail(email, confirmKey);
-        Optional<User> user = iUserRepository.findByUserEmail(email);
-        if(user.isPresent()) {
-            return false;
+        // @todo 받아온 이메일이 DB에 존재할 경우 에러 처리 => 중복 확인
+        // redis에 키, 값 저장하는 메서드 중복됨
+//        Optional<User> user = iUserRepository.findByUserEmail(email);
+        System.out.println("tq" + iUserRepository.findByUserEmail(email).isPresent());
+        if(iUserRepository.findByUserEmail(email).isPresent()) {
+
+            System.out.println("gd");
+            throw new CustomException(DUPLICATE_EMAIL);
+
         }
+
+//        if(user.isPresent()) {
+//            return false;
+//        }
         try {
 
+            log.info("Success Send Email : {} {}", email, confirmKey);
 //            if(redisService.getConfirmCodeByEmail(email) != null) {
 //                redisService.removeConfirmCodeByEmail(email);
 //            }
             redisService.createConfirmCodeByEmail(email, confirmKey);
+            // @todo mailsender 오류날 때 에러 처리
             javaMailSender.send(message);
-            log.info("Success Send Email : {} {}", email, confirmKey);
             return true;
         } catch (MailException e) {
             e.printStackTrace();
@@ -108,12 +125,15 @@ public class EmailServiceImple implements  IEmailService{
 
     @Override
     public boolean checkCode(RequestCheckCode requestCheckCode) {
-        boolean matchCode = false;
+//        boolean matchCode = false;
 
         if(redisService.getConfirmCodeByEmail(requestCheckCode.getUserEmail()).equals(requestCheckCode.getConfirmKey())) {
             redisService.removeConfirmCodeByEmail(requestCheckCode.getUserEmail());
-            matchCode = true;
+//            matchCode = true;
+        } else {
+            throw new CustomException(DIFFERENT_CONFIRM_KEY);
         }
-        return matchCode;
+
+        return true;
     }
 }

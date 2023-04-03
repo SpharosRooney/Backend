@@ -3,6 +3,7 @@ package spaland.email.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
 import spaland.email.service.IEmailService;
 import spaland.email.vo.RequestCheckCode;
 import spaland.email.vo.RequestUserEmail;
@@ -17,7 +18,7 @@ public class EmailController {
     private final IEmailService iEmailService;
 
     @GetMapping("/confirm/{email}")
-    public boolean createConfirmCodeByEmail(@PathVariable String email) throws Exception {
+    public boolean createConfirmCodeByEmail(@PathVariable(value = "email") String email) throws Exception {
 
         return iEmailService.sendConfirmCodeByEmail(email);
     }

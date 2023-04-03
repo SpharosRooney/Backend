@@ -12,7 +12,8 @@ import spaland.utility.BaseTimeEntity;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductCategoryList extends BaseTimeEntity {
+public class ProductCategoryList {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,5 +21,14 @@ public class ProductCategoryList extends BaseTimeEntity {
     @ManyToOne
     private Product product;
     @ManyToOne
-    private Category category;
+    private CategoryLarge categoryLarge;
+    @ManyToOne
+    private CategoryMiddle categoryMiddle;
+    @ManyToOne
+    private ProductOption productOption;
+    @ManyToOne
+    private ProductSeason productSeason;
+    @ManyToOne
+    private Event event;
+
 }

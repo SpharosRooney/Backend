@@ -1,0 +1,65 @@
+package spaland.products.service;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+import spaland.exception.CustomException;
+import spaland.products.model.Event;
+import spaland.products.repository.IEventRepository;
+import spaland.products.vo.RequestEvent;
+import spaland.products.vo.ResponseEvent;
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
+
+import static spaland.exception.ErrorCode.INVALID_EVENT;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class EventServiceImple implements IEventService {
+
+    private final IEventRepository iEventRepository;
+
+    @Override
+    public void addEvent(RequestEvent requestEvent) {
+        iEventRepository.save(
+                Event.builder()
+                        .name(requestEvent.getName())
+                        .description(requestEvent.getDescription())
+                        .imgUrl(requestEvent.getImgUrl())
+                        .imgAlt(requestEvent.getImgAlt())
+                        .startDate(requestEvent.getStartDate())
+                        .endDate(requestEvent.getEndDate())
+                        .discountRate(requestEvent.getDiscountRate())
+                        .isDisplay(requestEvent.getIsDisplay())
+                        .build()
+        );
+    }
+
+    @Override
+    public ResponseEvent getEvent(Integer eventId) {
+
+        return new ModelMapper().map(iEventRepository.findById(eventId).orElseThrow(()-> new CustomException(INVALID_EVENT)), ResponseEvent.class);
+    }
+
+    @Override
+    public List<ResponseEvent> getAllEvent() {
+        List<Event> eventList = iEventRepository.findAll();
+        List<ResponseEvent> responseEventList = new ArrayList<>();
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        eventList.forEach(
+                event -> {
+                    responseEventList.add(
+                            modelMapper.map(event, ResponseEvent.class)
+                    );
+                }
+        );
+        return responseEventList;
+    }
+}

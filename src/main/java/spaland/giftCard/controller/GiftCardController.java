@@ -10,7 +10,7 @@ import spaland.giftCard.vo.ResponseGiftCard;
 import java.util.List;
 
 @RestController
-@RequestMapping("/giftCard")
+@RequestMapping("/api/v1/giftCard")
 @RequiredArgsConstructor
 public class GiftCardController {
 

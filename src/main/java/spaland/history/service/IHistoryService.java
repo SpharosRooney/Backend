@@ -1,14 +1,17 @@
 package spaland.history.service;
 
-import spaland.history.model.History;
+import org.springframework.http.ResponseEntity;
+import spaland.Response.Message;
+import spaland.history.dto.ResponseHistoryDTO;
+import spaland.history.dto.ResponseHistoryDetailDTO;
 import spaland.history.vo.RequestHistory;
 
 import java.util.List;
 
 public interface IHistoryService {
-    void addHistory(RequestHistory requestHistory);
+    ResponseEntity<Message> addHistory(RequestHistory requestHistory, String userId);
 
-    History getHistory(Integer historyId);
+    ResponseEntity<Message> getHistory(Integer historyId,String userId);
 
-    List<History> findAll();
+    ResponseEntity<Message> findAll(String userId);
 }

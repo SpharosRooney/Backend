@@ -15,7 +15,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/api/giftbox")
+@RequestMapping("/api/v1/giftbox")
 public class GiftboxController {
     private final IGiftboxService iGiftboxService;
     private final IProductService iProductService;

@@ -11,7 +11,7 @@ import spaland.giftCard.vo.ResponseGiftCard;
 import java.util.List;
 
 @RestController
-@RequestMapping("/UserGiftCardList")
+@RequestMapping("/api/v1/UserGiftCardList")
 @RequiredArgsConstructor
 public class UserGiftCardController {
 
