@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import spaland.products.model.CategoryLarge;
+import spaland.products.model.Event;
 import spaland.exception.CustomException;
 import spaland.products.model.Product;
 import spaland.products.model.ProductCategoryList;
@@ -14,6 +16,7 @@ import spaland.products.vo.ResponseProduct;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static spaland.exception.ErrorCode.*;
 
@@ -27,31 +30,39 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
     private final ICategoryLargeRepository iCategoryLargeRepository;
     private final ICategoryMiddleRepository iCategoryMiddleRepository;
     private final IProductOptionRepository iProductOptionRepository;
+    private final IProductSeasonRepository iProductSeasonRepository;
     private final IEventRepository iEventRepository;
 
     @Override
     public void addProductCategoryList(RequestCategoryList requestCategoryList) {
 
+        Optional<Product> byId = iProductRepository.findById(requestCategoryList.getProductId());
+        Optional<CategoryLarge> byId1 = iCategoryLargeRepository.findById(requestCategoryList.getCategoryLargeId());
+
         iProductCategoryListRepository.save(
                 ProductCategoryList.builder()
-                        .categoryLarge(iCategoryLargeRepository.findById(requestCategoryList.getCategoryLargeId()).orElseThrow(() -> new CustomException(INVALID_CATEGORY)))
-                        .categoryMiddle(iCategoryMiddleRepository.findById(requestCategoryList.getCategoryMiddleId()).orElseThrow(() -> new CustomException(INVALID_CATEGORY)))
-                        .product(iProductRepository.findById(requestCategoryList.getProductId()).orElseThrow(() -> new CustomException(INVALID_PRODUCT)))
-                        .productOption(iProductOptionRepository.findById(requestCategoryList.getProductOptionId()).orElseThrow(() -> new CustomException(INVALID_OPTION)))
-                        .event(iEventRepository.findById(requestCategoryList.getEventId()).orElseThrow(() -> new CustomException(INVALID_EVENT)))
+                        .product(iProductRepository.findById(requestCategoryList.getProductId()).get())
+                        .categoryLarge(iCategoryLargeRepository.findById(requestCategoryList.getCategoryLargeId()).get())
+                        .categoryMiddle(getValue(iCategoryMiddleRepository.findById(requestCategoryList.getCategoryMiddleId())))
+                        .productOption(getValue(iProductOptionRepository.findById(requestCategoryList.getProductOptionId())))
+                        .productSeason(getValue(iProductSeasonRepository.findById(requestCategoryList.getProductSeasonId())))
+                        .event(getValue(iEventRepository.findById(requestCategoryList.getEventId())))
                         .build()
         );
+    }
 
+    public static <T> T getValue(Optional<T> data) {
+        return data.isPresent() ? data.get() : null;
     }
 
     @Override
     public List<ResponseProduct> getByCategoryLargeId(Integer categoryLargeId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByCategoryLargeId(categoryLargeId);
         List<ResponseProduct> responseProduct = new ArrayList<>();
-                productCategoryLists.forEach(
+        productCategoryLists.forEach(
                 productCategoryList -> {
                     ModelMapper modelMapper = new ModelMapper();
-                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(),ResponseProduct.class));
+                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(), ResponseProduct.class));
                 });
 
         return responseProduct;
@@ -64,7 +75,7 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
         productCategoryLists.forEach(
                 productCategoryList -> {
                     ModelMapper modelMapper = new ModelMapper();
-                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(),ResponseProduct.class));
+                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(), ResponseProduct.class));
                 });
 
         return responseProduct;
@@ -77,7 +88,7 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
         productCategoryLists.forEach(
                 productCategoryList -> {
                     ModelMapper modelMapper = new ModelMapper();
-                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(),ResponseProduct.class));
+                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(), ResponseProduct.class));
                 });
 
         return responseProduct;
@@ -90,7 +101,7 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
         productCategoryLists.forEach(
                 productCategoryList -> {
                     ModelMapper modelMapper = new ModelMapper();
-                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(),ResponseProduct.class));
+                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(), ResponseProduct.class));
                 });
 
         return responseProduct;

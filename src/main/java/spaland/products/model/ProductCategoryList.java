@@ -12,7 +12,7 @@ import spaland.utility.BaseTimeEntity;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductCategoryList extends BaseTimeEntity {
+public class ProductCategoryList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

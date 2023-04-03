@@ -6,23 +6,27 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
 import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class JwtService {
     public final static long TOKEN_VALIDATION_SECOND = 60 * 60; //1시간
     public final static int REFRESH_TOKEN_VALIDATION_SECOND = 60 * 60 * 24 * 7; // 7일
 
     public final static String COOKIE_NAME = "refreshToken";
+    private final RedisTemplate redisTemplate;
 
 
     private static final String SECRET_KEY = "42264528482B4D6251655468576D5A7134743777217A25432A462D4A404E6352";
+    //Todo secretKey yml에 저장하쇼
 
     public String extractUsername(String jwt) {
         return extractClaim(jwt, Claims::getSubject);
@@ -55,6 +59,9 @@ public class JwtService {
 
     public Boolean isTokenValid(String jwt, UserDetails userDetails) {
         final String username = extractUsername(jwt);
+        if (redisTemplate.hasKey(jwt)){
+            return false;
+        }
         return ( username.equals(userDetails.getUsername())) && !isTokenExpired(jwt);
     }
 
@@ -89,6 +96,9 @@ public class JwtService {
     private Key getSignKey() {
         byte[] key = Decoders.BASE64.decode(SECRET_KEY);
 //        byte[] key = SECRET_KEY.getBytes();
+//        for (int i = 0; i<key.length; i++){
+//            System.out.print(key[i]+" ");
+//        }
         return Keys.hmacShaKeyFor(key);
     }
 

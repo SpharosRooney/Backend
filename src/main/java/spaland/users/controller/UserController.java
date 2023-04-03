@@ -1,6 +1,7 @@
 package spaland.users.controller;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -72,14 +73,16 @@ public class UserController {
 
 
     @GetMapping("/logout")
-    public void logout(@RequestHeader(value = "Authorization") String access,
-                                         @RequestHeader(value = COOKIE_NAME) String refresh,
-                                         HttpServletResponse httpServletResponse){
+    public void logout(@RequestHeader(value = "Authorization") String accessToken) {
+//                                         @RequestHeader(value = COOKIE_NAME) String refresh
+//        Cookie refreshToken = new Cookie(COOKIE_NAME,refresh);
+//        refreshToken.setHttpOnly(true);
+//        refreshToken.setMaxAge(0);
+//        httpServletResponse.addCookie(refreshToken); //쿠키 삭제
+        iUserService.logout(accessToken);
+        accessToken = null;
 
-        Cookie refreshToken = new Cookie(COOKIE_NAME,refresh);
-        refreshToken.setHttpOnly(true);
-        refreshToken.setMaxAge(0);
-        httpServletResponse.addCookie(refreshToken); //쿠키 삭제
-        iUserService.logout(access,refresh);
+
     }
 }
+
