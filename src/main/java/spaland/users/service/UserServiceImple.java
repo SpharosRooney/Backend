@@ -24,8 +24,7 @@ import spaland.users.repository.IUserRepository;
 import java.util.UUID;
 
 import static spaland.error.ErrorCode.MEMBER_INVALID;
-import static spaland.exception.ErrorCode.INVALID_MEMBER;
-import static spaland.exception.ErrorCode.INVALID_MEMBER_INFO;
+import static spaland.exception.ErrorCode.*;
 
 @Service
 @Slf4j
@@ -41,7 +40,11 @@ public class UserServiceImple implements IUserService{
     @Override
     public User singup(SignupRequest signupRequest) {
 
-        var user = User.builder()
+        if(iUserRepository.findByUserEmail(signupRequest.getUserEmail()).isPresent()) {
+            throw new CustomException(DUPLICATE_EMAIL_2);
+        }
+
+         var user = User.builder()
                 .userName(signupRequest.getUserName())
                 .password(passwordEncoder.encode(signupRequest.getPassword()))
                 .userEmail(signupRequest.getUserEmail())
