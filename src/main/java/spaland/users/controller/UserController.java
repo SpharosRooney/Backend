@@ -50,9 +50,12 @@ public class UserController {
     public ResponseEntity<Message> getUser(@PathVariable(value = "id") Long id){
         log.info("input id ? {}",id);
 
+        // res<user>
+        // return ResponseEntity.status(Https
         return iUserService.getUser(id);
     }
 
+    @PostMapping
 //    @GetMapping("checkduplicate/{id}")
 //    public boolean checkDuplicateId(@PathVariable String userid) {
 //        log.info("check id ? {}",userid);

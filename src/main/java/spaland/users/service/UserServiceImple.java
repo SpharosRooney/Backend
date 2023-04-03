@@ -59,6 +59,7 @@ public class UserServiceImple implements IUserService{
                 .userId(UUID.randomUUID().toString())
                 .role(Role.USER)
                 .build();
+        iUserRepository.save(user);
 
         Message message = new Message();
         message.setMessage("회원가입 성공");

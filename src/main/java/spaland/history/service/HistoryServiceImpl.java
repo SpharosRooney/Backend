@@ -1,7 +1,10 @@
 package spaland.history.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import spaland.Response.Message;
 import spaland.exception.CustomException;
 import spaland.exception.ErrorCode;
 import spaland.history.dto.ResponseHistoryDTO;
@@ -97,7 +100,7 @@ public class HistoryServiceImpl implements IHistoryService{
 //    }
 
     @Override
-    public void addHistory(RequestHistory requestHistory, String userId) {
+    public ResponseEntity<Message> addHistory(RequestHistory requestHistory, String userId) {
         User user = iUserRepository.findByUserId(userId).orElseThrow(()->new CustomException(INVALID_ACCESS));
 
         iHistoryRepository.save(History.builder()
@@ -110,6 +113,10 @@ public class HistoryServiceImpl implements IHistoryService{
                 .paymentType(requestHistory.getPaymentType())
                 .build());
 
+        Message message = new Message();
+        message.setMessage("주문 성공");
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @Override // TODO: 중복되는 코드 간략히.
