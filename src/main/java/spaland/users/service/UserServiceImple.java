@@ -3,6 +3,9 @@ package spaland.users.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import spaland.Response.Message;
+import spaland.Response.StatusEnum;
 import spaland.exception.CustomException;
 import spaland.users.vo.*;
 import spaland.config.JwtService;
@@ -21,6 +26,7 @@ import spaland.users.model.Role;
 import spaland.users.model.User;
 import spaland.users.repository.IUserRepository;
 
+import java.nio.charset.Charset;
 import java.util.UUID;
 
 import static spaland.error.ErrorCode.MEMBER_INVALID;
@@ -114,11 +120,18 @@ public class UserServiceImple implements IUserService{
 
 
     @Override
-    public ResponseUser getUser(Long id) {
+    public ResponseEntity<Message> getUser(Long id) {
 
         User user = iUserRepository.findById(id).orElseThrow(()->new CustomException(INVALID_MEMBER));
+        Message message = new Message();
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-        return new ModelMapper().map(user, ResponseUser.class);
+        message.setStatus(StatusEnum.OK);
+        message.setMessage("로그인 성공");
+        message.setData(new ModelMapper().map(user, ResponseUser.class));
+
+        return new ResponseEntity<>(message, headers, HttpStatus.OK);
     }
 
     @Override

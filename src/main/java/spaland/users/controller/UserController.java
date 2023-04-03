@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+import spaland.Response.Message;
 import spaland.auth.service.AuthenticationService;
 import spaland.config.JwtService;
 import spaland.email.service.RedisService;
@@ -46,8 +47,9 @@ public class UserController {
 
 
     @GetMapping("/get/{id}")
-    public ResponseUser getUser(@PathVariable(value = "id") Long id){
+    public ResponseEntity<Message> getUser(@PathVariable(value = "id") Long id){
         log.info("input id ? {}",id);
+
         return iUserService.getUser(id);
     }
 
