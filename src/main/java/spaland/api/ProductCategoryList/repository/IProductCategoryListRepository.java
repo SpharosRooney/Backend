@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface IProductCategoryListRepository extends JpaRepository<ProductCategoryList, Long>, JpaSpecificationExecutor<ProductCategoryList> {
 
-//    List<ProductCategoryList> findByProductId(Long productId);
     List<ProductCategoryList> findByCategoryLargeId(Integer categoryLargeId);
     List<ProductCategoryList> findByCategoryMiddleId(Integer categoryMiddleId);
     List<ProductCategoryList> findByProductOptionId(Integer productOptionId);
