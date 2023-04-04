@@ -33,9 +33,9 @@ public class ProductCategoryListController {
     public ResponseEntity<Message> getByOptionId(@PathVariable(value = "optionId") Integer optionId) {
         return iProductCategoryListService.getByProductOptionId(optionId);
     }
-    @GetMapping("/category/event/{eventId}")
-    public ResponseEntity<Message> getByEventId(@PathVariable(value = "eventId") Integer eventId) {
-        return iProductCategoryListService.getByEventId(eventId);
+    @GetMapping("/category/event/{seasonId}")
+    public ResponseEntity<Message> getBySeasonId(@PathVariable(value = "seasonId") Integer seasonId) {
+        return iProductCategoryListService.getByProductSeasonId(seasonId);
     }
 
 }

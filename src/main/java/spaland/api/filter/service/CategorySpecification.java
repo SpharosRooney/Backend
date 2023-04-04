@@ -22,8 +22,8 @@ public class CategorySpecification {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("productOption").get("name"), option);
     }
 
-    public static Specification<ProductCategoryList> equalEvent(String event) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("event").get("name"), event);
+    public static Specification<ProductCategoryList> equalSeason(String season) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("productSeason").get("name"), season);
     }
 
     public static Specification<ProductCategoryList> equalPrice(String price) {
@@ -55,7 +55,7 @@ public class CategorySpecification {
 
     public static Specification<ProductCategoryList> applySort(String sort) {
 
-        if (sort.equals("추천순")) {
+        if (sort.equals("추천순")) { // = 판매량순
             return (root, query, criteriaBuilder) -> {
                 query.orderBy(criteriaBuilder.desc(root.get("product").get("salesQuantity"))); // desc : 내림차순
                 return query.getRestriction();
@@ -77,5 +77,9 @@ public class CategorySpecification {
             };
         }
         return null;
+    }
+
+    public static Specification<ProductCategoryList> equalEvent(String event) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("event").get("name"), event);
     }
 }
