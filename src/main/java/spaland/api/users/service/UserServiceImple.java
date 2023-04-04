@@ -78,12 +78,8 @@ public class UserServiceImple implements IUserService{
                 .orElseThrow(()-> new CustomException(INVALID_MEMBER));
 
         var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.refreshToken(jwtToken);
-
-//        redis.createEmailByRefreshToken(refreshToken, user.getUserId());
         return LoginResponse.builder()
                 .token(jwtToken)
-//                .refreshToken(refreshToken)
                 .userNickname(user.getUserNickname())
                 .build();
     }

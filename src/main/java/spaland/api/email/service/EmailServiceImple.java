@@ -114,10 +114,6 @@ public class EmailServiceImple implements  IEmailService{
         }
     }
 
-    @Override
-    public String sendReissuePassword(String email) throws Exception {
-        return null;
-    }
 
     @Override
     public boolean checkCode(RequestCheckCode requestCheckCode) {

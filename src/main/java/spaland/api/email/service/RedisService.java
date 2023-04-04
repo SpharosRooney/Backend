@@ -22,13 +22,6 @@ public class RedisService {
 
     }
 
-    public void createEmailByRefreshToken(String refreshToken, String email) {
-
-        ValueOperations<String, String> vop = redisTemplate.opsForValue();
-        vop.set(refreshToken, email, Duration.ofSeconds(LIMIT_TIME));
-
-    }
-
     public void createBlacklistToken(String accessToken, Long expiration) {
         ValueOperations<String, String> vop = redisTemplate.opsForValue();
         vop.set(accessToken, "logout", expiration, TimeUnit.MILLISECONDS);
@@ -42,10 +35,6 @@ public class RedisService {
         return redisTemplate.opsForValue().get(refreshToken);
     }
 
-    public void removeEmailByRefreshToken(String refreshToken) {
-        redisTemplate.delete(refreshToken);
-    }
-
     public void removeConfirmCodeByEmail(String email) {
         redisTemplate.delete(email);
     }
@@ -54,8 +43,5 @@ public class RedisService {
         return redisTemplate.hasKey(email);
     }
 
-    public boolean hasRefreshToken(String refreshToken) {
-        return redisTemplate.hasKey(refreshToken);
-    }
 
 }
