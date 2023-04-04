@@ -112,8 +112,8 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
     }
 
     @Override
-    public ResponseEntity<Message> getByEventId(Integer eventId) {
-        List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByEventId(eventId);
+    public ResponseEntity<Message> getByProductSeasonId(Integer seasonId) {
+        List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByProductSeasonId(seasonId);
         List<ResponseProduct> responseProduct = new ArrayList<>();
         productCategoryLists.forEach(
                 productCategoryList -> {
@@ -122,7 +122,7 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
                 });
         Message message = new Message();
         message.setData(responseProduct);
-        message.setMessage("이벤트로 상품 찾기 성공!");
+        message.setMessage("시즌으로 상품 찾기 성공!");
 
         return new ResponseEntity<>(message, HttpStatus.OK);
     }

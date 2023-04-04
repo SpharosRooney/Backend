@@ -12,7 +12,7 @@ public interface IProductCategoryListService {
     ResponseEntity<Message> getByCategoryLargeId(Integer categoryLargeId);
     ResponseEntity<Message> getByCategoryMiddleId(Integer categoryMiddleId);
     ResponseEntity<Message> getByProductOptionId(Integer productOptionId);
-    ResponseEntity<Message> getByEventId(Integer eventId);
+    ResponseEntity<Message> getByProductSeasonId(Integer seasonId);
 
     ResponseEntity<Message> findAllByFilter(Specification<ProductCategoryList> spec);
 }
