@@ -20,6 +20,7 @@ import spaland.api.products.repository.*;
 import spaland.api.ProductCategoryList.vo.RequestCategoryList;
 import spaland.api.products.vo.ResponseProduct;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +38,8 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
     private final IProductOptionRepository iProductOptionRepository;
     private final IProductSeasonRepository iProductSeasonRepository;
     private final IEventRepository iEventRepository;
+
+    ModelMapper modelMapper = new ModelMapper();
 
     @Override
     public ResponseEntity<Message> addProductCategoryList(RequestCategoryList requestCategoryList) {
@@ -66,13 +69,18 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
     public ResponseEntity<Message> getByCategoryLargeId(Integer categoryLargeId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByCategoryLargeId(categoryLargeId);
         List<ResponseProduct> responseProduct = new ArrayList<>();
-        productCategoryLists.forEach(
-                productCategoryList -> {
-                    ModelMapper modelMapper = new ModelMapper();
-                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(), ResponseProduct.class));
-                });
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneMonthAgo = now.minusMonths(1);
+
+        for (ProductCategoryList iter : productCategoryLists) {
+            ResponseProduct temp = modelMapper.map(iter.getProduct(), ResponseProduct.class);
+            temp.setIsNew(iter.getUpdateTime().isBefore(oneMonthAgo) ? false : true);
+            responseProduct.add(temp);
+        }
+
         Message message = new Message();
-        message.setData(productCategoryLists);
+        message.setData(responseProduct);
         message.setMessage("카테고리로 상품 찾기 성공!");
 
         return new ResponseEntity<>(message, HttpStatus.OK);
@@ -82,11 +90,16 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
     public ResponseEntity<Message> getByCategoryMiddleId(Integer categoryMiddleId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByCategoryMiddleId(categoryMiddleId);
         List<ResponseProduct> responseProduct = new ArrayList<>();
-        productCategoryLists.forEach(
-                productCategoryList -> {
-                    ModelMapper modelMapper = new ModelMapper();
-                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(), ResponseProduct.class));
-                });
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneMonthAgo = now.minusMonths(1);
+
+        for (ProductCategoryList iter : productCategoryLists) {
+            ResponseProduct temp = modelMapper.map(iter.getProduct(), ResponseProduct.class);
+            temp.setIsNew(iter.getUpdateTime().isBefore(oneMonthAgo) ? false : true);
+            responseProduct.add(temp);
+        }
+
         Message message = new Message();
         message.setData(responseProduct);
         message.setMessage("카테고리로 상품 찾기 성공!");
@@ -98,11 +111,15 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
     public ResponseEntity<Message> getByProductOptionId(Integer productOptionId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByProductOptionId(productOptionId);
         List<ResponseProduct> responseProduct = new ArrayList<>();
-        productCategoryLists.forEach(
-                productCategoryList -> {
-                    ModelMapper modelMapper = new ModelMapper();
-                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(), ResponseProduct.class));
-                });
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneMonthAgo = now.minusMonths(1);
+
+        for (ProductCategoryList iter : productCategoryLists) {
+            ResponseProduct temp = modelMapper.map(iter.getProduct(), ResponseProduct.class);
+            temp.setIsNew(iter.getUpdateTime().isBefore(oneMonthAgo) ? false : true);
+            responseProduct.add(temp);
+        }
 
         Message message = new Message();
         message.setData(responseProduct);
@@ -115,11 +132,16 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
     public ResponseEntity<Message> getByProductSeasonId(Integer seasonId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByProductSeasonId(seasonId);
         List<ResponseProduct> responseProduct = new ArrayList<>();
-        productCategoryLists.forEach(
-                productCategoryList -> {
-                    ModelMapper modelMapper = new ModelMapper();
-                    responseProduct.add(modelMapper.map(productCategoryList.getProduct(), ResponseProduct.class));
-                });
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneMonthAgo = now.minusMonths(1);
+
+        for (ProductCategoryList iter : productCategoryLists) {
+            ResponseProduct temp = modelMapper.map(iter.getProduct(), ResponseProduct.class);
+            temp.setIsNew(iter.getUpdateTime().isBefore(oneMonthAgo) ? false : true);
+            responseProduct.add(temp);
+        }
+
         Message message = new Message();
         message.setData(responseProduct);
         message.setMessage("시즌으로 상품 찾기 성공!");
@@ -130,10 +152,17 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
     @Override
     public ResponseEntity<Message> findAllByFilter(Specification<ProductCategoryList> spec) {
         List<ProductCategoryList> all = iProductCategoryListRepository.findAll(spec);
-        List<Product> productList = new ArrayList<Product>();
+        List<ResponseProduct> productList = new ArrayList<ResponseProduct>();
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime oneMonthAgo = now.minusMonths(1);
+
         for (ProductCategoryList iter : all) {
-            productList.add(iter.getProduct());
+            ResponseProduct temp = modelMapper.map(iter.getProduct(), ResponseProduct.class);
+            temp.setIsNew(iter.getUpdateTime().isBefore(oneMonthAgo) ? false : true);
+            productList.add(temp);
         }
+
         Message message = new Message();
         message.setData(productList);
         message.setMessage("필터로 상품 찾기 성공!");
