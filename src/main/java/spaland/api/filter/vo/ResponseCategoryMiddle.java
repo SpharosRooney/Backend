@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class ResponseCategoryMiddle {
+    private Integer id;
     private String name;
 }
