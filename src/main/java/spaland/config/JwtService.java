@@ -18,11 +18,7 @@ import java.util.function.Function;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtService {
-    public final static long TOKEN_VALIDATION_SECOND = 60 * 60 * 24; //1시간
-    public final static int REFRESH_TOKEN_VALIDATION_SECOND = 60 * 60 * 24 * 7; // 7일
-
     public final static String COOKIE_NAME = "refreshToken";
-    private final RedisTemplate redisTemplate;
 
 
     private static final String SECRET_KEY = "42264528482B4D6251655468576D5A7134743777217A25432A462D4A404E6352";
@@ -92,10 +88,6 @@ public class JwtService {
 
     private Key getSignKey() {
         byte[] key = Decoders.BASE64.decode(SECRET_KEY);
-//        byte[] key = SECRET_KEY.getBytes();
-//        for (int i = 0; i<key.length; i++){
-//            System.out.print(key[i]+" ");
-//        }
         return Keys.hmacShaKeyFor(key);
     }
 

@@ -21,18 +21,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOriginPatterns("*");
     }
 
-//    public CorsConfigurationSource addCorsMappings() {
-//
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.addAllowedOrigin("http://localhost:8080");
-//        configuration.addAllowedHeader("*");
-//        configuration.addAllowedMethod("*");
-//        configuration.addExposedHeader("*");// 모든걸 허용함
-//        configuration.setAllowCredentials(true);
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//
-//    }
 }
