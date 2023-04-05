@@ -1,38 +1,40 @@
 # :coffee:스타벅스 앱 클론코딩 - 2조 스파랜드
 ## :family: 팀원 소개
-:smile:노홍기 (팀장, BE) / (본인 역할 및 담당한 내용 간략히 적는건.,.?) <br>
-:smile:정현준 (BE) / <br>
-:smile:김민지 (BE) / <br>
-:smile:박노명 (FE) / <br>
-:smile:백고은 (FE) / <br>
+:smile:노홍기 (팀장, BE) / 상품API, 주문내역API, 예외처리설정 <br>
+:smile:정현준 (BE) / 배송지API, 상품정보API, 검색API, 필터API, 데이터관리<br>
+:smile:김민지 (BE) / 장바구니API, 유저API, Swagger설정, Security설정 <br>
+:smile:박노명 (FE) / 퍼블리싱, modal, navigation menu, swiper 페이지  <br>
+:smile:백고은 (FE) / 퍼블리싱, modal, 회원가입, 로그인, 로그아웃, 검색, 검색 결과 <br>
 <br><br>
 ## :exclamation: 프로젝트 소개
 > 이 프로젝트는 스파로스 아카데미 2기에서 진행한 스타벅스 앱 온라인스토어 클론코딩 프로젝트 입니다.
-- Back-end : 상품 등록, 조회, 구매, 검색 등 온라인 판매 사이트의 기능과, 이메일 인증과 토큰 발행을 통한 사용자 등록 및 인증으로 사용자 정보 등록 및 결제를 지원함.
-- Front-end : ~~~~~~~~~
+- Back-end : 상품 등록, 조회, 구매, 검색 등 온라인 판매 사이트의 기능과, 이메일 인증, 토큰 발행을 통한 사용자 등록 및 인증으로 사용자 정보 등록 및 결제를 지원함.
+- Front-end : 스타벅스 앱 온라인 스토어를 기준으로 React, Ts, Next 를 활용하여 모바일 웹 페이지를 제작하고 백엔드 서버와 데이터 통신을 통한 이커머스 모바일 웹사이트 개발
 <br><br>
 ### :exclamation::exclamation:구현 목표 (주요 기능 or 팀의 최종 목표)
- - 객체 중심의 개발 능력 향상을 위한 JPA 활용.
- - 
+ - Back-end : 
+ 1. 객체 중심의 개발 능력 향상 및 JPA 활용 능력 숙지.
+ 2. Security 활용 능력 확보.
+ <br>
+ 
+ - Front-end : 
+ 1. 이커머스 모바일 웹 사이트 개발 이해도 향상.
+ 2. 모바일 및 웹 사이트 구현 능력 확보.
  <br>
  
 ### :exclamation::exclamation:Project Repositories
 - 백엔드 레포 주소
 - 프론트 레포 주소
 <br><br>
-## :exclamation: 시스템 아키텍쳐 (의견 주세요!)
-
-
-<br><br>
 ## :exclamation: 개발환경
 > OS : Windows 10
-
+>
 > Infra :
-
+>
 > DB : MySQL, Redis
-
+>
 > Backend : Spring Boot 3.0.2 , Gradle, JPA, SDK(버전)
-
+>
 > API : Email API, Import API 
 
 <br><br>

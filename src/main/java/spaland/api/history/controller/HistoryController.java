@@ -24,7 +24,6 @@ public class HistoryController {
         return iHistoryService.addHistory(requestHistory, userDetails.getUsername());
     }
 
-    //히스토리 아이디로 조회하기 위해서, 히스토리 전체를 받았을 때,
     @GetMapping("/{historyId}")
     public ResponseEntity<Message> getHistory(Authentication authentication, @PathVariable(value = "historyId") Integer historyId) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();

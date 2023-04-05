@@ -26,7 +26,7 @@ public class History extends BaseTimeEntity {
     private User user;
 
     @ManyToOne
-    private Product product; // 만약 단종되면 못찾아가게 해야함.
+    private Product product;
 
     @ManyToOne
     private UserShippingAddress userShippingAddress;
