@@ -7,10 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import spaland.Response.Message;
-import spaland.api.cart.vo.RequestCart;
-import spaland.api.cart.vo.RequestCartCount;
-import spaland.api.cart.vo.RequestDeleteCart;
-import spaland.api.cart.vo.ResponseGetUserCart;
+import spaland.api.cart.vo.*;
 import spaland.api.cart.model.Cart;
 import spaland.api.cart.repository.ICartRepository;
 import spaland.exception.CustomException;
@@ -78,6 +75,28 @@ public class CartServiceImple implements ICartService {
         Message message = new Message();
         message.setMessage("success");
         message.setData(responseGetUserCarts);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Message> checkboxCart(RequestCheckCart requestCheckCart, String userId) {
+        Cart cart = iCartRepository.findLazyById(requestCheckCart.getId()).get();
+        cart.setCheckbox(requestCheckCart.getCheckbox() == true? false:true);
+        iCartRepository.save(cart);
+        ResponseCheckCart responseCheckCart = ResponseCheckCart.builder()
+                .id(cart.getId())
+                .name(cart.getProduct().getName())
+                .price(cart.getProduct().getPrice())
+                .frozen(cart.getProduct().getFrozen())
+                .productId(cart.getProduct().getId())
+                .titleImg(cart.getProduct().getTitleImg())
+                .productAmount(cart.getProductAmount())
+                .checkbox(cart.getCheckbox())
+                .build();
+        Message message = new Message();
+        message.setMessage("success");
+        message.setData(responseCheckCart);
 
         return new ResponseEntity<>(message, HttpStatus.OK);
     }

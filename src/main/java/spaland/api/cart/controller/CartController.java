@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import spaland.Response.Message;
 import spaland.api.cart.vo.RequestCart;
 import spaland.api.cart.vo.RequestCartCount;
+import spaland.api.cart.vo.RequestCheckCart;
 import spaland.api.cart.vo.RequestDeleteCart;
 import spaland.api.cart.service.ICartService;
 
@@ -42,5 +43,12 @@ public class CartController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return iCartService.deleteProduct(requestDeleteCart, userDetails.getUsername());
     }
+
+    @PatchMapping("/check")
+    public ResponseEntity<Message> checkboxCart(Authentication authentication, @RequestBody RequestCheckCart requestCheckCart){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return iCartService.checkboxCart(requestCheckCart,userDetails.getUsername());
+    }
+
 
 }
