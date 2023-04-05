@@ -15,13 +15,14 @@ import spaland.api.filter.vo.ResponseCategoryLarge;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static spaland.exception.ErrorCode.INVALID_CATEGORY;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class CategoryLargeServiceImple implements ICategoryLargeService{
+public class CategoryLargeServiceImple implements ICategoryLargeService {
 
     private final ICategoryLargeRepository iCategoryLargeRepository;
 
@@ -43,24 +44,23 @@ public class CategoryLargeServiceImple implements ICategoryLargeService{
 
         Message message = new Message();
         message.setMessage("카테고리 조회 성공!");
-        message.setData(new ModelMapper().map(iCategoryLargeRepository.findById(categoryLargeId).orElseThrow(()-> new CustomException(INVALID_CATEGORY)), ResponseCategoryLarge.class));
+        message.setData(new ModelMapper().map(iCategoryLargeRepository.findById(categoryLargeId).orElseThrow(() -> new CustomException(INVALID_CATEGORY)), ResponseCategoryLarge.class));
 
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
-        @Override
+
+    @Override
     public ResponseEntity<Message> getAll() {
-            List<CategoryLarge> categoryLargeList = iCategoryLargeRepository.findAll();
-            List<ResponseCategoryLarge> responseCategoryLarges = new ArrayList<>();
-            categoryLargeList.forEach(
-                    categoryLarge -> {
-                        ModelMapper modelMapper = new ModelMapper();
-                        responseCategoryLarges.add(
-                                modelMapper.map(categoryLarge, ResponseCategoryLarge.class)
-                        );
-                    });
-            Message message = new Message();
-            message.setMessage("카테고리 전체 조회 성공!");
-            message.setData(responseCategoryLarges);
+        List<CategoryLarge> categoryLargeList = iCategoryLargeRepository.findAll();
+        List<ResponseCategoryLarge> responseCategoryLarges = new ArrayList<>();
+        categoryLargeList.forEach(
+                categoryLarge -> {
+                    ModelMapper modelMapper = new ModelMapper();
+                    responseCategoryLarges.add(modelMapper.map(categoryLarge, ResponseCategoryLarge.class));
+                });
+        Message message = new Message();
+        message.setMessage("카테고리 전체 조회 성공!");
+        message.setData(responseCategoryLarges);
 
 
         return new ResponseEntity<>(message, HttpStatus.OK);

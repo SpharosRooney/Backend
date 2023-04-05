@@ -6,4 +6,5 @@ import lombok.Data;
 public class ResponseCategoryLarge {
     private Integer id;
     private String name;
+    private String titleImg;
 }
