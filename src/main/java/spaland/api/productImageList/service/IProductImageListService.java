@@ -6,7 +6,5 @@ import spaland.api.productImageList.vo.RequestProductImageList;
 
 public interface IProductImageListService {
     ResponseEntity<Message> addProductImageList(RequestProductImageList requestProductImageList);
-    ResponseEntity<Message> getProductImageList(Long productImageListId);
     ResponseEntity<Message> getProductImageListByProductId(Long productId);
-    ResponseEntity<Message> getAllProductImageList();
 }

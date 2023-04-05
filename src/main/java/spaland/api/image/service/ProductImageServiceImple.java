@@ -22,7 +22,7 @@ import static spaland.exception.ErrorCode.INVALID_IMAGE;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class ProductImageServiceImple implements IProductImageService{
+public class ProductImageServiceImple implements IProductImageService {
 
     private final IProductImageRepository iProductImageRepository;
 
@@ -34,7 +34,7 @@ public class ProductImageServiceImple implements IProductImageService{
                         .imgAlt(requestProductImage.getImgAlt())
                         .build()
         );
-        
+
         Message message = new Message();
         message.setMessage("상품 이미지 등록 성공!");
 
@@ -58,7 +58,7 @@ public class ProductImageServiceImple implements IProductImageService{
                 productImage -> {
                     ModelMapper modelMapper = new ModelMapper();
                     responseProductImages.add(
-                            modelMapper.map(productImage,ResponseProductImage.class));
+                            modelMapper.map(productImage, ResponseProductImage.class));
                 });
         Message message = new Message();
         message.setMessage("상품 이미지 전체 조회 성공!");
