@@ -16,23 +16,25 @@
  1. 객체 중심의 개발 능력 향상 및 JPA 활용 능력 숙지.
  2. Security 활용 능력 확보.
  <br>
+ 
  - Front-end : 
  1. 이커머스 모바일 웹 사이트 개발 이해도 향상.
- 2. 모바일 웹 사이트 구현 능력 확보.
+ 2. 모바일 및 웹 사이트 구현 능력 확보.
  <br>
+ 
 ### :exclamation::exclamation:Project Repositories
 - 백엔드 레포 주소
 - 프론트 레포 주소
 <br><br>
 ## :exclamation: 개발환경
 > OS : Windows 10
-
+>
 > Infra :
-
+>
 > DB : MySQL, Redis
-
+>
 > Backend : Spring Boot 3.0.2 , Gradle, JPA, SDK(버전)
-
+>
 > API : Email API, Import API 
 
 <br><br>
