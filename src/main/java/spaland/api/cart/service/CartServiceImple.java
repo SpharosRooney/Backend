@@ -52,6 +52,7 @@ public class CartServiceImple implements ICartService {
                     .product(product)
                     .productAmount(requestCart.getProductAmount())
                     .isDelete(Boolean.FALSE)
+                    .checkbox(Boolean.TRUE)
                     .build()
             );
         }
@@ -71,6 +72,7 @@ public class CartServiceImple implements ICartService {
         for(int i = 0; i < carts.size(); i++){
             ResponseGetUserCart product = modelMapper.map(carts.get(i).getProduct(), ResponseGetUserCart.class);
             product.setProductAmount(carts.get(i).getProductAmount());
+            product.setCheckbox(carts.get(i).getCheckbox());
             responseGetUserCarts.add(product);
         }
         Message message = new Message();
