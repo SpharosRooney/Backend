@@ -16,6 +16,7 @@ import spaland.api.image.repository.IProductImageRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static spaland.exception.ErrorCode.INVALID_IMAGE_LIST;
 
@@ -28,7 +29,7 @@ public class ProductImageListServiceImple implements IProductImageListService{
     private final IProductRepository iProductRepository;
     private final IProductImageRepository iProductImageRepository;
 
-    @Override // TODO: 2023-04-03 500에러가 남. 
+    @Override
     public ResponseEntity<Message> addProductImageList(RequestProductImageList requestProductImageList) {
         iProductImageListRepository.save(
                 ProductImageList.builder()
@@ -39,14 +40,6 @@ public class ProductImageListServiceImple implements IProductImageListService{
         Message message = new Message();
         message.setMessage("이미지 리스트 등록 성공!");
         
-        return new ResponseEntity<>(message, HttpStatus.OK);
-    }
-
-    @Override // TODO: 2023-04-03 500에러가 남.
-    public ResponseEntity<Message> getProductImageList(Long productImageListId) {
-        Message message = new Message();
-        message.setMessage("이미지 리스트 조회 성공!");
-        message.setData(iProductImageListRepository.findById(productImageListId).orElseThrow(() -> new CustomException(INVALID_IMAGE_LIST)));
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
@@ -68,15 +61,6 @@ public class ProductImageListServiceImple implements IProductImageListService{
         Message message = new Message();
         message.setMessage("상품 번호를 통한 이미지 리스트 조회 성공!");
         message.setData(responseProductImageLists);
-
-        return new ResponseEntity<>(message, HttpStatus.OK);
-    }
-
-    @Override // TODO: 2023-04-03 필요없는 메서드 같음.. 
-    public ResponseEntity<Message> getAllProductImageList() {
-        Message message = new Message();
-        message.setMessage("이미지 리스트 전체 조회 성공!");
-        message.setData(iProductImageListRepository.findAll());
 
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
