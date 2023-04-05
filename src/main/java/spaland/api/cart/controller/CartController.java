@@ -47,7 +47,13 @@ public class CartController {
     @PatchMapping("/check")
     public ResponseEntity<Message> checkboxCart(Authentication authentication, @RequestBody RequestCheckCart requestCheckCart){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return iCartService.checkboxCart(requestCheckCart,userDetails.getUsername());
+        return iCartService.checkboxCart(requestCheckCart,userDetails.getUsername(),false);
+    }
+
+    @PatchMapping("/check/all")
+    public ResponseEntity<Message> checkboxAllCart(Authentication authentication){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return iCartService.checkboxAllCart(userDetails.getUsername(),false);
     }
 
 

@@ -33,6 +33,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
     private String phone;
+    private Boolean checkboxAll;
 
     @Enumerated(EnumType.STRING)
     private Role role;
