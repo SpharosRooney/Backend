@@ -28,7 +28,6 @@ public class Cart extends BaseTimeEntity {
     private Integer productAmount;
 
     @Builder.Default private Boolean isDelete = false;
-    @Builder.Default private Boolean checkbox = true;
-
+    @Builder.Default private Boolean checkbox = false;
 
 }
