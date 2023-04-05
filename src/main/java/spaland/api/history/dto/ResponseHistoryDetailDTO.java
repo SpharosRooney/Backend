@@ -9,7 +9,7 @@ public class ResponseHistoryDetailDTO {
     private Long productId;
     private String productName;
     private Integer productPrice;
-    private String productTitleImg; // 타이틀 이미지
+    private String productTitleImg;
 
     private String zipCode;
     private String address;
