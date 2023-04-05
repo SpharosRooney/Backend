@@ -80,10 +80,23 @@ public class CartServiceImple implements ICartService {
     }
 
     @Override
-    public ResponseEntity<Message> checkboxCart(RequestCheckCart requestCheckCart, String userId) {
+    public ResponseEntity<Message> checkboxCart(RequestCheckCart requestCheckCart, String userId, Boolean isDelete) {
+        User user = iUserRepository.findByUserId(userId).orElseThrow(() -> new CustomException(INVALID_ACCESS));
         Cart cart = iCartRepository.findLazyById(requestCheckCart.getId()).get();
-        cart.setCheckbox(requestCheckCart.getCheckbox() == true? false:true);
+        List<Cart> carts = iCartRepository.findAllByUserIdAndIsDelete(user.getId(), isDelete);
+        if (requestCheckCart.getCheckbox() == true) {
+            //전체 체크박스가 켜져있으면 꺼야되고\
+            user.setCheckboxAll(false);
+            cart.setCheckbox(false);
+        }
+        else {
+            cart.setCheckbox(true);
+            if (carts.size()-1 == iCartRepository.countByCheckbox(true)) {
+                user.setCheckboxAll(true);
+            }
+        }
         iCartRepository.save(cart);
+        iUserRepository.save(user);
         ResponseCheckCart responseCheckCart = ResponseCheckCart.builder()
                 .id(cart.getId())
                 .name(cart.getProduct().getName())
@@ -97,6 +110,29 @@ public class CartServiceImple implements ICartService {
         Message message = new Message();
         message.setMessage("success");
         message.setData(responseCheckCart);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Message> checkboxAllCart(String userId,Boolean isDelete) {
+        User user = iUserRepository.findByUserId(userId).orElseThrow(() -> new CustomException(INVALID_ACCESS));
+        List<Cart> carts = iCartRepository.findAllByUserIdAndIsDelete(user.getId(), isDelete);
+        Boolean status = Boolean.TRUE;
+        if(user.getCheckboxAll() == Boolean.TRUE) {
+            status = Boolean.FALSE;
+        }
+        else {
+            status = Boolean.TRUE;
+        }
+        for(int i = 0; i < carts.size(); i++){
+            carts.get(i).setCheckbox(status);
+            iCartRepository.save(carts.get(i));
+        }
+        user.setCheckboxAll(status);
+        iUserRepository.save(user);
+        Message message = new Message();
+        message.setMessage("success");
 
         return new ResponseEntity<>(message, HttpStatus.OK);
     }

@@ -14,8 +14,12 @@ public interface ICartRepository extends JpaRepository<Cart, Long> {
     Optional<Cart> findByUserIdAndIsDeleteAndProductId(Long userId, Boolean isDelete, Long productId);
     Optional<Cart> findByIdAndIsDelete(Long id, Boolean isDelete);
     List<Cart> findAllByUserIdAndIsDelete(Long userId, Boolean isDelete);
+    Long countByCheckbox(Boolean checkbox);
 
     @Query(value = "SELECT c from Cart c join fetch c.user u join fetch c.product p where c.id = :id ")
     Optional<Cart> findLazyById(@Param("id") Long id);
+
+//    @Query(value = "SELECT c from Cart c join fetch c.user u join fetch c.product p where .id = :id")
+//    List<Cart> findLazyAllByUserId(@Param("userId") Long userId);
 
 }
