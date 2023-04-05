@@ -18,7 +18,7 @@ import java.util.function.Function;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtService {
-    public final static long TOKEN_VALIDATION_SECOND = 60 * 60; //1시간
+    public final static long TOKEN_VALIDATION_SECOND = 60 * 60 * 24; //1시간
     public final static int REFRESH_TOKEN_VALIDATION_SECOND = 60 * 60 * 24 * 7; // 7일
 
     public final static String COOKIE_NAME = "refreshToken";
@@ -41,7 +41,7 @@ public class JwtService {
                 .builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
