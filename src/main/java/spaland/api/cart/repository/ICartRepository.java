@@ -10,9 +10,10 @@ import java.util.Optional;
 
 public interface ICartRepository extends JpaRepository<Cart, Long> {
     Cart save(Cart cart);
-    List<Cart> findAllByUserId(Long userId);
+    List<Cart> findAllByUserId(String userId);
     Optional<Cart> findByUserIdAndIsDeleteAndProductId(Long userId, Boolean isDelete, Long productId);
     Optional<Cart> findByIdAndIsDelete(Long id, Boolean isDelete);
+    List<Cart> findAllByUserIdAndIsDeleteAndCheckbox(Long userId, Boolean isDelete, Boolean checkbox);
     List<Cart> findAllByUserIdAndIsDelete(Long userId, Boolean isDelete);
     Long countByCheckbox(Boolean checkbox);
 

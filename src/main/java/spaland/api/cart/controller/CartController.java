@@ -2,6 +2,7 @@ package spaland.api.cart.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,8 @@ import spaland.api.cart.vo.RequestCartCount;
 import spaland.api.cart.vo.RequestCheckCart;
 import spaland.api.cart.vo.RequestDeleteCart;
 import spaland.api.cart.service.ICartService;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -39,9 +42,9 @@ public class CartController {
     }
 
     @PutMapping()
-    public ResponseEntity<Message> deleteProduct(Authentication authentication,@RequestBody RequestDeleteCart requestDeleteCart){
+    public ResponseEntity<Message> deleteProduct(Authentication authentication){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return iCartService.deleteProduct(requestDeleteCart, userDetails.getUsername());
+        return iCartService.deleteProduct(userDetails.getUsername());
     }
 
     @PatchMapping("/check")
@@ -54,6 +57,12 @@ public class CartController {
     public ResponseEntity<Message> checkboxAllCart(Authentication authentication){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return iCartService.checkboxAllCart(userDetails.getUsername(),false);
+    }
+
+    @PatchMapping("/deleteAll")
+    public ResponseEntity<Message> deleteAllProduct(Authentication authentication){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return iCartService.deleteAllProduct(userDetails.getUsername(),false);
     }
 
 

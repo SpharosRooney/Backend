@@ -49,7 +49,7 @@ public class CartServiceImple implements ICartService {
                     .product(product)
                     .productAmount(requestCart.getProductAmount())
                     .isDelete(Boolean.FALSE)
-                    .checkbox(Boolean.TRUE)
+                    .checkbox(Boolean.FALSE)
                     .build()
             );
         }
@@ -138,6 +138,22 @@ public class CartServiceImple implements ICartService {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<Message> deleteAllProduct(String userId,Boolean isDelete) {
+        User user = iUserRepository.findByUserId(userId).orElseThrow(() -> new CustomException(INVALID_ACCESS));
+        List<Cart> carts = iCartRepository.findAllByUserIdAndIsDelete(user.getId(), false);
+        for(int i = 0; i<carts.size(); i++){
+            carts.get(i).setIsDelete(Boolean.TRUE);
+            iCartRepository.save(carts.get(i));
+        }
+        user.setCheckboxAll(false);
+        iUserRepository.save(user);
+        Message message = new Message();
+        message.setMessage("전체 삭제 되었습니다");
+        return new ResponseEntity<>(message, HttpStatus.OK);
+
+    }
+
 
     @Override
     public ResponseEntity<Message> modifyCart(RequestCartCount requestCartCount, String userId) {
@@ -156,19 +172,24 @@ public class CartServiceImple implements ICartService {
     }
 
     @Override
-    public ResponseEntity<Message> deleteProduct(RequestDeleteCart requestDeleteCart, String userId) {
+    public ResponseEntity<Message> deleteProduct(String userId) {
         User user = iUserRepository.findByUserId(userId).orElseThrow(() -> new CustomException(INVALID_ACCESS));
-        Cart cart = iCartRepository.findById(requestDeleteCart.getId()).orElseThrow(()-> new CustomException(INVALID_MEMBER_CART));
-        cart.setIsDelete(true);
-        iCartRepository.save(cart);
+        List<Cart> carts = iCartRepository.findAllByUserIdAndIsDeleteAndCheckbox(user.getId(), false,true);
+
+        for (int i = 0; i<carts.size(); i++){
+            carts.get(i).setIsDelete(true);
+            carts.get(i).setCheckbox(false);
+            iCartRepository.save(carts.get(i));
+        }
+        user.setCheckboxAll(false);
+        iUserRepository.save(user);
 
         Message message = new Message();
-        message.setMessage("삭제되었습니다.");
+        message.setMessage("선택 삭제되었습니다.");
         message.setData(null);
 
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
-
 
 
 }
