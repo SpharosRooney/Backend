@@ -30,13 +30,13 @@
 ## :exclamation: 개발환경
 > OS : Windows 10
 >
-> Infra :
+> Infra : vercel
 >
-> DB : MySQL, Redis
+> DB : MySQL(8.0.32), Redis(3.0.504)
 >
 > Backend : Spring Boot 3.0.2 , Gradle, JPA, SDK(버전)
 >
-> API : Email API, Import API 
+> API : Email API, Import API
 
 <br><br>
 ## :exclamation: 설치 및 실행
