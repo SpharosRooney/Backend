@@ -70,6 +70,7 @@ public class CartServiceImple implements ICartService {
             ResponseGetUserCart product = modelMapper.map(carts.get(i).getProduct(), ResponseGetUserCart.class);
             product.setProductAmount(carts.get(i).getProductAmount());
             product.setCheckbox(carts.get(i).getCheckbox());
+            product.setId(carts.get(i).getId());
             responseGetUserCarts.add(product);
         }
         Message message = new Message();
