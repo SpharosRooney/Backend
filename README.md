@@ -26,6 +26,7 @@
 - 백엔드 레포 주소
 - 프론트 레포 주소
 <br><br>
+
 ## :exclamation: 개발환경
 > OS : Windows 10
 >
@@ -39,10 +40,15 @@
 
 <br><br>
 ## :exclamation: 설치 및 실행
+-Back-end
 1. https://start.spring.io 이동 후 Gradle-Groovy, java, 3.0.5, Jar 선택
 3. Dependencise : Spring Web, Lombock, MySQL Driver, Spring Data JPA 추가 후 Generate
 4. (IDEA 기준) SDK : openjdk-19, LanguageLevel : 17
-5. application.yml 파일 설정. [application.txt](https://github.com/SpharosRooney/Backend/files/11165336/application.txt)
+5. application.yml 파일 설정. [application.txt](https://github.com/SpharosRooney/Backend/files/11165336/application.txt) =>(확장자 yml로)
+<br>
+
+-Front-end
+
 
 <br><br>
 ## :exclamation: 사용 기술
