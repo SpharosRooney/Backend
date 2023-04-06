@@ -4,21 +4,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import spaland.Response.Message;
 import spaland.api.users.service.IUserService;
-import spaland.api.users.service.UserServiceImple;
 import spaland.api.users.vo.LoginRequest;
 import spaland.api.users.vo.LoginResponse;
 import spaland.api.users.vo.SignupRequest;
-import spaland.config.JwtService;
-import spaland.api.email.service.RedisService;
-import spaland.utility.CookieUtil;
-
-import static spaland.config.JwtService.COOKIE_NAME;
 
 @RestController
 @RequestMapping("/api/v1/users")

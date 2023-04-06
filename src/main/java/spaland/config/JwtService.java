@@ -7,6 +7,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,8 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtService {
     public final static String COOKIE_NAME = "refreshToken";
-
-
-    private static final String SECRET_KEY = "42264528482B4D6251655468576D5A7134743777217A25432A462D4A404E6352";
-    //Todo secretKey yml에 저장하쇼
+    @Value("${SECRET_KEY}")
+    private String SECRET_KEY;
 
     public String extractUsername(String jwt) {
         return extractClaim(jwt, Claims::getSubject);
