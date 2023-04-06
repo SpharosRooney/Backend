@@ -23,8 +23,8 @@
  <br>
  
 ### :exclamation::exclamation:Project Repositories
-- 백엔드 레포 주소
-- 프론트 레포 주소
+- 백엔드 : https://github.com/SpharosRooney/team02_spaland_Backend
+- 프론트 : https://github.com/SpharosRooney/team02_spaland_Frontend
 <br><br>
 
 ## :exclamation: 개발환경
