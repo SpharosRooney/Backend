@@ -18,7 +18,7 @@ public class BaseTimeEntity {
     @Column(updatable = false)
     private LocalDateTime createDate;
 
-    @LastModifiedDate // put이 올 때만 적용되는 명령어?
+    @LastModifiedDate
     private LocalDateTime updateDate;
 
     public LocalDateTime getCreateDate() {
