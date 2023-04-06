@@ -14,5 +14,4 @@ public interface IUserService {
     LoginResponse login(LoginRequest loginRequest);
     void logout(String access);
 
-    boolean checkDuplicateId(String userId);
 }

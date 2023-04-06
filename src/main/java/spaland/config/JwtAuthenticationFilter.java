@@ -40,7 +40,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userId;
-//        final String refreshToken;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -48,7 +47,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         jwt = authHeader.substring(7);
         userId = jwtService.extractUsername(jwt);
-//        refreshToken = jwtService.refreshToken(jwt);
         try {
             if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
@@ -67,12 +65,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     }
                 }
                 else {
-                    logger.warn("Cannot find username from access token"); //Todo 엑세스 토큰이 유효하지 않음
+                    logger.warn("Cannot find username from access token");
                 }
             }
 
         } catch (Exception e) {
-            //Todo 해당 유저를 찾을 수 없음
         }
 
         filterChain.doFilter(request, response);

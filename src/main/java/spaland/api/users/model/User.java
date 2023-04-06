@@ -19,7 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User extends BaseTimeEntity implements UserDetails {
-// 상속을 받으면 여기 없는 것들도 필드로 받아올 수 있다.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

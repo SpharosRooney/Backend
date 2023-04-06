@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 public class ResponseGetUserCart {
     private Long id;
     private Long productId;
-    private String name; // 상품명
-    private Integer price; // 가격
-    private String titleImg; // 타이틀 이미지
+    private String name;
+    private Integer price;
+    private String titleImg;
     private Integer productAmount;
     private Integer frozen;
     private Boolean checkbox;

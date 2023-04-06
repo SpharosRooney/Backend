@@ -64,8 +64,6 @@ public class UserServiceImple implements IUserService{
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
-
-        // @todo 이메일로 아이디 찾을 때 , 오류 처리.
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 iUserRepository.findByUserEmail(loginRequest.getUserEmail()).get().getUserId(), loginRequest.getPassword()));
@@ -87,7 +85,6 @@ public class UserServiceImple implements IUserService{
     public void logout(String accessToken){
 
         if (accessToken == null || !accessToken.startsWith("Bearer ")) {
-            //todo 잘못된 토큰
         }
 
         String access = accessToken.substring(7);
@@ -98,19 +95,13 @@ public class UserServiceImple implements IUserService{
 
 
         if(Boolean.FALSE.equals(jwtService.isTokenValid(access,user))){
-            throw new RuntimeException("잘못된 요청 입니다"); //todo 토큰 유효x
+            throw new RuntimeException("잘못된 요청 입니다");
         }
 
         Long expiration = jwtService.getExpiration(access);
         if(expiration > 0L) {
             redis.createBlacklistToken(access, expiration);
-        } //accessToken은 블랙리스트에 넣음
-//
-//        String refresh = jwtService.extractUsername(accessToken);
-//        String userEmail = redis.getEmailByRefreshToken(refresh);
-//        if(userEmail != null){
-//            redis.removeEmailByRefreshToken(refresh); //레디스 삭제
-
+        }
     }
 
 
@@ -128,10 +119,5 @@ public class UserServiceImple implements IUserService{
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Override
-    public boolean checkDuplicateId(String userId) {
-        boolean possibleId = true;
 
-        return true;
-    }
 }

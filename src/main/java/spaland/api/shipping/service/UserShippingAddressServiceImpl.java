@@ -40,10 +40,10 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
                 iUserShippingAddressRepository.findAllByUserId(user.getId());
 
         if (userShippingAddressList.size() == 0) {
-            requestAddUserShippingAddress.setIsUse(true); // 기존 배송지 없으면 지금 입력하는 배송지를 기본 배송지로 해주는데
+            requestAddUserShippingAddress.setIsUse(true);
         } else {
-            if (requestAddUserShippingAddress.getIsUse().equals(true)) { // 입력하는 배송지값이 1이면
-                for (UserShippingAddress userShippingAddress : userShippingAddressList) { // 나머지 = false
+            if (requestAddUserShippingAddress.getIsUse().equals(true)) {
+                for (UserShippingAddress userShippingAddress : userShippingAddressList) {
                     userShippingAddress.setIsUse(false);
                     iUserShippingAddressRepository.save(userShippingAddress);
                 }
@@ -75,7 +75,7 @@ public class UserShippingAddressServiceImpl implements IUserShippingAddressServi
 
         if (requestEditUserShippingAddress.getIsUse() == true) {
             List<UserShippingAddress> userShippingAddressList = iUserShippingAddressRepository.findAllByUserId(userShippingAddress.getUser().getId());
-            for (UserShippingAddress iter : userShippingAddressList) { // 나머지 = false
+            for (UserShippingAddress iter : userShippingAddressList) {
                 iter.setIsUse(false);
                 iUserShippingAddressRepository.save(iter);
             }

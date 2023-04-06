@@ -50,29 +50,29 @@ public class ProductController {
         Specification<ProductCategoryList> spec = (root, query, criteriaBuilder) -> null;
 
         if (keyword != null) {
-            spec = spec.and(CategorySpecification.equalKeyword(keyword)); //ok
+            spec = spec.and(CategorySpecification.equalKeyword(keyword));
         }
         if (categoryLarge != null) {
-            spec = spec.and(CategorySpecification.equalCategoryLarge(categoryLarge)); //ok
+            spec = spec.and(CategorySpecification.equalCategoryLarge(categoryLarge));
         }
         if (categoryMiddle != null) {
             for (String iter : categoryMiddle) {
-                spec = spec.and(CategorySpecification.equalCategoryMiddle(iter)); //ok
+                spec = spec.and(CategorySpecification.equalCategoryMiddle(iter));
             }
         }
         if (option != null) {
-            spec = spec.and(CategorySpecification.equalOption(option)); //ok
+            spec = spec.and(CategorySpecification.equalOption(option));
         }
         if (season != null) {
             for (String iter : season) {
-                spec = spec.and(CategorySpecification.equalSeason(iter)); //ok
+                spec = spec.and(CategorySpecification.equalSeason(iter));
             }
         }
         if (price != null) {
-            spec = spec.and(CategorySpecification.equalPrice(price)); //ok
+            spec = spec.and(CategorySpecification.equalPrice(price));
         }
         if (sort != null) {
-            spec = spec.and(CategorySpecification.applySort(sort)); //ok
+            spec = spec.and(CategorySpecification.applySort(sort));
         }
         if (event != null) {
             spec = spec.and(CategorySpecification.equalEvent(event));

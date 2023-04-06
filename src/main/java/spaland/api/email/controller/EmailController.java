@@ -18,7 +18,7 @@ public class EmailController {
     private final IEmailService iEmailService;
 
 
-    @PostMapping("/confirm") // 프론트와 연동
+    @PostMapping("/confirm")
     public boolean createConfirmCodeByEmail(@RequestBody RequestUserEmail requestUserEmail) throws Exception {
         log.info("{}", requestUserEmail);
         System.out.println(requestUserEmail);

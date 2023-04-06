@@ -9,7 +9,6 @@ public interface IUserShippingAddressService {
 
     ResponseEntity<Message> addShippingAddressByUser(RequestAddUserShippingAddress requestAddUserShippingAddress, String userId);
     ResponseEntity<Message> updateShippingAddressByUser(RequestEditUserShippingAddress requestEditUserShippingAddress,String userId);
-//    ResponseUserShippingAddress getShippingAddress(Long userShippingId);
     ResponseEntity<Message> getAllByUser(String userId);
     ResponseEntity<Message> getAllByIsUseByUser(String userId, Boolean isUse);
 

@@ -19,7 +19,4 @@ public interface ICartRepository extends JpaRepository<Cart, Long> {
     @Query(value = "SELECT c from Cart c join fetch c.user u join fetch c.product p where c.id = :id ")
     Optional<Cart> findLazyById(@Param("id") Long id);
 
-//    @Query(value = "SELECT c from Cart c join fetch c.user u join fetch c.product p where .id = :id")
-//    List<Cart> findLazyAllByUserId(@Param("userId") Long userId);
-
 }

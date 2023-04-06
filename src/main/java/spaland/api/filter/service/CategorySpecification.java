@@ -55,24 +55,24 @@ public class CategorySpecification {
 
     public static Specification<ProductCategoryList> applySort(String sort) {
 
-        if (sort.equals("추천순")) { // = 판매량순
+        if (sort.equals("추천순")) {
             return (root, query, criteriaBuilder) -> {
-                query.orderBy(criteriaBuilder.desc(root.get("product").get("salesQuantity"))); // desc : 내림차순
+                query.orderBy(criteriaBuilder.desc(root.get("product").get("salesQuantity")));
                 return query.getRestriction();
             };
         } else if (sort.equals("낮은가격순")) {
             return (root, query, criteriaBuilder) -> {
-                query.orderBy(criteriaBuilder.asc(root.get("product").get("price"))); // asc : 오름차순
+                query.orderBy(criteriaBuilder.asc(root.get("product").get("price")));
                 return query.getRestriction();
             };
         } else if (sort.equals("높은가격순")) {
             return (root, query, criteriaBuilder) -> {
-                query.orderBy(criteriaBuilder.desc(root.get("product").get("price"))); // desc : 내림차순
+                query.orderBy(criteriaBuilder.desc(root.get("product").get("price")));
                 return query.getRestriction();
             };
         } else if (sort.equals("신상품순")) {
             return (root, query, criteriaBuilder) -> {
-                query.orderBy(criteriaBuilder.desc(root.<BaseTimeEntity>get("updateDate"))); // 최신 등록된 기준으로 정렬
+                query.orderBy(criteriaBuilder.desc(root.<BaseTimeEntity>get("updateDate")));
                 return query.getRestriction();
             };
         }

@@ -26,19 +26,19 @@ public class CartController {
     }
 
 
-    @GetMapping() //유저의 장바구니를 볼 수 있음(isDelete = false)
+    @GetMapping()
     public ResponseEntity<Message> getAllByUserCart(Authentication authentication, @RequestParam(value = "isDelete") Boolean isDelete){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return iCartService.getAllByUserCart(userDetails.getUsername(), false);
+        return iCartService.getAllByUserCart(userDetails.getUsername(), Boolean.FALSE);
     }
 
-    @PutMapping("/modify") //장바구니 상품 수량 수정을 위한 메서드
+    @PutMapping("/modify")
     public ResponseEntity<Message> modifyCart(Authentication authentication,@RequestBody RequestCartCount requestCartCount){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return iCartService.modifyCart(requestCartCount, userDetails.getUsername());
     }
 
-    @PutMapping() //장바구니 상품 삭제(true,false값으로 나타냄)
+    @PutMapping()
     public ResponseEntity<Message> deleteProduct(Authentication authentication,@RequestBody RequestDeleteCart requestDeleteCart){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return iCartService.deleteProduct(requestDeleteCart, userDetails.getUsername());

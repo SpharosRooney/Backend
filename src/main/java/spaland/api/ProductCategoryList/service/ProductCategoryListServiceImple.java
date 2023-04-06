@@ -60,12 +60,11 @@ public class ProductCategoryListServiceImple implements IProductCategoryListServ
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    // TODO: 2023-04-03 이건 뭔가요!
     public static <T> T getValue(Optional<T> data) {
         return data.isPresent() ? data.get() : null;
     }
 
-    @Override // TODO: 2023-04-03 여기 로직 손 봐야합니다!
+    @Override
     public ResponseEntity<Message> getByCategoryLargeId(Integer categoryLargeId) {
         List<ProductCategoryList> productCategoryLists = iProductCategoryListRepository.findByCategoryLargeId(categoryLargeId);
         List<ResponseProduct> responseProduct = new ArrayList<>();
