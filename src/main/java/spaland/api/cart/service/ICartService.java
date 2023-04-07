@@ -18,5 +18,6 @@ public interface ICartService {
     ResponseEntity<Message> checkboxCart(RequestCheckCart requestCheckCart, String userId, Boolean isDelete);
     ResponseEntity<Message> checkboxAllCart(String userId,Boolean isDelete);
     ResponseEntity<Message> deleteAllProduct(String userId,Boolean isDelete);
+    ResponseEntity<Message> deleteCart(String userId,Long cartId);
 
 }

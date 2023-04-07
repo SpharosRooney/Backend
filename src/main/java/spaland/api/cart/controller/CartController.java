@@ -65,5 +65,11 @@ public class CartController {
         return iCartService.deleteAllProduct(userDetails.getUsername(),false);
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<Message> deleteCart(Authentication authentication, @RequestBody RequestDeleteCart requestDeleteCart){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return iCartService.deleteCart(userDetails.getUsername(),requestDeleteCart.getId());
+    }
+
 
 }
