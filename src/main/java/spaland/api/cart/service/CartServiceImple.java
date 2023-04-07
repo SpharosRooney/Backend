@@ -156,6 +156,7 @@ public class CartServiceImple implements ICartService {
 
     @Override
     public ResponseEntity<Message> deleteCart(String userId, Long cartId) {
+        log.info("delete cart id {}", cartId);
         iCartRepository.deleteById(cartId);
         Message message = new Message();
         message.setMessage("삭제 되었습니다");

@@ -65,11 +65,10 @@ public class CartController {
         return iCartService.deleteAllProduct(userDetails.getUsername(),false);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Message> deleteCart(Authentication authentication, @RequestBody RequestDeleteCart requestDeleteCart){
+    @CrossOrigin(origins = "http://localhost:3000")
+    @DeleteMapping("/delete/{cartId}")
+    public ResponseEntity<Message> deleteCart(Authentication authentication, @PathVariable(value = "cartId") Long cartId){
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return iCartService.deleteCart(userDetails.getUsername(),requestDeleteCart.getId());
+        return iCartService.deleteCart(userDetails.getUsername(),cartId);
     }
-
-
 }
