@@ -154,6 +154,14 @@ public class CartServiceImple implements ICartService {
 
     }
 
+    @Override
+    public ResponseEntity<Message> deleteCart(String userId, Long cartId) {
+        iCartRepository.deleteById(cartId);
+        Message message = new Message();
+        message.setMessage("삭제 되었습니다");
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
 
     @Override
     public ResponseEntity<Message> modifyCart(RequestCartCount requestCartCount, String userId) {
@@ -190,6 +198,8 @@ public class CartServiceImple implements ICartService {
 
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
+
+
 
 
 }
